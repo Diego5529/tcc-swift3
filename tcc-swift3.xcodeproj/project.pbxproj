@@ -43,9 +43,11 @@
 		52DB79F91E478DB400658171 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52DB79F71E478DB400658171 /* LaunchScreen.storyboard */; };
 		52DB7A031E4791F200658171 /* model_tcc_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52DB7A001E4791F200658171 /* model_tcc_swift.xcdatamodeld */; };
 		52DB7A041E4791F200658171 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB7A021E4791F200658171 /* ViewController.swift */; };
+		B93C5A37FF0403CAC80710B9 /* Pods_tcc_swift3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD21AC968FCC7AA9B9D238F /* Pods_tcc_swift3.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1EDECDCED8854A0042E0CF8D /* Pods-tcc-swift3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tcc-swift3.release.xcconfig"; path = "Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3.release.xcconfig"; sourceTree = "<group>"; };
 		5264C43B1E47942800B8C0B5 /* Admin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Admin.swift; sourceTree = "<group>"; };
 		5264C43C1E47942800B8C0B5 /* Admin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Admin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5264C43D1E47942800B8C0B5 /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
@@ -85,6 +87,8 @@
 		52DB7A011E4791F200658171 /* model_tcc_swift.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = model_tcc_swift.xcdatamodel; sourceTree = "<group>"; };
 		52DB7A021E4791F200658171 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		52DB7A091E4792BF00658171 /* tcc-swift3-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tcc-swift3-Bridging-Header.h"; sourceTree = "<group>"; };
+		8FD21AC968FCC7AA9B9D238F /* Pods_tcc_swift3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tcc_swift3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3F4C58CCCFF8D35F4283AC2 /* Pods-tcc-swift3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tcc-swift3.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,12 +96,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B93C5A37FF0403CAC80710B9 /* Pods_tcc_swift3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0040422E58185C5979527710 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8FD21AC968FCC7AA9B9D238F /* Pods_tcc_swift3.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		35170E232E5C8AA5222FBF94 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E3F4C58CCCFF8D35F4283AC2 /* Pods-tcc-swift3.debug.xcconfig */,
+				1EDECDCED8854A0042E0CF8D /* Pods-tcc-swift3.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		529737421E47E7DE00C65464 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +134,8 @@
 				52DB79EB1E478DB400658171 /* tcc-swift3 */,
 				52DB79EA1E478DB400658171 /* Products */,
 				52DB7A091E4792BF00658171 /* tcc-swift3-Bridging-Header.h */,
+				35170E232E5C8AA5222FBF94 /* Pods */,
+				0040422E58185C5979527710 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -190,9 +214,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52DB79FD1E478DB400658171 /* Build configuration list for PBXNativeTarget "tcc-swift3" */;
 			buildPhases = (
+				35557BF68C56A8CDC813F233 /* [CP] Check Pods Manifest.lock */,
 				52DB79E51E478DB400658171 /* Sources */,
 				52DB79E61E478DB400658171 /* Frameworks */,
 				52DB79E71E478DB400658171 /* Resources */,
+				F80F7974883C0A9D579C963E /* [CP] Embed Pods Frameworks */,
+				D064C6F13B71BBFC7D698A58 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -251,6 +278,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		35557BF68C56A8CDC813F233 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D064C6F13B71BBFC7D698A58 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F80F7974883C0A9D579C963E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		52DB79E51E478DB400658171 /* Sources */ = {
@@ -410,6 +485,7 @@
 		};
 		52DB79FE1E478DB400658171 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3F4C58CCCFF8D35F4283AC2 /* Pods-tcc-swift3.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -426,6 +502,7 @@
 		};
 		52DB79FF1E478DB400658171 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1EDECDCED8854A0042E0CF8D /* Pods-tcc-swift3.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

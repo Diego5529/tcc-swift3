@@ -43,130 +43,10 @@ class ViewController: UIViewController  {
     var context: NSManagedObjectContext!
     var urlPath: NSString = ""
     var loggedUser: User!
-    /*
-    let loginButton: FBSDKLoginButton = {
-        let button = FBSDKLoginButton()
-        button.readPermissions = ["email"]
-        return button
-    }()
-    
-    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
-        print(result)
-        fetchProfile()
-    }
-    
-    func fetchProfile() {
-        let parameters = ["fields": "email, first_name, last_name, picture.type(large), id"]
-        FBSDKGraphRequest(graphPath: "me", parameters: parameters).startWithCompletionHandler({ (connection, user, requestError) -> Void in
-            
-            if requestError != nil {
-                print(requestError)
-                return
-            }
-            
-            let email = user["email"] as? String
-            let provider = "facebook"
-            let id = user["id"] as? String
-            let name = user["first_name"] as? String
-            
-            print(email, user)
-            
-            var pictureUrl = ""
-            
-            if let picture = user["picture"] as? NSDictionary, data = picture["data"] as? NSDictionary, url = data["url"] as? String {
-                pictureUrl = url
-            }
-            
-            print("Auth")
-            
-            let stringURL = self.urlPath .stringByAppendingString("/user/omniauth")
-            
-            let url = NSURL(string: stringURL)!
-            
-            let request = NSMutableURLRequest(URL: url, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringCacheData, timeoutInterval: 10)
-            
-            request.HTTPMethod = "POST"
-            
-            //email, :provider, :uid, :name
-            let bodyData = String(format: "user[email]=%@&user[provider]=%@&user[uid]=%@&user[name]=%@", email!, provider, id!, name!)
-            request.HTTPBody = bodyData.dataUsingEncoding(NSUTF8StringEncoding);
-            
-            let session = NSURLSession.sharedSession()
-            
-            let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
-                if (error != nil){
-                    print(error)
-                }else{
-                    do{
-                        let jsonResult = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
-                        
-                        if (jsonResult is NSArray){
-                            print(jsonResult)
-                        }
-                        else if(jsonResult is NSDictionary){
-                            print(jsonResult)
-                            
-                            let userClass: NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: self.context)
-                            
-                            for (key, value) in jsonResult as! NSDictionary {
-                                print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
-                                
-                                userClass.setValue(value, forKey:key as! String);
-                            }
-                            
-                            print (userClass)
-                            
-                            do {
-                                try self.context.save()
-                                self.defaults.setObject(userClass, forKey: "loggedUser")
-                            }catch{
-                            }
-                            
-                        }else if(jsonResult is NSString){
-                            print(jsonResult)
-                        }
-                        print(jsonResult)
-                    }catch {
-                        //let datastring = NSString(data: data!, encoding: NSUTF8StringEncoding)
-                        //self.returnTextView.text = String(datastring)
-                        print(error)
-                        
-                        let select = NSFetchRequest(entityName: "User")
-                        
-                        select.returnsObjectsAsFaults = false
-                        
-                        do {
-                            let results = try self.context.executeFetchRequest(select)
-                            
-                            if results.count > 0 {
-                                print(results.count)
-                            }
-                        }catch{
-                        }
-                    }
-                }
-            }
-            
-            task.resume()
-        })
-    }
-    
-    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
-        
-    }
-    
-    func loginButtonWillLogin(loginButton: FBSDKLoginButton!) -> Bool {
-        return true
-    }
-    */
-    
+    var person: [NSManagedObject] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //view.addSubview(loginButton)
-        //loginButton.center = view.center
-        //loginButton.delegate = self
         
         //prepareViewa
         hiddenAllViews()
@@ -174,6 +54,10 @@ class ViewController: UIViewController  {
         
         //init defaults vars
         delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        //Init Reachability
+        delegate.setupReachability(nil, useClosures: true)
+        delegate.startNotifier()
         
         defaults = UserDefaults.standard
         
@@ -183,31 +67,37 @@ class ViewController: UIViewController  {
         
         signInEmailTextField.text = "diego.6.souza@gmail.com"
         signInPasswordTextField.text = "12345678"
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         //loading settings
-        _ = self.defaults.string(forKey: "loggedUser")
+        let token = self.defaults.string(forKey: "token")
         
-        //if let _ = FBSDKAccessToken.currentAccessToken() {
-        //    fetchProfile()
-        //}
-        
-        /*
-        let select = NSFetchRequest()
-        
-        select.predicate = NSPredicate(format: "token == %@", obj!)
-        
-        select.returnsObjectsAsFaults = false
-        
-        do {
-            let results = try self.context.executeFetchRequest(select)
+        if (token != nil && (token?.characters.count)! > 0) {
+            print(token as Any)
             
-            if results.count > 0 {
-                print(results.count)
+            //2
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
+            
+            fetchRequest.predicate = NSPredicate(format: "token == %@", token!)
+            
+            //3
+            do {
+                person = try context.fetch(fetchRequest)
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
             }
-        }catch{
-            print(loggedUser.name)
+            
+            if (person.count > 0){
+                loggedUser = person.first as! User!
+                
+                print(loggedUser.name as Any)
+                
+                let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "tabBarControllerScene1") as UIViewController
+                self.present(vc, animated: true, completion: nil)
+            }
         }
-        */
     }
 
     override func didReceiveMemoryWarning() {
@@ -221,96 +111,20 @@ class ViewController: UIViewController  {
         
         let connection = Connection()
         
-        connection.genericUser?.e_mail = signInEmailTextField.text as NSString?
+        connection.genericUser?.email = signInEmailTextField.text as NSString?
         connection.genericUser?.password = signInPasswordTextField.text as NSString?
         
-        connection .signIn()
-        /*&
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "tabBarControllerScene1") as UIViewController
-        self.present(vc, animated: true, completion: nil)
-        */
-        let stringURL = urlPath .appending("/user/sign_in")
+        let validateUser = UserBean()
         
-        let url = URL(string: stringURL)!
+        let message = validateUser.validateLoginUser(userEmail: connection.genericUser?.email as! String, userPassword: (connection.genericUser?.password)! as String)
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        // insert json data to the request
-        //request.httpBody = jsonData
-        
-        var userClass = NSEntityDescription.insertNewObject(forEntityName: "User", into: context) as! User
-        
-        userClass.email = signInEmailTextField.text
-        let password = signInPasswordTextField.text
-        
-        let bodyData = String(format: "user[email]=%@&user[password]=%@", userClass.email!, password!)
-        request.httpBody = bodyData.data(using: String.Encoding.utf8);
-        
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            if (error != nil){
-                print(error as Any)
-            }else{
-                do{
-                    let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)
-                    
-                    if (jsonResult is NSArray){
-                        print(jsonResult)
-                    }
-                    else if(jsonResult is NSDictionary){
-                        print(jsonResult)
-                        
-                        let user: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
-                        
-                        for (key, value) in jsonResult as! NSDictionary {
-                                print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
-                            
-                            user.setValue(value, forKey:key as! String);
-                        }
-                        
-                        userClass = user as! User
-                        
-                        print (userClass.token as Any)
-                        
-                        
-                        do {
-                            try self.context.save()
-                            self.defaults.set(userClass.token, forKey: "loggedUser")
-                            
-                            let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                            let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "tabBarControllerScene1") as UIViewController
-                            self.present(vc, animated: true, completion: nil)
-                            
-                        }catch{
-                        }
-                        
-                    }else if(jsonResult is NSString){
-                        print(jsonResult)
-                    }
-                    print(jsonResult)
-                }catch {
-                    //let datastring = NSString(data: data!, encoding: NSUTF8StringEncoding)
-                    //self.returnTextView.text = String(datastring)
-                    print(error)
-                    
-                    let select = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-                    
-                    select.returnsObjectsAsFaults = false
-                    
-                    do {
-                        let results = try self.context.fetch(select)
-                        
-                        if results.count > 0 {
-                            print(results.count)
-                        }
-                    }catch{
-                    }
-                }
-            }
-        }) 
-        
-        task.resume()
+        if (message.isEmpty){
+            connection.viewController = self
+            
+            connection .signIn()
+        }else{
+            self.showMessage(message: message, title: "", cancel: "")
+        }
     }
     
     @IBAction func goToSignUp(_ sender: UIButton){
@@ -325,76 +139,24 @@ class ViewController: UIViewController  {
     @IBAction func signUp(_ sender: UIButton) {
         print("SignUp")
         
-        let stringURL = urlPath .appending("/user/sign_up")
+        let connection = Connection()
         
-        let url = URL(string: stringURL as String)!
+        connection.genericUser?.name = signUpNameTextField.text as NSString?
+        connection.genericUser?.email = signUpEmailTextField.text as NSString?
+        connection.genericUser?.password = signUpPassTextField.text as NSString?
+        connection.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as NSString?
         
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        let validateUser = UserBean()
         
-        let userClass = NSEntityDescription.insertNewObject(forEntityName: "User", into: context) as! User
+        let message = validateUser.validateCreateUser(userEmail: (connection.genericUser?.email)! as String, userName: (connection.genericUser?.name)! as String, userPassword: (connection.genericUser?.password)! as String, userConfirmationPassword: connection.genericUser?.password_confirmation as! String)
         
-        userClass.name = signUpNameTextField.text
-        userClass.email = signUpEmailTextField.text
-        let password = signUpPassTextField.text
-        let passwordConfirmation = signUpPassConfirmationTextField.text
-        
-        let bodyData = String(format: "user[name]=%@&user[email]=%@&user[password]=%@&user[password_confirmation]=%@", userClass.name!, userClass.email!, password!, passwordConfirmation!)
-        request.httpBody = bodyData.data(using: String.Encoding.utf8);
-        
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
-            if (error != nil){
-                print(error as Any)
-            }else{
-                do{
-                    let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)
-                    
-                    if (jsonResult is NSArray){
-                        print(jsonResult)
-                    }
-                    else if(jsonResult is NSDictionary){
-                        print(jsonResult)
-                        
-                        let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
-                        if ((jsonResult as AnyObject).count > 1){
-                            for (key, value) in jsonResult as! NSDictionary {
-                                print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
-                                
-                                userObj.setValue(value, forKey:key as! String);
-                            }
-                            
-                            do { try self.context.save() }catch{}
-                        }else{
-                            for (key, value) in jsonResult as! NSDictionary {
-                                print("Property: \"\(key as! String)\" Value: \"\(value)\" ")
-                            }
-                        }
-                    }else if(jsonResult is NSString){
-                        print(jsonResult)
-                    }
-                    print(jsonResult)
-                }catch {
-                    //let datastring = NSString(data: data!, encoding: NSUTF8StringEncoding)
-                    //self.returnTextView.text = String(datastring)
-                    print(error)
-                    
-                    let select = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-                    
-                    select.returnsObjectsAsFaults = false
-                    
-                    do {
-                        let results = try self.context.fetch(select)
-                        
-                        if results.count > 0 {
-                            print(results.count)
-                        }
-                    }catch{
-                    }
-                }
-            }
-        })
-        
-        task.resume()
+        if (message.isEmpty){
+            connection.viewController = self
+            
+            connection.signUp()
+        }else{
+            self.showMessage(message: message, title: "", cancel: "")
+        }
     }
     
     @IBAction func cancelSignUp(_ sender: UIButton) {
@@ -445,5 +207,27 @@ class ViewController: UIViewController  {
         hiddenAllViews()
         
         resetPasswordView.isHidden = false
+    }
+    
+    //AlertView
+    func showMessage(message: String, title: String, cancel: String){
+        let alertController = UIAlertController(title: title.isEmpty ? "Error" : title, message: message.isEmpty ? "" : message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        if cancel.characters.count > 0 {
+            let DestructiveAction = UIAlertAction(title: cancel, style: UIAlertActionStyle.destructive) {
+                (result : UIAlertAction) -> Void in
+                print("Destructive")
+            }
+            
+            alertController.addAction(DestructiveAction)
+        }
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            (result : UIAlertAction) -> Void in
+            print("OK")
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Xcode 4.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Admin" representedClassName=".Admin" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="current_sign_in_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
