@@ -64,34 +64,59 @@ class Connection : NSObject {
                         
                         if (jsonResult is NSArray){
                             print(jsonResult)
+                            
+                            self.showErrosFullmessages(array: jsonResult as! NSArray)
+                            
                         }else if(jsonResult is NSDictionary){
                             print(jsonResult)
                             
                             let user: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
                             
-                            for (key, value) in jsonResult as! NSDictionary {
-                                print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
+                            if ((jsonResult as AnyObject).count >= 1){
                                 
-                                user.setValue(value, forKey:key as! String);
-                                self.genericUser?.setValue(value, forKey:key as! String);
+                                if ((jsonResult as AnyObject).count == 1){
+                                    let mutable = "" as NSMutableString
+                                    let mutable2 = "" as NSMutableString
+                                    
+                                    for (key, value) in jsonResult as! NSDictionary {
+                                        if (value is String){
+                                            self.showMessage(message: value as! String, title: "", cancel: "")
+                                        }else{
+                                            let array = value as! NSArray
+                                            
+                                            let obj = array .object(at: 0)
+                                            
+                                            let title = key as! String
+                                            
+                                            mutable.append(obj as! String)
+                                            mutable2.append(title.capitalized)
+                                        }
+                                    }
+                                }else{
+                            
+                                    for (key, value) in jsonResult as! NSDictionary {
+                                        print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
+                                        
+                                        user.setValue(value, forKey:key as! String);
+                                        self.genericUser?.setValue(value, forKey:key as! String);
+                                    }
+                                    
+                                    print (self.genericUser?.token as Any)
+                                    
+                                    do {
+                                        try self.context.save()
+                                        self.defaults.set(self.genericUser?.token, forKey: "loggedUser")
+                                        
+                                        self.showInitialPage();
+                                        
+                                    }catch{
+                                        self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                                    }
+                                }
                             }
-                            
-                            print (self.genericUser?.token as Any)
-                            
-                            do {
-                                try self.context.save()
-                                self.defaults.set(self.genericUser?.token, forKey: "loggedUser")
-                                
-                                self.showInitialPage();
-                                
-                            }catch{
-                                self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
-                            }
-                            
                         }else if(jsonResult is NSString){
                             print(jsonResult)
                         }
-                        print(jsonResult)
                     }catch {
                         //let datastring = NSString(data: data!, encoding: NSUTF8StringEncoding)
                         //self.returnTextView.text = String(datastring)
@@ -138,28 +163,58 @@ class Connection : NSObject {
             let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
                 if (error != nil){
                     print(error as Any)
+                    self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                 }else{
                     do{
                         let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)
                         
                         if (jsonResult is NSArray){
-                            print(jsonResult)
+                            self.showErrosFullmessages(array: jsonResult as! NSArray)
                         }
                         else if(jsonResult is NSDictionary){
                             print(jsonResult)
                             
                             let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
-                            if ((jsonResult as AnyObject).count > 1){
-                                for (key, value) in jsonResult as! NSDictionary {
-                                    print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
-                                    
-                                    userObj.setValue(value, forKey:key as! String);
-                                }
+                            if ((jsonResult as AnyObject).count >= 1){
                                 
-                                do {
-                                    try self.context.save()
-                                }catch{
-                                    print("Salvou")
+                                if ((jsonResult as AnyObject).count == 1){
+                                    let mutable = "" as NSMutableString
+                                    let mutable2 = "" as NSMutableString
+                                    
+                                    for (key, value) in jsonResult as! NSDictionary {
+                                        let array = value as! NSArray
+                                        
+                                        let obj = array .object(at: 0)
+                                        
+                                        let title = key as! String
+                                        
+                                        mutable.append(obj as! String)
+                                        mutable2.append(title.capitalized)
+                                        
+                                    }
+                                    
+                                    self.showMessage(message: mutable as String, title: mutable2 as String, cancel: "")
+                                }else{
+                                
+                                    for (key, value) in jsonResult as! NSDictionary {
+                                        print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
+                                        
+                                        userObj.setValue(value, forKey:key as! String);
+                                        self.genericUser?.setValue(value, forKey:key as! String);
+                                    }
+                                    
+                                    do {
+                                        try self.context.save()
+                                        OperationQueue.main.addOperation {
+                                            if ((self.viewController) != nil) {
+                                                let vc = self.viewController as! ViewController;
+                                                vc.signInEmailTextField.text = self.genericUser?.email as String?
+                                                vc.showSignInView()
+                                            }
+                                        }
+                                    }catch{
+                                        print("Salvou")
+                                    }
                                 }
                             }else{
                                 for (key, value) in jsonResult as! NSDictionary {
@@ -199,7 +254,20 @@ class Connection : NSObject {
     func showInitialPage(){
         let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "tabBarControllerScene1") as UIViewController
-        self.viewController.present(vc, animated: true, completion: nil)
+        OperationQueue.main.addOperation {
+            self.viewController.present(vc, animated: true, completion: nil)
+        }
+    }
+    
+    //Json Errors full messages
+    func showErrosFullmessages(array: NSArray){
+        let mutable = "" as NSMutableString
+        
+        for value in array {
+            mutable .appendFormat("\n- %@.\n", value as! String)
+        }
+        
+        self.showMessage(message: mutable as String, title: "Cadastro Inválido!", cancel: "")
     }
     
     //AlertView
@@ -221,6 +289,8 @@ class Connection : NSObject {
         }
         
         alertController.addAction(okAction)
-        self.viewController.present(alertController, animated: true, completion: nil)
+        OperationQueue.main.addOperation {
+            self.viewController.present(alertController, animated: false, completion: nil)
+        }
     }
 }

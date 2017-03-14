@@ -48,12 +48,12 @@ class ViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //init defaults vars
+        delegate = UIApplication.shared.delegate as! AppDelegate
+        
         //prepareViewa
         hiddenAllViews()
         showSignInView()
-        
-        //init defaults vars
-        delegate = UIApplication.shared.delegate as! AppDelegate
         
         //Init Reachability
         delegate.setupReachability(nil, useClosures: true)
@@ -71,7 +71,7 @@ class ViewController: UIViewController  {
     
     override func viewDidAppear(_ animated: Bool) {
         //loading settings
-        let token = self.defaults.string(forKey: "token")
+        let token = defaults.string(forKey: "token")
         
         if (token != nil && (token?.characters.count)! > 0) {
             print(token as Any)
@@ -95,7 +95,9 @@ class ViewController: UIViewController  {
                 
                 let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                 let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "tabBarControllerScene1") as UIViewController
-                self.present(vc, animated: true, completion: nil)
+                OperationQueue.main.addOperation {
+                    self.present(vc, animated: true, completion: nil)
+                }
             }
         }
     }
@@ -109,19 +111,17 @@ class ViewController: UIViewController  {
     @IBAction func signIn(_ sender: UIButton) {
         print("SignIn")
         
-        let connection = Connection()
-        
-        connection.genericUser?.email = signInEmailTextField.text as NSString?
-        connection.genericUser?.password = signInPasswordTextField.text as NSString?
+        delegate.connection?.genericUser?.email = signInEmailTextField.text as NSString?
+        delegate.connection?.genericUser?.password = signInPasswordTextField.text as NSString?
         
         let validateUser = UserBean()
         
-        let message = validateUser.validateLoginUser(userEmail: connection.genericUser?.email as! String, userPassword: (connection.genericUser?.password)! as String)
+        let message = validateUser.validateLoginUser(userEmail: delegate.connection?.genericUser?.email as! String, userPassword: (delegate.connection?.genericUser?.password)! as String)
         
         if (message.isEmpty){
-            connection.viewController = self
+            delegate.connection?.viewController = self
             
-            connection .signIn()
+            delegate.connection? .signIn()
         }else{
             self.showMessage(message: message, title: "", cancel: "")
         }
@@ -139,21 +139,19 @@ class ViewController: UIViewController  {
     @IBAction func signUp(_ sender: UIButton) {
         print("SignUp")
         
-        let connection = Connection()
-        
-        connection.genericUser?.name = signUpNameTextField.text as NSString?
-        connection.genericUser?.email = signUpEmailTextField.text as NSString?
-        connection.genericUser?.password = signUpPassTextField.text as NSString?
-        connection.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as NSString?
+        delegate.connection?.genericUser?.name = signUpNameTextField.text as NSString?
+        delegate.connection?.genericUser?.email = signUpEmailTextField.text as NSString?
+        delegate.connection?.genericUser?.password = signUpPassTextField.text as NSString?
+        delegate.connection?.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as NSString?
         
         let validateUser = UserBean()
         
-        let message = validateUser.validateCreateUser(userEmail: (connection.genericUser?.email)! as String, userName: (connection.genericUser?.name)! as String, userPassword: (connection.genericUser?.password)! as String, userConfirmationPassword: connection.genericUser?.password_confirmation as! String)
+        let message = validateUser.validateCreateUser(userEmail: (delegate.connection?.genericUser?.email)! as String, userName: (delegate.connection?.genericUser?.name)! as String, userPassword: (delegate.connection?.genericUser?.password)! as String, userConfirmationPassword: delegate.connection?.genericUser?.password_confirmation as! String)
         
         if (message.isEmpty){
-            connection.viewController = self
+            delegate.connection?.viewController = self
             
-            connection.signUp()
+            delegate.connection?.signUp()
         }else{
             self.showMessage(message: message, title: "", cancel: "")
         }
@@ -195,6 +193,10 @@ class ViewController: UIViewController  {
         hiddenAllViews()
         
         signInView.isHidden = false
+        
+        if ((delegate.connection?.genericUser?.email) != nil) {
+            signInEmailTextField.text = delegate.connection?.genericUser?.email as? String
+        }
     }
     
     func showSignUpView() {
@@ -228,6 +230,8 @@ class ViewController: UIViewController  {
         }
         
         alertController.addAction(okAction)
-        self.present(alertController, animated: true, completion: nil)
+        OperationQueue.main.addOperation {
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 }

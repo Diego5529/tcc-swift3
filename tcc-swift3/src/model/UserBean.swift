@@ -15,6 +15,7 @@ class UserBean : NSObject {
     var name: NSString?
     var password: NSString?
     var token: NSString?
+    var deviseMinPassword = 6
     
     func validateCreateUser(userEmail: String, userName: String, userPassword: String, userConfirmationPassword: String) -> String{
         var message = ""
@@ -29,10 +30,10 @@ class UserBean : NSObject {
             if (message.isEmpty){
                 if (userConfirmationPassword.isEmpty){
                     message = "Confirmation Password can not be empty."
-                }else if !(userConfirmationPassword.characters.count > 7){
-                    message = "Confirmation Password can not be less than 8 characters."
+                }else if !(userConfirmationPassword.characters.count >= deviseMinPassword){
+                    message = String.init(format: "Confirmation Password can not be less than %i characters.", deviseMinPassword)
                 }else if (userPassword != userConfirmationPassword){
-                    message = "Confirmation Password can not be less than 8 characters."
+                    message = String.init(format: "Confirmation Password can not be less than %i characters.", deviseMinPassword)
                 }
             }
         }
@@ -48,8 +49,8 @@ class UserBean : NSObject {
         if (message.isEmpty) {
             if (userPassword.isEmpty){
                 message = "Password can not be empty."
-            }else if !(userPassword.characters.count > 7){
-                message = "Password can not be less than 8 characters."
+            }else if !(userPassword.characters.count >= deviseMinPassword){
+                message = String.init(format: "Password can not be less than %i characters.", deviseMinPassword)
             }
         }
         
