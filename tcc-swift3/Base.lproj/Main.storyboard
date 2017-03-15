@@ -111,7 +111,7 @@
         <!--View Controller-->
         <scene sceneID="FDI-gf-h5B">
             <objects>
-                <viewController id="pfW-bP-GNy" customClass="ViewController" customModule="tcc_swift3" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="viewController" id="pfW-bP-GNy" customClass="ViewController" customModule="tcc_swift3" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dXa-1i-5Io"/>
                         <viewControllerLayoutGuide type="bottom" id="zbY-uD-Eyh"/>
@@ -218,7 +218,7 @@
                                             <action selector="cancelResetPassword:" destination="pfW-bP-GNy" eventType="touchUpInside" id="5F6-eg-qJM"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MiK-1B-KoI">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="diego.trovata@gmail.com" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MiK-1B-KoI">
                                         <rect key="frame" x="43" y="47" width="235" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>

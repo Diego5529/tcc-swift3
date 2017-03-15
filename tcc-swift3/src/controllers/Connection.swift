@@ -15,26 +15,20 @@ class Connection : NSObject {
 
     var urlApi: NSString = ""
     var delegate: AppDelegate!
-    var defaults: UserDefaults!
     var context: NSManagedObjectContext!
     var urlPath: NSString = ""
-    var loggedUser: User!
-    var genericUser: UserBean?
     var viewController: UIViewController!
+    var person: [NSManagedObject] = []
     
     override init () {
         
-        self.urlApi = ""
+        urlApi = ""
         
-        self.delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate = UIApplication.shared.delegate as! AppDelegate
         
-        self.defaults = UserDefaults.standard
+        context = self.delegate.managedObjectContext
         
-        self.context = self.delegate.managedObjectContext
-        
-        self.urlPath = "http://localhost:3000/api"
-        
-        self.genericUser = UserBean()
+        urlPath = "http://localhost:3000/api"
         
         super.init()
     }
@@ -51,7 +45,7 @@ class Connection : NSObject {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
-            let bodyData = String(format: "user[email]=%@&user[password]=%@", genericUser!.email!, genericUser!.password!)
+            let bodyData = String(format: "user[email]=%@&user[password]=%@", delegate.genericUser!.email!, delegate.genericUser!.password!)
             request.httpBody = bodyData.data(using: String.Encoding.utf8);
             
             let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
@@ -70,7 +64,7 @@ class Connection : NSObject {
                         }else if(jsonResult is NSDictionary){
                             print(jsonResult)
                             
-                            let user: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                            let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
                             
                             if ((jsonResult as AnyObject).count >= 1){
                                 
@@ -94,21 +88,17 @@ class Connection : NSObject {
                                     }
                                 }else{
                             
-                                    for (key, value) in jsonResult as! NSDictionary {
-                                        print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
-                                        
-                                        user.setValue(value, forKey:key as! String);
-                                        self.genericUser?.setValue(value, forKey:key as! String);
-                                    }
-                                    
-                                    print (self.genericUser?.token as Any)
+                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                                     
                                     do {
+                                        //save user on db
                                         try self.context.save()
-                                        self.defaults.set(self.genericUser?.token, forKey: "loggedUser")
                                         
-                                        self.showInitialPage();
+                                        //set defaults users
+                                        self.delegate.defaults.set(self.delegate.genericUser?.token, forKey: self.delegate.keyDefaultsToken)
                                         
+                                        //login with token
+                                        self.loginByToken()
                                     }catch{
                                         self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                     }
@@ -118,8 +108,6 @@ class Connection : NSObject {
                             print(jsonResult)
                         }
                     }catch {
-                        //let datastring = NSString(data: data!, encoding: NSUTF8StringEncoding)
-                        //self.returnTextView.text = String(datastring)
                         print(error)
                         
                         let select = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
@@ -157,7 +145,7 @@ class Connection : NSObject {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
-            let bodyData = String(format: "user[name]=%@&user[email]=%@&user[password]=%@&user[password_confirmation]=%@", (genericUser?.name!)!, (genericUser?.email!)!, (genericUser?.password!)!, (genericUser?.password_confirmation!)!)
+            let bodyData = String(format: "user[name]=%@&user[email]=%@&user[password]=%@&user[password_confirmation]=%@", (delegate.genericUser?.name!)!, (delegate.genericUser?.email!)!, (delegate.genericUser?.password!)!, (delegate.genericUser?.password_confirmation!)!)
             request.httpBody = bodyData.data(using: String.Encoding.utf8);
             
             let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
@@ -175,6 +163,7 @@ class Connection : NSObject {
                             print(jsonResult)
                             
                             let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                            
                             if ((jsonResult as AnyObject).count >= 1){
                                 
                                 if ((jsonResult as AnyObject).count == 1){
@@ -196,19 +185,14 @@ class Connection : NSObject {
                                     self.showMessage(message: mutable as String, title: mutable2 as String, cancel: "")
                                 }else{
                                 
-                                    for (key, value) in jsonResult as! NSDictionary {
-                                        print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
-                                        
-                                        userObj.setValue(value, forKey:key as! String);
-                                        self.genericUser?.setValue(value, forKey:key as! String);
-                                    }
+                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                                     
                                     do {
                                         try self.context.save()
                                         OperationQueue.main.addOperation {
                                             if ((self.viewController) != nil) {
                                                 let vc = self.viewController as! ViewController;
-                                                vc.signInEmailTextField.text = self.genericUser?.email as String?
+                                                vc.signInEmailTextField.text = self.delegate.genericUser?.email as String?
                                                 vc.showSignInView()
                                             }
                                         }
@@ -250,10 +234,166 @@ class Connection : NSObject {
         }
     }
     
+    //Reset Password
+    func resetPassword() {
+        print("Reset Password")
+        
+        if (delegate.reachability?.isReachable)!{
+            let stringURL = urlPath .appending("/user/reset_password")
+            
+            let url = URL(string: stringURL)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let bodyData = String(format: "user[email]=%@", delegate.genericUser!.email!)
+            
+            request.httpBody = bodyData.data(using: String.Encoding.utf8);
+            
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+                if (error != nil){
+                    print(error as Any)
+                    self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                }else{
+                    do{
+                        let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)
+                        
+                        print(jsonResult)
+                        
+                        if (jsonResult is NSArray){
+                            print(jsonResult)
+                            
+                            self.showErrosFullmessages(array: jsonResult as! NSArray)
+                            
+                        }else if(jsonResult is NSDictionary){
+                            print(jsonResult)
+                            
+                            let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                            
+                            if ((jsonResult as AnyObject).count >= 1){
+                                
+                                if ((jsonResult as AnyObject).count == 1){
+                                    let mutable = "" as NSMutableString
+                                    let mutable2 = "" as NSMutableString
+                                    
+                                    for (key, value) in jsonResult as! NSDictionary {
+                                        if (value is String){
+                                            self.showMessage(message: value as! String, title: "", cancel: "")
+                                        }else{
+                                            let array = value as! NSArray
+                                            
+                                            let obj = array .object(at: 0)
+                                            
+                                            let title = key as! String
+                                            
+                                            mutable.append(obj as! String)
+                                            mutable2.append(title.capitalized)
+                                        }
+                                    }
+                                }else{
+                                    
+                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
+                                    
+                                    do {
+                                        //save user on db
+                                        try self.context.save()
+                                        
+                                        //set defaults users
+                                        self.delegate.defaults.set(self.delegate.genericUser?.token, forKey: self.delegate.keyDefaultsToken)
+                                        
+                                        //login with token
+                                        self.loginByToken()
+                                    }catch{
+                                        self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                                    }
+                                }
+                            }
+                        }else if(jsonResult is NSString){
+                            print(jsonResult)
+                        }
+                    }catch {
+                        print(error)
+                        
+                        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+                        
+                        select.returnsObjectsAsFaults = false
+                        
+                        do {
+                            let results = try self.context.fetch(select)
+                            
+                            if results.count > 0 {
+                                print(results.count)
+                            }
+                        }catch{
+                        }
+                    }
+                }
+            })
+            
+            task.resume()
+        }else{
+            self.showMessage(message: "Check your internet connection.", title: "Error", cancel: "")
+        }
+    }
+    
+    func setValuesByJSON (jsonResult: NSDictionary, userObj: NSManagedObject){
+        for (key, value) in jsonResult {
+            print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
+            
+            userObj.setValue(value, forKey:key as! String);
+            self.delegate.genericUser?.setValue(value, forKey:key as! String);
+        }
+    }
+    
+    //Login User
+    func loginByToken() {
+        let token = delegate.defaults.string(forKey: delegate.keyDefaultsToken)
+        
+        if (token != nil && (token?.characters.count)! > 0) {
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
+            
+            fetchRequest.predicate = NSPredicate(format: "token == %@", token!)
+            
+            do {
+                person = try context.fetch(fetchRequest)
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.userInfo)")
+            }
+            
+            if (person.count > 0){
+                delegate.loggedUser = person.first as! User!
+                
+                let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "tabBarControllerScene1") as UIViewController
+                OperationQueue.main.addOperation {
+                    self.viewController.present(vc, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    //Logout User
+    func logoutUser(){
+        delegate.loggedUser = User();
+        delegate.genericUser = UserBean()
+        delegate.defaults .set(nil, forKey: delegate.keyDefaultsToken)
+        
+        showLoginPage()
+    }
+    
     //show Initial page
     func showInitialPage(){
         let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "tabBarControllerScene1") as UIViewController
+        OperationQueue.main.addOperation {
+            self.viewController.present(vc, animated: true, completion: nil)
+        }
+    }
+    
+    //showLogginPage
+    func showLoginPage(){
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "viewController") as UIViewController
         OperationQueue.main.addOperation {
             self.viewController.present(vc, animated: true, completion: nil)
         }

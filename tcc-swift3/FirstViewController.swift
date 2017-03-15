@@ -10,16 +10,23 @@ import UIKit
 
 class FirstViewController: UIViewController {
 
+    var delegate: AppDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        delegate.connection?.viewController = self
+        
+        if (delegate.loggedUser == nil) {
+            self .dismiss(animated: true, completion: nil)
+        }else{
+            print(delegate.loggedUser.name! as String, delegate.loggedUser.email! as String, delegate.loggedUser.token as! String)
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
-
 }
-

@@ -9,17 +9,19 @@
 import UIKit
 
 class SecondViewController: UIViewController {
+    
+    var delegate: AppDelegate!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        delegate.connection?.viewController = self
+        delegate.connection?.logoutUser()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
-
 }
-

@@ -47,11 +47,7 @@ class UserBean : NSObject {
         message = validateResetPassword(userEmail: userEmail)
         
         if (message.isEmpty) {
-            if (userPassword.isEmpty){
-                message = "Password can not be empty."
-            }else if !(userPassword.characters.count >= deviseMinPassword){
-                message = String.init(format: "Password can not be less than %i characters.", deviseMinPassword)
-            }
+            message = validatePassword(userPassword: userPassword)
         }
         
         return message
@@ -65,5 +61,17 @@ class UserBean : NSObject {
         }
         
         return message
+    }
+    
+    func validatePassword (userPassword: String) -> String {
+        var message = ""
+        
+        if (userPassword.isEmpty){
+            message = "Password can not be empty."
+        }else if !(userPassword.characters.count >= deviseMinPassword){
+            message = String.init(format: "Password can not be less than %i characters.", deviseMinPassword)
+        }
+        
+        return message;
     }
 }

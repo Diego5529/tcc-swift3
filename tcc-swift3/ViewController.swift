@@ -39,28 +39,24 @@ class ViewController: UIViewController  {
     @IBOutlet var cancelResetPasswordButton: UIButton!
     
     var delegate: AppDelegate!
-    var defaults: UserDefaults!
     var context: NSManagedObjectContext!
     var urlPath: NSString = ""
-    var loggedUser: User!
-    var person: [NSManagedObject] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //init defaults vars
         delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.connection?.viewController = self
         
-        //prepareViewa
+        //prepareViews
         hiddenAllViews()
         showSignInView()
         
         //Init Reachability
         delegate.setupReachability(nil, useClosures: true)
         delegate.startNotifier()
-        
-        defaults = UserDefaults.standard
-        
+    
         context = delegate.managedObjectContext
         
         urlPath = "http://localhost:3000/api"
@@ -70,36 +66,8 @@ class ViewController: UIViewController  {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //loading settings
-        let token = defaults.string(forKey: "token")
-        
-        if (token != nil && (token?.characters.count)! > 0) {
-            print(token as Any)
-            
-            //2
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
-            
-            fetchRequest.predicate = NSPredicate(format: "token == %@", token!)
-            
-            //3
-            do {
-                person = try context.fetch(fetchRequest)
-            } catch let error as NSError {
-                print("Could not fetch. \(error), \(error.userInfo)")
-            }
-            
-            if (person.count > 0){
-                loggedUser = person.first as! User!
-                
-                print(loggedUser.name as Any)
-                
-                let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "tabBarControllerScene1") as UIViewController
-                OperationQueue.main.addOperation {
-                    self.present(vc, animated: true, completion: nil)
-                }
-            }
-        }
+        //try login by token on defaults users
+        delegate.connection?.loginByToken()
     }
 
     override func didReceiveMemoryWarning() {
@@ -111,16 +79,12 @@ class ViewController: UIViewController  {
     @IBAction func signIn(_ sender: UIButton) {
         print("SignIn")
         
-        delegate.connection?.genericUser?.email = signInEmailTextField.text as NSString?
-        delegate.connection?.genericUser?.password = signInPasswordTextField.text as NSString?
+        delegate.genericUser?.email = signInEmailTextField.text as NSString?
+        delegate.genericUser?.password = signInPasswordTextField.text as NSString?
         
-        let validateUser = UserBean()
-        
-        let message = validateUser.validateLoginUser(userEmail: delegate.connection?.genericUser?.email as! String, userPassword: (delegate.connection?.genericUser?.password)! as String)
+        let message = UserBean().validateLoginUser(userEmail: delegate.genericUser?.email as! String, userPassword: (delegate.genericUser?.password)! as String)
         
         if (message.isEmpty){
-            delegate.connection?.viewController = self
-            
             delegate.connection? .signIn()
         }else{
             self.showMessage(message: message, title: "", cancel: "")
@@ -139,14 +103,12 @@ class ViewController: UIViewController  {
     @IBAction func signUp(_ sender: UIButton) {
         print("SignUp")
         
-        delegate.connection?.genericUser?.name = signUpNameTextField.text as NSString?
-        delegate.connection?.genericUser?.email = signUpEmailTextField.text as NSString?
-        delegate.connection?.genericUser?.password = signUpPassTextField.text as NSString?
-        delegate.connection?.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as NSString?
+        delegate.genericUser?.name = signUpNameTextField.text as NSString?
+        delegate.genericUser?.email = signUpEmailTextField.text as NSString?
+        delegate.genericUser?.password = signUpPassTextField.text as NSString?
+        delegate.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as NSString?
         
-        let validateUser = UserBean()
-        
-        let message = validateUser.validateCreateUser(userEmail: (delegate.connection?.genericUser?.email)! as String, userName: (delegate.connection?.genericUser?.name)! as String, userPassword: (delegate.connection?.genericUser?.password)! as String, userConfirmationPassword: delegate.connection?.genericUser?.password_confirmation as! String)
+        let message = UserBean().validateCreateUser(userEmail: (delegate.genericUser?.email)! as String, userName: (delegate.genericUser?.name)! as String, userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation as! String)
         
         if (message.isEmpty){
             delegate.connection?.viewController = self
@@ -163,7 +125,19 @@ class ViewController: UIViewController  {
     
     //resetPasswordView
     @IBAction func resetPassword(_ sender: UIButton) {
-        showSignInView()
+        print("Reset Password")
+        
+        delegate.genericUser?.email = resetPasswordEmailTextField.text as NSString?
+        
+        let message = UserBean().validateResetPassword(userEmail: delegate.genericUser?.email as! String)
+        
+        if (message.isEmpty){
+            delegate.connection?.viewController = self
+            
+            delegate.connection?.resetPassword()
+        }else{
+            self.showMessage(message: message, title: "", cancel: "")
+        }
     }
     
     @IBAction func cancelResetPassword(_ sender: UIButton) {
@@ -186,7 +160,7 @@ class ViewController: UIViewController  {
         
         //resetPasswordView
         resetPasswordView.isHidden = true
-        resetPasswordEmailTextField.text = ""
+        //resetPasswordEmailTextField.text = ""
     }
     
     func showSignInView() {
@@ -194,8 +168,8 @@ class ViewController: UIViewController  {
         
         signInView.isHidden = false
         
-        if ((delegate.connection?.genericUser?.email) != nil) {
-            signInEmailTextField.text = delegate.connection?.genericUser?.email as? String
+        if ((delegate.genericUser?.email) != nil) {
+            signInEmailTextField.text = delegate.genericUser?.email as? String
         }
     }
     
