@@ -5,6 +5,7 @@ target 'tcc-swift3' do
 #frameworks
   use_frameworks!
 
-  pod 'Alamofire', '~> 4.3'
+  pod 'Fabric'
+  pod 'Crashlytics'
   pod 'ReachabilitySwift', '~> 3'
 end

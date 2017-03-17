@@ -220,6 +220,7 @@
 				52DB79E71E478DB400658171 /* Resources */,
 				F80F7974883C0A9D579C963E /* [CP] Embed Pods Frameworks */,
 				D064C6F13B71BBFC7D698A58 /* [CP] Copy Pods Resources */,
+				526F47E81E7B6D0F0044E320 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -242,7 +243,6 @@
 				TargetAttributes = {
 					52DB79E81E478DB400658171 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = N3885R2AMX;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -294,6 +294,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		526F47E81E7B6D0F0044E320 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 874df27d6b3940878ae3d34a2f8e9a0bd8515635 2efc36be87af42e68e159456b2a2d6bddda3d149d5d64a75119ec32e61d512c7";
 		};
 		D064C6F13B71BBFC7D698A58 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -489,7 +502,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = N3885R2AMX;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "tcc-swift3/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ifsp.tcc-swift3";
@@ -506,7 +520,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = N3885R2AMX;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "tcc-swift3/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "ifsp.tcc-swift3";
