@@ -64,5 +64,6 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 
+tcc-swift3.xcworkspace/
 Podfile.lock
 Fabric.*
