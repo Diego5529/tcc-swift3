@@ -1,6 +1,0 @@
-framework module Pods_tcc_swift3 {
-  umbrella header "Pods-tcc-swift3-umbrella.h"
-
-  export *
-  module * { export * }
-}
