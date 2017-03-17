@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 import ReachabilitySwift
+import Crashlytics
 
 class Connection : NSObject {
 
@@ -190,6 +191,15 @@ class Connection : NSObject {
                                     do {
                                         try self.context.save()
                                         OperationQueue.main.addOperation {
+                                            if (self.delegate.loggedUser != nil) {
+                                                Answers.logSignUp(withMethod: "API",
+                                                                 success: true,
+                                                                 customAttributes: [
+                                                                    "email": self.delegate.genericUser?.email! as! String,
+                                                                    "name": self.delegate.genericUser?.name! as! String
+                                                    ])
+                                            }
+                                            
                                             if ((self.viewController) != nil) {
                                                 let vc = self.viewController as! ViewController;
                                                 vc.signInEmailTextField.text = self.delegate.genericUser?.email as String?
@@ -363,12 +373,30 @@ class Connection : NSObject {
             if (person.count > 0){
                 delegate.loggedUser = person.first as! User!
                 
+                logUserFabric()
+                
                 let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                 let vc : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "tabBarControllerScene1") as UIViewController
                 OperationQueue.main.addOperation {
                     self.viewController.present(vc, animated: true, completion: nil)
                 }
             }
+        }
+    }
+    
+    //Send User Fabric
+    func logUserFabric() {
+        if (delegate.loggedUser != nil) {
+            Crashlytics.sharedInstance().setUserEmail(delegate.loggedUser.email)
+            Crashlytics.sharedInstance().setUserIdentifier(delegate.loggedUser.token as? String)
+            Crashlytics.sharedInstance().setUserName(delegate.loggedUser.name)
+            
+            Answers.logLogin(withMethod: "API",
+                                       success: true,
+                                       customAttributes: [
+                                        "email": delegate.loggedUser.email! as String,
+                                        "name": delegate.loggedUser.name! as String
+                ])
         }
     }
     

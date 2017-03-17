@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Crashlytics
 
 class ViewController: UIViewController  {
     
@@ -63,6 +64,10 @@ class ViewController: UIViewController  {
         
         signInEmailTextField.text = "diego.6.souza@gmail.com"
         signInPasswordTextField.text = "12345678"
+    }
+    
+    @IBAction func crashButtonTapped(_ sender: AnyObject) {
+        Crashlytics.sharedInstance().crash()
     }
     
     override func viewDidAppear(_ animated: Bool) {
