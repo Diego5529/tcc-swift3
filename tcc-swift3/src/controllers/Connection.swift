@@ -21,8 +21,7 @@ class Connection : NSObject {
     var viewController: UIViewController!
     var person: [NSManagedObject] = []
     
-    override init () {
-        
+    override init () {        
         urlApi = ""
         
         delegate = UIApplication.shared.delegate as! AppDelegate
@@ -39,6 +38,10 @@ class Connection : NSObject {
         print("SignIn")
         
         if (delegate.reachability?.isReachable)!{
+            let vc = viewController as! ViewController
+            
+            activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
+            
             let stringURL = urlPath .appending("/user/sign_in")
             
             let url = URL(string: stringURL)!
@@ -125,6 +128,8 @@ class Connection : NSObject {
                         }
                     }
                 }
+                
+                self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
@@ -138,6 +143,9 @@ class Connection : NSObject {
         print("SignUp")
         
         if (delegate.reachability?.isReachable)!{
+            let vc = viewController as! ViewController
+            
+            activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
             let stringURL = urlPath .appending("/user/sign_up")
             
@@ -238,17 +246,22 @@ class Connection : NSObject {
                         }
                     }
                 }
+                self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
         }
     }
     
-    //Reset Password
+    //Send Reset Password
     func resetPassword() {
         print("Reset Password")
         
         if (delegate.reachability?.isReachable)!{
+            let vc = viewController as! ViewController
+            
+            activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
+            
             let stringURL = urlPath .appending("/user/reset_password")
             
             let url = URL(string: stringURL)!
@@ -307,12 +320,6 @@ class Connection : NSObject {
                                     do {
                                         //save user on db
                                         try self.context.save()
-                                        
-                                        //set defaults users
-                                        self.delegate.defaults.set(self.delegate.genericUser?.token, forKey: self.delegate.keyDefaultsToken)
-                                        
-                                        //login with token
-                                        self.loginByToken()
                                     }catch{
                                         self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                     }
@@ -338,11 +345,112 @@ class Connection : NSObject {
                         }
                     }
                 }
+                
+                self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
         }else{
             self.showMessage(message: "Check your internet connection.", title: "Error", cancel: "")
+        }
+    }
+    
+    //Create Account
+    func updatePassword(){
+        print("UpdatePassword")
+        
+        if (delegate.reachability?.isReachable)!{
+            let vc = viewController as! ViewController
+            
+            activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
+            
+            let stringURL = urlPath .appending("/user/update_password")
+            
+            let url = URL(string: stringURL as String)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let bodyData = String(format: "user[reset_password_token]=%@&user[password]=%@&user[password_confirmation]=%@", (delegate.genericUser?.token!)!, (delegate.genericUser?.password!)!, (delegate.genericUser?.password_confirmation!)!)
+            request.httpBody = bodyData.data(using: String.Encoding.utf8);
+            
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+                if (error != nil){
+                    print(error as Any)
+                    self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                }else{
+                    do{
+                        let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)
+                        
+                        print(jsonResult)
+                        
+                        if (jsonResult is NSArray){
+                            print(jsonResult)
+                            
+                            self.showErrosFullmessages(array: jsonResult as! NSArray)
+                            
+                        }else if(jsonResult is NSDictionary){
+                            print(jsonResult)
+                            
+                            let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                            
+                            if ((jsonResult as AnyObject).count >= 1){
+                                
+                                if ((jsonResult as AnyObject).count == 1){
+                                    let mutable = "" as NSMutableString
+                                    let mutable2 = "" as NSMutableString
+                                    
+                                    for (key, value) in jsonResult as! NSDictionary {
+                                        if (value is String){
+                                            self.showMessage(message: value as! String, title: "", cancel: "")
+                                        }else{
+                                            let array = value as! NSArray
+                                            
+                                            let obj = array .object(at: 0)
+                                            
+                                            let title = key as! String
+                                            
+                                            mutable.append(obj as! String)
+                                            mutable2.append(title.capitalized)
+                                        }
+                                    }
+                                }else{
+                                    
+                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
+                                    
+                                    do {
+                                        //save user on db
+                                        try self.context.save()
+                                    }catch{
+                                        self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                                    }
+                                }
+                            }
+                        }else if(jsonResult is NSString){
+                            print(jsonResult)
+                        }
+                    }catch {
+                        print(error)
+                        
+                        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+                        
+                        select.returnsObjectsAsFaults = false
+                        
+                        do {
+                            let results = try self.context.fetch(select)
+                            
+                            if results.count > 0 {
+                                print(results.count)
+                            }
+                        }catch{
+                        }
+                    }
+                }
+                
+                self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
+            })
+            
+            task.resume()
         }
     }
     
@@ -438,6 +546,12 @@ class Connection : NSObject {
         self.showMessage(message: mutable as String, title: "Cadastro Inválido!", cancel: "")
     }
     
+    //Activity
+    func activityChangeStatus(activityView: UIView, activityIndicator: UIActivityIndicatorView, hidden: Bool) {
+        activityView.isHidden = hidden
+        activityIndicator.isHidden = hidden
+    }
+    
     //AlertView
     func showMessage(message: String, title: String, cancel: String){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -453,7 +567,13 @@ class Connection : NSObject {
         
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
             (result : UIAlertAction) -> Void in
-            print("OK")
+            if ((self.viewController) != nil && self.viewController is ViewController) {
+                let vc = self.viewController as! ViewController;
+                vc.signInEmailTextField.text = self.delegate.genericUser?.email as String?
+                if (vc.currentStatus != ViewController.ksignIn){
+                    vc.showSignInView()
+                }
+            }
         }
         
         alertController.addAction(okAction)

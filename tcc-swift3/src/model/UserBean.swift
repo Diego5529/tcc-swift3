@@ -28,13 +28,7 @@ class UserBean : NSObject {
             message = self.validateLoginUser(userEmail: userEmail, userPassword: userPassword)
             
             if (message.isEmpty){
-                if (userConfirmationPassword.isEmpty){
-                    message = "Confirmation Password can not be empty."
-                }else if !(userConfirmationPassword.characters.count >= deviseMinPassword){
-                    message = String.init(format: "Confirmation Password can not be less than %i characters.", deviseMinPassword)
-                }else if (userPassword != userConfirmationPassword){
-                    message = String.init(format: "Confirmation Password can not be less than %i characters.", deviseMinPassword)
-                }
+                message = validateConfirmationPassword(userPassword: userPassword, userConfirmationPassword: userConfirmationPassword)
             }
         }
         
@@ -63,6 +57,18 @@ class UserBean : NSObject {
         return message
     }
     
+    func validateUpdatePassword(userPassword: String, userConfirmationPassword: String) -> String {
+        var message = ""
+        
+        message = validatePassword(userPassword: userPassword)
+        
+        if message.isEmpty {
+            message = validateConfirmationPassword(userPassword: userPassword, userConfirmationPassword: userConfirmationPassword)
+        }
+        
+        return message
+    }
+    
     func validatePassword (userPassword: String) -> String {
         var message = ""
         
@@ -73,5 +79,19 @@ class UserBean : NSObject {
         }
         
         return message;
+    }
+    
+    func validateConfirmationPassword(userPassword: String, userConfirmationPassword: String) -> String {
+        var message = ""
+        
+        if (userConfirmationPassword.isEmpty){
+            message = "Confirmation Password can not be empty."
+        }else if !(userConfirmationPassword.characters.count >= deviseMinPassword){
+            message = String.init(format: "Confirmation Password can not be less than %i characters.", deviseMinPassword)
+        }else if (userPassword != userConfirmationPassword){
+            message = "can not be different from password"
+        }
+        
+        return message
     }
 }

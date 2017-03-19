@@ -12,6 +12,13 @@ import Crashlytics
 
 class ViewController: UIViewController  {
     
+    //static vars
+    static var ksignIn = "signIn"
+    static var ksignUp = "signUp"
+    static var kresetPassword = "resetPassword"
+    static var kupdatePassword = "updatePassword"
+    var currentStatus = ksignIn
+    
     //views
     @IBOutlet var activityView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -71,6 +78,8 @@ class ViewController: UIViewController  {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        
         //try login by token on defaults users
         delegate.connection?.loginByToken()
     }
@@ -90,6 +99,7 @@ class ViewController: UIViewController  {
         let message = UserBean().validateLoginUser(userEmail: delegate.genericUser?.email as! String, userPassword: (delegate.genericUser?.password)! as String)
         
         if (message.isEmpty){
+            delegate.connection?.viewController = self
             delegate.connection? .signIn()
         }else{
             self.showMessage(message: message, title: "", cancel: "")
@@ -113,14 +123,26 @@ class ViewController: UIViewController  {
         delegate.genericUser?.password = signUpPassTextField.text as NSString?
         delegate.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as NSString?
         
-        let message = UserBean().validateCreateUser(userEmail: (delegate.genericUser?.email)! as String, userName: (delegate.genericUser?.name)! as String, userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation as! String)
-        
-        if (message.isEmpty){
-            delegate.connection?.viewController = self
+        if currentStatus == ViewController.ksignUp {
+            let message = UserBean().validateCreateUser(userEmail: (delegate.genericUser?.email)! as String, userName: (delegate.genericUser?.name)! as String, userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation as! String)
             
-            delegate.connection?.signUp()
+            if (message.isEmpty){
+                delegate.connection?.viewController = self
+                
+                delegate.connection?.signUp()
+            }else{
+                self.showMessage(message: message, title: "", cancel: "")
+            }
         }else{
-            self.showMessage(message: message, title: "", cancel: "")
+            let message = UserBean().validateUpdatePassword(userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation as! String)
+            
+            if (message.isEmpty){
+                delegate.connection?.viewController = self
+                
+                delegate.connection?.updatePassword()
+            }else{
+                self.showMessage(message: message, title: "", cancel: "")
+            }
         }
     }
     
@@ -151,6 +173,10 @@ class ViewController: UIViewController  {
     
     //manipulateViews
     func hiddenAllViews() {
+        //hidden ActivityViews
+        activityView.isHidden = true
+        activityIndicator.isHidden = true
+  
         //signInView
         signInView.isHidden = true
         signInEmailTextField.text = ""
@@ -162,6 +188,7 @@ class ViewController: UIViewController  {
         signUpEmailTextField.text = ""
         signUpPassTextField.text = ""
         signUpPassConfirmationTextField.text = ""
+        signUpButton.titleLabel?.text = currentStatus == ViewController.kupdatePassword ? "Update" : "Sign up"
         
         //resetPasswordView
         resetPasswordView.isHidden = true
@@ -169,6 +196,7 @@ class ViewController: UIViewController  {
     }
     
     func showSignInView() {
+        currentStatus = ViewController.ksignIn
         hiddenAllViews()
         
         signInView.isHidden = false
@@ -179,15 +207,27 @@ class ViewController: UIViewController  {
     }
     
     func showSignUpView() {
+        currentStatus = ViewController.ksignUp
         hiddenAllViews()
         
         signUpView.isHidden = false
     }
     
     func showResetPasswordView() {
+        currentStatus = ViewController.kresetPassword
         hiddenAllViews()
         
         resetPasswordView.isHidden = false
+    }
+    
+    func showUpdatePasswordView() {
+        hiddenAllViews()
+        currentStatus = ViewController.kupdatePassword
+        
+        signUpView.isHidden = false
+        signUpNameTextField.isHidden = true
+        signUpEmailTextField.isHidden = true
+        signUpButton.titleLabel?.text = "Update"
     }
     
     //AlertView

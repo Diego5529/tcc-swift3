@@ -177,20 +177,6 @@
                                     <constraint firstAttribute="height" constant="284" id="V54-Dz-7DB"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kB6-BT-cfw">
-                                <rect key="frame" x="250" y="258" width="100" height="84"/>
-                                <subviews>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="xsw-Qe-YMm">
-                                        <rect key="frame" x="32" y="23" width="37" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </activityIndicatorView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="0.54000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="84" id="3Ow-ov-LLv"/>
-                                    <constraint firstAttribute="width" constant="100" id="ZgO-MS-qFV"/>
-                                </constraints>
-                            </view>
                             <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wUg-ia-iTK">
                                 <rect key="frame" x="140" y="158" width="320" height="284"/>
                                 <subviews>
@@ -234,7 +220,7 @@
                                 <rect key="frame" x="140" y="158" width="320" height="284"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kUJ-sR-YnQ">
-                                        <rect key="frame" x="176" y="163" width="100" height="30"/>
+                                        <rect key="frame" x="136" y="163" width="140" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <state key="normal" title="Sign up">
@@ -287,6 +273,20 @@
                                     <constraint firstAttribute="height" constant="284" id="svy-GA-wLK"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kB6-BT-cfw">
+                                <rect key="frame" x="250" y="258" width="100" height="84"/>
+                                <subviews>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="xsw-Qe-YMm">
+                                        <rect key="frame" x="32" y="23" width="37" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="0.54000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="84" id="3Ow-ov-LLv"/>
+                                    <constraint firstAttribute="width" constant="100" id="ZgO-MS-qFV"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -303,7 +303,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityIndicator" destination="xsw-Qe-YMm" id="Bou-aI-3Eh"/>
+                        <outlet property="activityIndicator" destination="xsw-Qe-YMm" id="1pM-kE-rfF"/>
                         <outlet property="activityView" destination="kB6-BT-cfw" id="Z05-T7-eVs"/>
                         <outlet property="cancelResetPasswordButton" destination="O37-ah-ciL" id="rdf-tB-aey"/>
                         <outlet property="cancelSignUpButton" destination="kAp-kX-hFp" id="zh4-hI-fEn"/>
@@ -326,7 +326,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NZc-x2-fDT" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1388" y="20"/>
+            <point key="canvasLocation" x="-1388" y="19.340329835082461"/>
         </scene>
     </scenes>
     <resources>
