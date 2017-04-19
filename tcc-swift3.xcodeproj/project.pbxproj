@@ -36,7 +36,7 @@
 		529737441E47E84200C65464 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529737431E47E84200C65464 /* Connection.swift */; };
 		529737461E4800ED00C65464 /* UserBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529737451E4800ED00C65464 /* UserBean.swift */; };
 		52DB79ED1E478DB400658171 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB79EC1E478DB400658171 /* AppDelegate.swift */; };
-		52DB79EF1E478DB400658171 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB79EE1E478DB400658171 /* FirstViewController.swift */; };
+		52DB79EF1E478DB400658171 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB79EE1E478DB400658171 /* HomeViewController.swift */; };
 		52DB79F11E478DB400658171 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB79F01E478DB400658171 /* SecondViewController.swift */; };
 		52DB79F41E478DB400658171 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52DB79F21E478DB400658171 /* Main.storyboard */; };
 		52DB79F61E478DB400658171 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52DB79F51E478DB400658171 /* Assets.xcassets */; };
@@ -78,7 +78,7 @@
 		529737451E4800ED00C65464 /* UserBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBean.swift; sourceTree = "<group>"; };
 		52DB79E91E478DB400658171 /* tcc-swift3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tcc-swift3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52DB79EC1E478DB400658171 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		52DB79EE1E478DB400658171 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		52DB79EE1E478DB400658171 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		52DB79F01E478DB400658171 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		52DB79F31E478DB400658171 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52DB79F51E478DB400658171 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 				52DB7A001E4791F200658171 /* model_tcc_swift.xcdatamodeld */,
 				52DB7A021E4791F200658171 /* ViewController.swift */,
 				52DB79EC1E478DB400658171 /* AppDelegate.swift */,
-				52DB79EE1E478DB400658171 /* FirstViewController.swift */,
+				52DB79EE1E478DB400658171 /* HomeViewController.swift */,
 				52DB79F01E478DB400658171 /* SecondViewController.swift */,
 				52DB79F21E478DB400658171 /* Main.storyboard */,
 				52DB79F51E478DB400658171 /* Assets.xcassets */,
@@ -369,7 +369,7 @@
 				52DB7A031E4791F200658171 /* model_tcc_swift.xcdatamodeld in Sources */,
 				5264C4651E47942800B8C0B5 /* GuestType.swift in Sources */,
 				5264C4571E47942800B8C0B5 /* City.swift in Sources */,
-				52DB79EF1E478DB400658171 /* FirstViewController.swift in Sources */,
+				52DB79EF1E478DB400658171 /* HomeViewController.swift in Sources */,
 				5264C45D1E47942800B8C0B5 /* Event.swift in Sources */,
 				5264C45F1E47942800B8C0B5 /* EventCategory.swift in Sources */,
 				529737461E4800ED00C65464 /* UserBean.swift in Sources */,

@@ -96,7 +96,7 @@ class ViewController: UIViewController  {
         delegate.genericUser?.email = signInEmailTextField.text as NSString?
         delegate.genericUser?.password = signInPasswordTextField.text as NSString?
         
-        let message = UserBean().validateLoginUser(userEmail: delegate.genericUser?.email as! String, userPassword: (delegate.genericUser?.password)! as String)
+        let message = UserBean().validateLoginUser(userEmail: (delegate.genericUser?.email!)! as String, userPassword: ((delegate.genericUser?.password)!) as String)
         
         if (message.isEmpty){
             delegate.connection?.viewController = self

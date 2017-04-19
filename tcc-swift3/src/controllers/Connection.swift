@@ -203,8 +203,8 @@ class Connection : NSObject {
                                                 Answers.logSignUp(withMethod: "API",
                                                                  success: true,
                                                                  customAttributes: [
-                                                                    "email": self.delegate.genericUser?.email! as! String,
-                                                                    "name": self.delegate.genericUser?.name! as! String
+                                                                    "email": self.delegate.genericUser?.email! as! NSString,
+                                                                    "name": self.delegate.genericUser?.name! as! NSString
                                                     ])
                                             }
                                             
@@ -496,7 +496,7 @@ class Connection : NSObject {
     func logUserFabric() {
         if (delegate.loggedUser != nil) {
             Crashlytics.sharedInstance().setUserEmail(delegate.loggedUser.email)
-            Crashlytics.sharedInstance().setUserIdentifier(delegate.loggedUser.token as? String)
+            Crashlytics.sharedInstance().setUserIdentifier(delegate.loggedUser.token as String?)
             Crashlytics.sharedInstance().setUserName(delegate.loggedUser.name)
             
             Answers.logLogin(withMethod: "API",
