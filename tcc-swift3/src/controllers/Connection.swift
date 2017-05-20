@@ -140,8 +140,6 @@ class Connection : NSObject {
     
     //Create Account
     func signUp(){
-        print("SignUp")
-        
         if (delegate.reachability?.isReachable)!{
             let vc = viewController as! ViewController
             
