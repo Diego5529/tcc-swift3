@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		522889E61ED0DB3D007BC49D /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522889E51ED0DB3D007BC49D /* MenuViewController.swift */; };
+		522889E91ED0DC84007BC49D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522889E71ED0DC84007BC49D /* DetailViewController.swift */; };
+		522889EA1ED0DC84007BC49D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522889E81ED0DC84007BC49D /* MasterViewController.swift */; };
+		522889EF1ED0F34A007BC49D /* MenuViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 522889EE1ED0F34A007BC49D /* MenuViewCell.xib */; };
+		522889F31ED0F62F007BC49D /* MenuViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522889F21ED0F62F007BC49D /* MenuViewCell.swift */; };
 		5264C4551E47942800B8C0B5 /* Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5264C43B1E47942800B8C0B5 /* Admin.swift */; };
 		5264C4561E47942800B8C0B5 /* Admin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5264C43C1E47942800B8C0B5 /* Admin+CoreDataProperties.swift */; };
 		5264C4571E47942800B8C0B5 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5264C43D1E47942800B8C0B5 /* City.swift */; };
@@ -48,6 +53,11 @@
 
 /* Begin PBXFileReference section */
 		1EDECDCED8854A0042E0CF8D /* Pods-tcc-swift3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tcc-swift3.release.xcconfig"; path = "Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3.release.xcconfig"; sourceTree = "<group>"; };
+		522889E51ED0DB3D007BC49D /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		522889E71ED0DC84007BC49D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		522889E81ED0DC84007BC49D /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		522889EE1ED0F34A007BC49D /* MenuViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuViewCell.xib; path = view/cell/MenuViewCell.xib; sourceTree = "<group>"; };
+		522889F21ED0F62F007BC49D /* MenuViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewCell.swift; sourceTree = "<group>"; };
 		5264C43B1E47942800B8C0B5 /* Admin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Admin.swift; sourceTree = "<group>"; };
 		5264C43C1E47942800B8C0B5 /* Admin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Admin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5264C43D1E47942800B8C0B5 /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
@@ -120,9 +130,50 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		522889EB1ED0F286007BC49D /* tcc-swift3 */ = {
+			isa = PBXGroup;
+			children = (
+				52DB7A071E47926400658171 /* src */,
+			);
+			name = "tcc-swift3";
+			sourceTree = "<group>";
+		};
+		522889EC1ED0F2A2007BC49D /* view */ = {
+			isa = PBXGroup;
+			children = (
+				522889ED1ED0F2B4007BC49D /* cell */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		522889ED1ED0F2B4007BC49D /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				522889EE1ED0F34A007BC49D /* MenuViewCell.xib */,
+			);
+			name = cell;
+			sourceTree = "<group>";
+		};
+		522889F01ED0F3B5007BC49D /* view */ = {
+			isa = PBXGroup;
+			children = (
+				522889F11ED0F3BD007BC49D /* cell */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		522889F11ED0F3BD007BC49D /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				522889F21ED0F62F007BC49D /* MenuViewCell.swift */,
+			);
+			name = cell;
+			sourceTree = "<group>";
+		};
 		529737421E47E7DE00C65464 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
+				522889F01ED0F3B5007BC49D /* view */,
 				529737431E47E84200C65464 /* Connection.swift */,
 			);
 			path = controllers;
@@ -150,7 +201,7 @@
 		52DB79EB1E478DB400658171 /* tcc-swift3 */ = {
 			isa = PBXGroup;
 			children = (
-				52DB7A071E47926400658171 /* src */,
+				522889EB1ED0F286007BC49D /* tcc-swift3 */,
 				52DB7A001E4791F200658171 /* model_tcc_swift.xcdatamodeld */,
 				52DB7A021E4791F200658171 /* ViewController.swift */,
 				52DB79EC1E478DB400658171 /* AppDelegate.swift */,
@@ -160,6 +211,9 @@
 				52DB79F51E478DB400658171 /* Assets.xcassets */,
 				52DB79F71E478DB400658171 /* LaunchScreen.storyboard */,
 				52DB79FA1E478DB400658171 /* Info.plist */,
+				522889E51ED0DB3D007BC49D /* MenuViewController.swift */,
+				522889E71ED0DC84007BC49D /* DetailViewController.swift */,
+				522889E81ED0DC84007BC49D /* MasterViewController.swift */,
 			);
 			path = "tcc-swift3";
 			sourceTree = "<group>";
@@ -167,6 +221,7 @@
 		52DB7A071E47926400658171 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				522889EC1ED0F2A2007BC49D /* view */,
 				529737421E47E7DE00C65464 /* controllers */,
 				52DB7A081E47926400658171 /* model */,
 			);
@@ -273,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52DB79F91E478DB400658171 /* LaunchScreen.storyboard in Resources */,
+				522889EF1ED0F34A007BC49D /* MenuViewCell.xib in Resources */,
 				52DB79F61E478DB400658171 /* Assets.xcassets in Resources */,
 				52DB79F41E478DB400658171 /* Main.storyboard in Resources */,
 			);
@@ -357,6 +413,7 @@
 				5264C45C1E47942800B8C0B5 /* Country+CoreDataProperties.swift in Sources */,
 				5264C4621E47942800B8C0B5 /* EventType+CoreDataProperties.swift in Sources */,
 				5264C4551E47942800B8C0B5 /* Admin.swift in Sources */,
+				522889E61ED0DB3D007BC49D /* MenuViewController.swift in Sources */,
 				5264C4591E47942800B8C0B5 /* Company.swift in Sources */,
 				5264C45B1E47942800B8C0B5 /* Country.swift in Sources */,
 				5264C4631E47942800B8C0B5 /* Guest.swift in Sources */,
@@ -372,10 +429,13 @@
 				52DB79EF1E478DB400658171 /* HomeViewController.swift in Sources */,
 				5264C45D1E47942800B8C0B5 /* Event.swift in Sources */,
 				5264C45F1E47942800B8C0B5 /* EventCategory.swift in Sources */,
+				522889E91ED0DC84007BC49D /* DetailViewController.swift in Sources */,
 				529737461E4800ED00C65464 /* UserBean.swift in Sources */,
 				5264C46D1E47942800B8C0B5 /* UserType.swift in Sources */,
+				522889F31ED0F62F007BC49D /* MenuViewCell.swift in Sources */,
 				529737441E47E84200C65464 /* Connection.swift in Sources */,
 				5264C46E1E47942800B8C0B5 /* UserType+CoreDataProperties.swift in Sources */,
+				522889EA1ED0DC84007BC49D /* MasterViewController.swift in Sources */,
 				5264C4661E47942800B8C0B5 /* GuestType+CoreDataProperties.swift in Sources */,
 				5264C45A1E47942800B8C0B5 /* Company+CoreDataProperties.swift in Sources */,
 				5264C4671E47942800B8C0B5 /* State.swift in Sources */,

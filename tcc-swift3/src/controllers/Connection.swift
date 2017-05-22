@@ -40,7 +40,7 @@ class Connection : NSObject {
         if (delegate.reachability?.isReachable)!{
             let vc = viewController as! ViewController
             
-            activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
+            //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
             let stringURL = urlPath .appending("/user/sign_in")
             
@@ -129,7 +129,7 @@ class Connection : NSObject {
                     }
                 }
                 
-                self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
+                //self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
@@ -143,7 +143,7 @@ class Connection : NSObject {
         if (delegate.reachability?.isReachable)!{
             let vc = viewController as! ViewController
             
-            activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
+            //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
             let stringURL = urlPath .appending("/user/sign_up")
             
@@ -244,7 +244,7 @@ class Connection : NSObject {
                         }
                     }
                 }
-                self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
+                //self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
@@ -258,7 +258,7 @@ class Connection : NSObject {
         if (delegate.reachability?.isReachable)!{
             let vc = viewController as! ViewController
             
-            activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
+            //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
             let stringURL = urlPath .appending("/user/reset_password")
             
@@ -344,7 +344,7 @@ class Connection : NSObject {
                     }
                 }
                 
-                self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
+                //self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
@@ -360,7 +360,7 @@ class Connection : NSObject {
         if (delegate.reachability?.isReachable)!{
             let vc = viewController as! ViewController
             
-            activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
+            //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
             let stringURL = urlPath .appending("/user/update_password")
             
@@ -445,7 +445,7 @@ class Connection : NSObject {
                     }
                 }
                 
-                self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
+                //self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
@@ -552,6 +552,9 @@ class Connection : NSObject {
     
     //AlertView
     func showMessage(message: String, title: String, cancel: String){
+        let vc = viewController as! ViewController
+        //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
+        
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         
         if cancel.characters.count > 0 {

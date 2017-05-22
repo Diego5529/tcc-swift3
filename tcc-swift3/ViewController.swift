@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Crashlytics
+import Former
 
 class ViewController: UIViewController  {
     
@@ -20,8 +21,8 @@ class ViewController: UIViewController  {
     var currentStatus = ksignIn
     
     //views
-    @IBOutlet var activityView: UIView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    //@IBOutlet var activityView: UIView!
+    //@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     //signInView
     @IBOutlet var signInView: UIView!
@@ -174,8 +175,8 @@ class ViewController: UIViewController  {
     //manipulateViews
     func hiddenAllViews() {
         //hidden ActivityViews
-        activityView.isHidden = true
-        activityIndicator.isHidden = true
+        //activityView.isHidden = true
+        //activityIndicator.isHidden = true
   
         //signInView
         signInView.isHidden = true
