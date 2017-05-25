@@ -8,202 +8,105 @@
 
 import UIKit
 import CoreData
+import Former
 
-class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MasterViewController: FormViewController, NSFetchedResultsControllerDelegate {
 
     var detailViewController: DetailViewController? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
-
-
+    var delegate: AppDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        self.navigationItem.leftBarButtonItem = self.editButtonItem
-
-        //let addButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(insertNewObject(_:)))
-        //self.navigationItem.rightBarButtonItem = addButton
-        if let split = self.splitViewController {
-            let controllers = split.viewControllers
-            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? DetailViewController
-        }
+        delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        configure()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
+        //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+        former.deselect(animated: true)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    /*
-    func goToHome(_ sender: Any) {
-        if segue.identifier == "showDetail" {
-            let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-            //controller.detailItem = object
-            controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-            controller.navigationItem.leftItemsSupplementBackButton = true
-        }
-    }*/
-   
-    func insertNewObject(_ sender: Any) {
     
-    }
-    /*
-    func insertNewObject(_ sender: Any) {
-        let context = self.fetchedResultsController.managedObjectContext
-        let newEvent = Event(context: context)
-             
-        // If appropriate, configure the new managed object.
-        newEvent.updated_at = TimeInterval()
-
-        // Save the context.
-        do {
-            try context.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
-    }
-    */
-    
-    // MARK: - Segues
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow {
-            /*let object = self.fetchedResultsController.object(at: indexPath)
-                 */
-                let controller = (segue.destination as! UINavigationController).topViewController as! DetailViewController
-                //controller.detailItem = object
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-                controller.navigationItem.leftItemsSupplementBackButton = true
+    private func configure() {
+        
+        // Create RowFormers
+        let createMenu: ((String, (() -> Void)?) -> RowFormer) = { text, onSelected in
+            return LabelRowFormer<FormLabelCell>() {
+                $0.titleLabel.textColor = .formerColor()
+                $0.titleLabel.font = .boldSystemFont(ofSize: 16)
+                $0.accessoryType = .disclosureIndicator
+                }.configure {
+                    $0.text = text
+                }.onSelected { _ in
+                    onSelected?()
             }
         }
-    }
-
-    // MARK: - Table View
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell:MenuViewCell? = tableView.dequeueReusableCell(withIdentifier: "cell") as? MenuViewCell
-        
-        if  (cell == nil)
-        {
-            let nib:NSArray = Bundle.main.loadNibNamed("MenuViewCell", owner: self, options: nil)! as NSArray
-            
-            cell = nib.object(at: 0) as? MenuViewCell
+        //Companies
+        let myCompaniesRow = createMenu("My Companies") { [weak self] in
+            self?.navigationController?.pushViewController(CompanyFormViewController(), animated: true)
         }
         
-        cell?.labelDescription?.text = "Teste"
+        let newCompanyRow = createMenu("New Company") { [weak self] in
+            self?.navigationController?.pushViewController(CompanyFormViewController(), animated: true)
+        }
         
-        return cell!
-    }
-
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    
-    /*
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let context = self.fetchedResultsController.managedObjectContext
-            context.delete(self.fetchedResultsController.object(at: indexPath))
-                
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        //Events
+        let myEventsRow = createMenu("My Events") { [weak self] in
+            self?.navigationController?.pushViewController(CompanyFormViewController(), animated: true)
+        }
+        
+        let newEventRow = createMenu("New Event") { [weak self] in
+            self?.navigationController?.pushViewController(EventFormViewController(), animated: true)
+        }
+        
+        //Profile
+        let editProfileRow = createMenu("Profile") { [weak self] in
+            self?.navigationController?.pushViewController(DetailViewController(), animated: true)
+        }
+        
+        let logOutRow = createMenu("Log Out") { [weak self] in
+            self?.delegate.connection?.viewController = self
+            self?.delegate.connection?.logoutUser()
+        }
+        
+        // Create Headers and Footers
+        let createHeader: ((String) -> ViewFormer) = { text in
+            return LabelViewFormer<FormLabelHeaderView>()
+                .configure {
+                    $0.text = text
+                    $0.viewHeight = 40
             }
         }
-    }
- */
-    func configureCell(_ cell: UITableViewCell, withEvent event: Event) {
-        cell.textLabel!.text = event.description
-    }
-
-    // MARK: - Fetched results controller
-    /*
-    var fetchedResultsController: NSFetchedResultsController<Event> {
-        if _fetchedResultsController != nil {
-            return _fetchedResultsController!
+        
+        let createFooter: ((String) -> ViewFormer) = { text in
+            return LabelViewFormer<FormLabelFooterView>()
+                .configure {
+                    $0.text = text
+                    $0.viewHeight = 100
+            }
         }
         
-        let fetchRequest: NSFetchRequest<Event> = Event.fetchRequest() as! NSFetchRequest<Event>
+        // Create SectionFormers
+        let companiesSection = SectionFormer(rowFormer: newCompanyRow)
+            .set(headerViewFormer: createHeader("Companies"))
         
-        // Set the batch size to a suitable number.
-        fetchRequest.fetchBatchSize = 20
+        companiesSection.add(rowFormers: [myCompaniesRow])
         
-        // Edit the sort key as appropriate.
-        let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+        let eventsSection = SectionFormer(rowFormer: newEventRow)
+            .set(headerViewFormer: createHeader("Events"))
         
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        let profileSection = SectionFormer(rowFormer: editProfileRow, logOutRow)
+            .set(headerViewFormer: createHeader("Profile"))
+            .set(footerViewFormer: createFooter("IFSP"))
         
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
-        //let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: "Master")
-        //aFetchedResultsController.delegate = self
-        //_fetchedResultsController = aFetchedResultsController
-        
-        do {
-            try _fetchedResultsController!.performFetch()
-        } catch {
-             // Replace this implementation with code to handle the error appropriately.
-             // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-             let nserror = error as NSError
-             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
-        
-        return _fetchedResultsController!
+        former.append(sectionFormer: companiesSection, eventsSection, profileSection)
     }
-     */
-    var _fetchedResultsController: NSFetchedResultsController<Event>? = nil
-
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.beginUpdates()
-    }
-
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-            case .insert:
-                self.tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-            case .delete:
-                self.tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-            default:
-                return
-        }
-    }
-
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
-    }
-
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.endUpdates()
-    }
-
-    /*
-     // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
-     
-     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-         // In the simplest, most efficient, case, reload the table view.
-         self.tableView.reloadData()
-     }
-     */
-
 }

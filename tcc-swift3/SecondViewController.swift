@@ -16,9 +16,10 @@ class SecondViewController: UIViewController {
         super.viewDidLoad()
         
         delegate = UIApplication.shared.delegate as! AppDelegate
-        
+        /*
         delegate.connection?.viewController = self
         delegate.connection?.logoutUser()
+        */
     }
 
     override func didReceiveMemoryWarning() {

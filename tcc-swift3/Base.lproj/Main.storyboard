@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pfW-bP-GNy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="pfW-bP-GNy">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -378,41 +378,6 @@
         <scene sceneID="wpu-jj-8e0">
             <objects>
                 <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="zgi-fo-czY" customClass="MasterViewController" customModule="tcc_swift3" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4Bd-Sd-T5f">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="TGA-hF-Uj9" style="IBUITableViewCellStyleDefault" id="N0c-aF-O66">
-                                <rect key="frame" x="0.0" y="22" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="N0c-aF-O66" id="s8e-me-RBV">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TGA-hF-Uj9">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <segue destination="xMx-qz-Q8s" kind="showDetail" identifier="showDetail" id="h9z-e0-oko">
-                                        <nil key="action"/>
-                                    </segue>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <sections/>
-                        <connections>
-                            <outlet property="dataSource" destination="zgi-fo-czY" id="8BE-QU-YSF"/>
-                            <outlet property="delegate" destination="zgi-fo-czY" id="1Rc-Q1-FEC"/>
-                        </connections>
-                    </tableView>
                     <navigationItem key="navigationItem" title="Master" id="vkg-gb-a7c">
                         <barButtonItem key="rightBarButtonItem" title="Item" id="aVX-lU-la8">
                             <connections>
@@ -447,7 +412,6 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="h9z-e0-oko"/>
         <segue reference="ad1-Ld-ORU"/>
     </inferredMetricsTieBreakers>
 </document>

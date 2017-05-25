@@ -125,7 +125,7 @@ class ViewController: UIViewController  {
         delegate.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as NSString?
         
         if currentStatus == ViewController.ksignUp {
-            let message = UserBean().validateCreateUser(userEmail: (delegate.genericUser?.email)! as String, userName: (delegate.genericUser?.name)! as String, userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation as! String)
+            let message = UserBean().validateCreateUser(userEmail: (delegate.genericUser?.email)! as String, userName: (delegate.genericUser?.name)! as String, userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation! as! String)
             
             if (message.isEmpty){
                 delegate.connection?.viewController = self
@@ -135,7 +135,7 @@ class ViewController: UIViewController  {
                 self.showMessage(message: message, title: "", cancel: "")
             }
         }else{
-            let message = UserBean().validateUpdatePassword(userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation as! String)
+            let message = UserBean().validateUpdatePassword(userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation! as! String)
             
             if (message.isEmpty){
                 delegate.connection?.viewController = self
@@ -157,7 +157,7 @@ class ViewController: UIViewController  {
         
         delegate.genericUser?.email = resetPasswordEmailTextField.text as NSString?
         
-        let message = UserBean().validateResetPassword(userEmail: delegate.genericUser?.email as! String)
+        let message = UserBean().validateResetPassword(userEmail: delegate.genericUser?.email! as! String)
         
         if (message.isEmpty){
             delegate.connection?.viewController = self
@@ -203,7 +203,7 @@ class ViewController: UIViewController  {
         signInView.isHidden = false
         
         if ((delegate.genericUser?.email) != nil) {
-            signInEmailTextField.text = delegate.genericUser?.email as? String
+            signInEmailTextField.text = delegate.genericUser?.email as String?
         }
     }
     

@@ -7,6 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5225F1F01ED39BBD001AB13A /* CompanyFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */; };
+		5225F2231ED3A067001AB13A /* Former.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5225F2221ED3A067001AB13A /* Former.framework */; };
+		5225F22C1ED3A33B001AB13A /* CenterLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2261ED3A33B001AB13A /* CenterLabelCell.swift */; };
+		5225F22D1ED3A33B001AB13A /* ColorListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2271ED3A33B001AB13A /* ColorListCell.swift */; };
+		5225F22E1ED3A33B001AB13A /* DynamicHeightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2281ED3A33B001AB13A /* DynamicHeightCell.swift */; };
+		5225F22F1ED3A33B001AB13A /* ProfileFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2291ED3A33B001AB13A /* ProfileFieldCell.swift */; };
+		5225F2301ED3A33B001AB13A /* ProfileImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F22A1ED3A33B001AB13A /* ProfileImageCell.swift */; };
+		5225F2311ED3A33B001AB13A /* ProfileLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F22B1ED3A33B001AB13A /* ProfileLabelCell.swift */; };
+		5225F2351ED3A36D001AB13A /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2331ED3A36D001AB13A /* Login.swift */; };
+		5225F2361ED3A36D001AB13A /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2341ED3A36D001AB13A /* Profile.swift */; };
+		5225F23A1ED3A433001AB13A /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2381ED3A433001AB13A /* String.swift */; };
+		5225F23B1ED3A433001AB13A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2391ED3A433001AB13A /* UIColor.swift */; };
+		5225F23D1ED3A4CD001AB13A /* FormerInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F23C1ED3A4CD001AB13A /* FormerInputAccessoryView.swift */; };
+		5225F2471ED3AEF9001AB13A /* ColorListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5225F2411ED3AEF9001AB13A /* ColorListCell.xib */; };
+		5225F2481ED3AEF9001AB13A /* DynamicHeightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5225F2421ED3AEF9001AB13A /* DynamicHeightCell.xib */; };
+		5225F2491ED3AEF9001AB13A /* LoginViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5225F2431ED3AEF9001AB13A /* LoginViewController.storyboard */; };
+		5225F24A1ED3AEF9001AB13A /* ProfileFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5225F2441ED3AEF9001AB13A /* ProfileFieldCell.xib */; };
+		5225F24B1ED3AEF9001AB13A /* ProfileImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5225F2451ED3AEF9001AB13A /* ProfileImageCell.xib */; };
+		5225F24C1ED3AEF9001AB13A /* ProfileLabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5225F2461ED3AEF9001AB13A /* ProfileLabelCell.xib */; };
 		522889E61ED0DB3D007BC49D /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522889E51ED0DB3D007BC49D /* MenuViewController.swift */; };
 		522889E91ED0DC84007BC49D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522889E71ED0DC84007BC49D /* DetailViewController.swift */; };
 		522889EA1ED0DC84007BC49D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522889E81ED0DC84007BC49D /* MasterViewController.swift */; };
@@ -40,6 +59,7 @@
 		5264C46E1E47942800B8C0B5 /* UserType+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5264C4541E47942800B8C0B5 /* UserType+CoreDataProperties.swift */; };
 		529737441E47E84200C65464 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529737431E47E84200C65464 /* Connection.swift */; };
 		529737461E4800ED00C65464 /* UserBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529737451E4800ED00C65464 /* UserBean.swift */; };
+		52C448941ED675A3008C54BB /* EventFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C448931ED675A3008C54BB /* EventFormViewController.swift */; };
 		52DB79ED1E478DB400658171 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB79EC1E478DB400658171 /* AppDelegate.swift */; };
 		52DB79EF1E478DB400658171 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB79EE1E478DB400658171 /* HomeViewController.swift */; };
 		52DB79F11E478DB400658171 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB79F01E478DB400658171 /* SecondViewController.swift */; };
@@ -53,6 +73,25 @@
 
 /* Begin PBXFileReference section */
 		1EDECDCED8854A0042E0CF8D /* Pods-tcc-swift3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tcc-swift3.release.xcconfig"; path = "Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3.release.xcconfig"; sourceTree = "<group>"; };
+		5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyFormViewController.swift; sourceTree = "<group>"; };
+		5225F2221ED3A067001AB13A /* Former.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Former.framework; path = "../../../../Library/Developer/Xcode/DerivedData/tcc-swift3-akcbrosnscstzxbfogoiecwnunzz/Build/Products/Debug-iphonesimulator/Former/Former.framework"; sourceTree = "<group>"; };
+		5225F2261ED3A33B001AB13A /* CenterLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterLabelCell.swift; sourceTree = "<group>"; };
+		5225F2271ED3A33B001AB13A /* ColorListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorListCell.swift; sourceTree = "<group>"; };
+		5225F2281ED3A33B001AB13A /* DynamicHeightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicHeightCell.swift; sourceTree = "<group>"; };
+		5225F2291ED3A33B001AB13A /* ProfileFieldCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileFieldCell.swift; sourceTree = "<group>"; };
+		5225F22A1ED3A33B001AB13A /* ProfileImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageCell.swift; sourceTree = "<group>"; };
+		5225F22B1ED3A33B001AB13A /* ProfileLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileLabelCell.swift; sourceTree = "<group>"; };
+		5225F2331ED3A36D001AB13A /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		5225F2341ED3A36D001AB13A /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		5225F2381ED3A433001AB13A /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		5225F2391ED3A433001AB13A /* UIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		5225F23C1ED3A4CD001AB13A /* FormerInputAccessoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormerInputAccessoryView.swift; sourceTree = "<group>"; };
+		5225F2411ED3AEF9001AB13A /* ColorListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorListCell.xib; sourceTree = "<group>"; };
+		5225F2421ED3AEF9001AB13A /* DynamicHeightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DynamicHeightCell.xib; sourceTree = "<group>"; };
+		5225F2431ED3AEF9001AB13A /* LoginViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LoginViewController.storyboard; sourceTree = "<group>"; };
+		5225F2441ED3AEF9001AB13A /* ProfileFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileFieldCell.xib; sourceTree = "<group>"; };
+		5225F2451ED3AEF9001AB13A /* ProfileImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileImageCell.xib; sourceTree = "<group>"; };
+		5225F2461ED3AEF9001AB13A /* ProfileLabelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileLabelCell.xib; sourceTree = "<group>"; };
 		522889E51ED0DB3D007BC49D /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		522889E71ED0DC84007BC49D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		522889E81ED0DC84007BC49D /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +125,7 @@
 		5264C4541E47942800B8C0B5 /* UserType+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserType+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		529737431E47E84200C65464 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		529737451E4800ED00C65464 /* UserBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserBean.swift; sourceTree = "<group>"; };
+		52C448931ED675A3008C54BB /* EventFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventFormViewController.swift; sourceTree = "<group>"; };
 		52DB79E91E478DB400658171 /* tcc-swift3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tcc-swift3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52DB79EC1E478DB400658171 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52DB79EE1E478DB400658171 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -106,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5225F2231ED3A067001AB13A /* Former.framework in Frameworks */,
 				B93C5A37FF0403CAC80710B9 /* Pods_tcc_swift3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,6 +157,7 @@
 		0040422E58185C5979527710 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5225F2221ED3A067001AB13A /* Former.framework */,
 				8FD21AC968FCC7AA9B9D238F /* Pods_tcc_swift3.framework */,
 			);
 			name = Frameworks;
@@ -130,6 +172,70 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		5225F2241ED3A33B001AB13A /* form */ = {
+			isa = PBXGroup;
+			children = (
+				5225F23C1ED3A4CD001AB13A /* FormerInputAccessoryView.swift */,
+				5225F2321ED3A36D001AB13A /* Commons */,
+				5225F2251ED3A33B001AB13A /* Cells */,
+			);
+			name = form;
+			path = view/form;
+			sourceTree = "<group>";
+		};
+		5225F2251ED3A33B001AB13A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5225F2261ED3A33B001AB13A /* CenterLabelCell.swift */,
+				5225F2271ED3A33B001AB13A /* ColorListCell.swift */,
+				5225F2281ED3A33B001AB13A /* DynamicHeightCell.swift */,
+				5225F2291ED3A33B001AB13A /* ProfileFieldCell.swift */,
+				5225F22A1ED3A33B001AB13A /* ProfileImageCell.swift */,
+				5225F22B1ED3A33B001AB13A /* ProfileLabelCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		5225F2321ED3A36D001AB13A /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				5225F2331ED3A36D001AB13A /* Login.swift */,
+				5225F2341ED3A36D001AB13A /* Profile.swift */,
+			);
+			path = Commons;
+			sourceTree = "<group>";
+		};
+		5225F2371ED3A433001AB13A /* helper */ = {
+			isa = PBXGroup;
+			children = (
+				5225F2381ED3A433001AB13A /* String.swift */,
+				5225F2391ED3A433001AB13A /* UIColor.swift */,
+			);
+			path = helper;
+			sourceTree = "<group>";
+		};
+		5225F23F1ED3AEF9001AB13A /* form */ = {
+			isa = PBXGroup;
+			children = (
+				5225F2401ED3AEF9001AB13A /* Resources */,
+			);
+			name = form;
+			path = view/form;
+			sourceTree = "<group>";
+		};
+		5225F2401ED3AEF9001AB13A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5225F2411ED3AEF9001AB13A /* ColorListCell.xib */,
+				5225F2421ED3AEF9001AB13A /* DynamicHeightCell.xib */,
+				5225F2431ED3AEF9001AB13A /* LoginViewController.storyboard */,
+				5225F2441ED3AEF9001AB13A /* ProfileFieldCell.xib */,
+				5225F2451ED3AEF9001AB13A /* ProfileImageCell.xib */,
+				5225F2461ED3AEF9001AB13A /* ProfileLabelCell.xib */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		522889EB1ED0F286007BC49D /* tcc-swift3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +247,7 @@
 		522889EC1ED0F2A2007BC49D /* view */ = {
 			isa = PBXGroup;
 			children = (
+				5225F23F1ED3AEF9001AB13A /* form */,
 				522889ED1ED0F2B4007BC49D /* cell */,
 			);
 			name = view;
@@ -157,6 +264,7 @@
 		522889F01ED0F3B5007BC49D /* view */ = {
 			isa = PBXGroup;
 			children = (
+				5225F2241ED3A33B001AB13A /* form */,
 				522889F11ED0F3BD007BC49D /* cell */,
 			);
 			name = view;
@@ -175,6 +283,8 @@
 			children = (
 				522889F01ED0F3B5007BC49D /* view */,
 				529737431E47E84200C65464 /* Connection.swift */,
+				5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */,
+				52C448931ED675A3008C54BB /* EventFormViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -221,6 +331,7 @@
 		52DB7A071E47926400658171 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				5225F2371ED3A433001AB13A /* helper */,
 				522889EC1ED0F2A2007BC49D /* view */,
 				529737421E47E7DE00C65464 /* controllers */,
 				52DB7A081E47926400658171 /* model */,
@@ -328,9 +439,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				52DB79F91E478DB400658171 /* LaunchScreen.storyboard in Resources */,
+				5225F2481ED3AEF9001AB13A /* DynamicHeightCell.xib in Resources */,
 				522889EF1ED0F34A007BC49D /* MenuViewCell.xib in Resources */,
 				52DB79F61E478DB400658171 /* Assets.xcassets in Resources */,
+				5225F24A1ED3AEF9001AB13A /* ProfileFieldCell.xib in Resources */,
+				5225F2491ED3AEF9001AB13A /* LoginViewController.storyboard in Resources */,
 				52DB79F41E478DB400658171 /* Main.storyboard in Resources */,
+				5225F24C1ED3AEF9001AB13A /* ProfileLabelCell.xib in Resources */,
+				5225F2471ED3AEF9001AB13A /* ColorListCell.xib in Resources */,
+				5225F24B1ED3AEF9001AB13A /* ProfileImageCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,12 +520,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				5264C4691E47942800B8C0B5 /* User.swift in Sources */,
+				5225F22D1ED3A33B001AB13A /* ColorListCell.swift in Sources */,
 				5264C4641E47942800B8C0B5 /* Guest+CoreDataProperties.swift in Sources */,
+				5225F2361ED3A36D001AB13A /* Profile.swift in Sources */,
 				5264C45E1E47942800B8C0B5 /* Event+CoreDataProperties.swift in Sources */,
 				5264C4601E47942800B8C0B5 /* EventCategory+CoreDataProperties.swift in Sources */,
 				52DB7A041E4791F200658171 /* ViewController.swift in Sources */,
+				5225F2351ED3A36D001AB13A /* Login.swift in Sources */,
 				5264C4581E47942800B8C0B5 /* City+CoreDataProperties.swift in Sources */,
+				5225F23D1ED3A4CD001AB13A /* FormerInputAccessoryView.swift in Sources */,
 				5264C4611E47942800B8C0B5 /* EventType.swift in Sources */,
+				52C448941ED675A3008C54BB /* EventFormViewController.swift in Sources */,
 				5264C4681E47942800B8C0B5 /* State+CoreDataProperties.swift in Sources */,
 				5264C45C1E47942800B8C0B5 /* Country+CoreDataProperties.swift in Sources */,
 				5264C4621E47942800B8C0B5 /* EventType+CoreDataProperties.swift in Sources */,
@@ -416,15 +538,18 @@
 				522889E61ED0DB3D007BC49D /* MenuViewController.swift in Sources */,
 				5264C4591E47942800B8C0B5 /* Company.swift in Sources */,
 				5264C45B1E47942800B8C0B5 /* Country.swift in Sources */,
+				5225F22E1ED3A33B001AB13A /* DynamicHeightCell.swift in Sources */,
 				5264C4631E47942800B8C0B5 /* Guest.swift in Sources */,
 				5264C46C1E47942800B8C0B5 /* UserCompanyType+CoreDataProperties.swift in Sources */,
 				5264C4561E47942800B8C0B5 /* Admin+CoreDataProperties.swift in Sources */,
 				52DB79F11E478DB400658171 /* SecondViewController.swift in Sources */,
+				5225F1F01ED39BBD001AB13A /* CompanyFormViewController.swift in Sources */,
 				5264C46B1E47942800B8C0B5 /* UserCompanyType.swift in Sources */,
 				52DB79ED1E478DB400658171 /* AppDelegate.swift in Sources */,
 				5264C46A1E47942800B8C0B5 /* User+CoreDataProperties.swift in Sources */,
 				52DB7A031E4791F200658171 /* model_tcc_swift.xcdatamodeld in Sources */,
 				5264C4651E47942800B8C0B5 /* GuestType.swift in Sources */,
+				5225F22C1ED3A33B001AB13A /* CenterLabelCell.swift in Sources */,
 				5264C4571E47942800B8C0B5 /* City.swift in Sources */,
 				52DB79EF1E478DB400658171 /* HomeViewController.swift in Sources */,
 				5264C45D1E47942800B8C0B5 /* Event.swift in Sources */,
@@ -432,13 +557,18 @@
 				522889E91ED0DC84007BC49D /* DetailViewController.swift in Sources */,
 				529737461E4800ED00C65464 /* UserBean.swift in Sources */,
 				5264C46D1E47942800B8C0B5 /* UserType.swift in Sources */,
+				5225F2311ED3A33B001AB13A /* ProfileLabelCell.swift in Sources */,
+				5225F23B1ED3A433001AB13A /* UIColor.swift in Sources */,
+				5225F2301ED3A33B001AB13A /* ProfileImageCell.swift in Sources */,
 				522889F31ED0F62F007BC49D /* MenuViewCell.swift in Sources */,
 				529737441E47E84200C65464 /* Connection.swift in Sources */,
+				5225F22F1ED3A33B001AB13A /* ProfileFieldCell.swift in Sources */,
 				5264C46E1E47942800B8C0B5 /* UserType+CoreDataProperties.swift in Sources */,
 				522889EA1ED0DC84007BC49D /* MasterViewController.swift in Sources */,
 				5264C4661E47942800B8C0B5 /* GuestType+CoreDataProperties.swift in Sources */,
 				5264C45A1E47942800B8C0B5 /* Company+CoreDataProperties.swift in Sources */,
 				5264C4671E47942800B8C0B5 /* State.swift in Sources */,
+				5225F23A1ED3A433001AB13A /* String.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
