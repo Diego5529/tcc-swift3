@@ -12,7 +12,19 @@ class EventFormViewController : FormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureCompanyRows()
+        
+        addSaveButton()
+    }
+    
+    func addSaveButton(){
+        let addButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(insertNewObject(_:)))
+        self.navigationItem.rightBarButtonItem = addButton
+    }
+    
+    func insertNewObject(_ sender: Any) {
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -29,6 +41,19 @@ class EventFormViewController : FormViewController {
         
         let inputAccessoryView = FormerInputAccessoryView(former: former)
         
+        // Create RowFormers
+        let createMenu: ((String, (() -> Void)?) -> RowFormer) = { text, onSelected in
+            return LabelRowFormer<FormLabelCell>() {
+                $0.titleLabel.textColor = .formerColor()
+                $0.titleLabel.font = .boldSystemFont(ofSize: 16)
+                $0.accessoryType = .disclosureIndicator
+                }.configure {
+                    $0.text = text
+                }.onSelected { _ in
+                    onSelected?()
+            }
+        }
+        
         // Create Headers and Footers
         let createHeader: ((String) -> ViewFormer) = { text in
             return LabelViewFormer<FormLabelHeaderView>()
@@ -41,22 +66,82 @@ class EventFormViewController : FormViewController {
         //Create Rows
         
         //Title
-        let textFieldTitleCompany = TextFieldRowFormer<FormTextFieldCell>() {
+        let textFieldTitleEvent = TextFieldRowFormer<FormTextFieldCell>() {
             $0.titleLabel.text = "Title"
             }.configure {
-                $0.placeholder = "Ex: IFSP Ltda."
+                $0.placeholder = ""
             }.onTextChanged {
                 print($0)
         }
         
         //Description
         let textFieldDescription = TextFieldRowFormer<FormTextFieldCell>() {
-            $0.titleLabel.text = "Description"
+            $0.titleLabel.text = "Short Description"
             }.configure {
-                $0.placeholder = "Ex: Company description..."
+                $0.placeholder = ""
             }.onTextChanged {
                 print($0)
         }
+        
+        //Long Description
+        let textViewLongDescriptionRow = TextViewRowFormer<FormTextViewCell> {
+            $0.titleLabel.text = "Long Description"
+            }.configure {
+                $0.placeholder = ""
+            }.onTextChanged {
+                print($0)
+        }
+        
+        let newInviteRow = createMenu("New Invite") { [weak self] in
+            self?.navigationController?.pushViewController(InviteFormViewController(), animated: true)
+        }
+        
+        //City
+        let selectorCityPickerRow = SelectorPickerRowFormer<FormSelectorPickerCell, Any>() {
+            $0.titleLabel.text = "City"
+            }.configure {
+                $0.pickerItems = [SelectorPickerItem(
+                    title: "",
+                    displayTitle: NSAttributedString(string: "Not Set"),
+                    value: nil)]
+                    + (1...20).map { SelectorPickerItem(title: "City \($0)") }
+        }
+        
+        //Initial Date
+        let initialDateRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
+            $0.titleLabel.text = "Initial Date"
+            }.inlineCellSetup {
+                $0.datePicker.datePickerMode = .date
+            }.configure {
+                $0.displayEditingColor = .formerHighlightedSubColor()
+            }.displayTextFromDate(String.fullDate)
+        
+        //End Date
+        let endDateRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
+            $0.titleLabel.text = "End Date"
+            }.inlineCellSetup {
+                $0.datePicker.datePickerMode = .date
+            }.configure {
+                $0.displayEditingColor = .formerHighlightedSubColor()
+            }.displayTextFromDate(String.fullDate)
+        
+        //Initial Hour
+        let initialHourRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
+            $0.titleLabel.text = "Initial Hour"
+            }.inlineCellSetup {
+                $0.datePicker.datePickerMode = .time
+            }.configure {
+                $0.displayEditingColor = .formerHighlightedSubColor()
+            }.displayTextFromDate(String.fullTime)
+        
+        //End Hour
+        let endHourRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
+            $0.titleLabel.text = "End Hour"
+            }.inlineCellSetup {
+                $0.datePicker.datePickerMode = .time
+            }.configure {
+                $0.displayEditingColor = .formerHighlightedSubColor()
+            }.displayTextFromDate(String.fullTime)
         
         //Min User
         let stepperRowMinUser = StepperRowFormer<FormStepperCell>(){
@@ -81,11 +166,32 @@ class EventFormViewController : FormViewController {
             stepperRowMaxUser.update()
         }
         
-        // Create SectionFormers
-        let section0 = SectionFormer(rowFormer: textFieldTitleCompany, textFieldDescription, stepperRowMinUser, stepperRowMaxUser)
-            .set(headerViewFormer: createHeader("Company"))
+        //Archive
+        let archiveEventCheckRow = CheckRowFormer<FormCheckCell>() {
+            $0.titleLabel.text = "Archive Event"
+            $0.titleLabel.textColor = .formerColor()
+            $0.titleLabel.font = .boldSystemFont(ofSize: 16)
+            }.configure {
+                $0.checked = false
+        }
         
-        former.append(sectionFormer: section0
+        // Create SectionFormers
+        let section0 = SectionFormer(rowFormer: textFieldTitleEvent, textFieldDescription, textViewLongDescriptionRow)
+            .set(headerViewFormer: createHeader("Event"))
+        
+        let section1 = SectionFormer(rowFormer: initialDateRow, endDateRow, initialHourRow, endHourRow)
+            .set(headerViewFormer: createHeader("Date"))
+        
+        let section15 = SectionFormer(rowFormer: newInviteRow)
+            .set(headerViewFormer: createHeader("Invites"))
+        
+        let section2 = SectionFormer(rowFormer: selectorCityPickerRow)
+            .set(headerViewFormer: createHeader("Address"))
+        
+        let section3 = SectionFormer(rowFormer: archiveEventCheckRow)
+            .set(headerViewFormer: createHeader("Others"))
+        
+        former.append(sectionFormer: section0, section1, section15, section2, section3
             ).onCellSelected { _ in
                 inputAccessoryView.update()
         }
