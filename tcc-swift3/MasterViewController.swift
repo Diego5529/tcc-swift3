@@ -95,10 +95,8 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
         }
         
         // Create SectionFormers
-        let companiesSection = SectionFormer(rowFormer: newCompanyRow)
+        let companiesSection = SectionFormer(rowFormer: myCompaniesRow, newCompanyRow, myEventsRow)
             .set(headerViewFormer: createHeader("Companies"))
-        
-        companiesSection.add(rowFormers: [myCompaniesRow])
         
         let eventsSection = SectionFormer(rowFormer: newEventRow)
             .set(headerViewFormer: createHeader("Events"))

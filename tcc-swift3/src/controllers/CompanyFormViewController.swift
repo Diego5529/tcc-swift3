@@ -13,7 +13,19 @@ class CompanyFormViewController : FormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureCompanyRows()
+
+        addSaveButton()
+    }
+    
+    func addSaveButton(){
+        let addButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(insertNewObject(_:)))
+        self.navigationItem.rightBarButtonItem = addButton
+    }
+    
+    func insertNewObject(_ sender: Any) {
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
     override func viewDidAppear(_ animated: Bool) {

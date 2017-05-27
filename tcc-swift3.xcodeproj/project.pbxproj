@@ -31,6 +31,7 @@
 		522889EA1ED0DC84007BC49D /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522889E81ED0DC84007BC49D /* MasterViewController.swift */; };
 		522889EF1ED0F34A007BC49D /* MenuViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 522889EE1ED0F34A007BC49D /* MenuViewCell.xib */; };
 		522889F31ED0F62F007BC49D /* MenuViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522889F21ED0F62F007BC49D /* MenuViewCell.swift */; };
+		524E333B1ED930070035D443 /* InviteFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524E333A1ED930070035D443 /* InviteFormViewController.swift */; };
 		5264C4551E47942800B8C0B5 /* Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5264C43B1E47942800B8C0B5 /* Admin.swift */; };
 		5264C4561E47942800B8C0B5 /* Admin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5264C43C1E47942800B8C0B5 /* Admin+CoreDataProperties.swift */; };
 		5264C4571E47942800B8C0B5 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5264C43D1E47942800B8C0B5 /* City.swift */; };
@@ -97,6 +98,7 @@
 		522889E81ED0DC84007BC49D /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		522889EE1ED0F34A007BC49D /* MenuViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuViewCell.xib; path = view/cell/MenuViewCell.xib; sourceTree = "<group>"; };
 		522889F21ED0F62F007BC49D /* MenuViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewCell.swift; sourceTree = "<group>"; };
+		524E333A1ED930070035D443 /* InviteFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteFormViewController.swift; sourceTree = "<group>"; };
 		5264C43B1E47942800B8C0B5 /* Admin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Admin.swift; sourceTree = "<group>"; };
 		5264C43C1E47942800B8C0B5 /* Admin+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Admin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5264C43D1E47942800B8C0B5 /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				529737431E47E84200C65464 /* Connection.swift */,
 				5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */,
 				52C448931ED675A3008C54BB /* EventFormViewController.swift */,
+				524E333A1ED930070035D443 /* InviteFormViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -541,6 +544,7 @@
 				5225F22E1ED3A33B001AB13A /* DynamicHeightCell.swift in Sources */,
 				5264C4631E47942800B8C0B5 /* Guest.swift in Sources */,
 				5264C46C1E47942800B8C0B5 /* UserCompanyType+CoreDataProperties.swift in Sources */,
+				524E333B1ED930070035D443 /* InviteFormViewController.swift in Sources */,
 				5264C4561E47942800B8C0B5 /* Admin+CoreDataProperties.swift in Sources */,
 				52DB79F11E478DB400658171 /* SecondViewController.swift in Sources */,
 				5225F1F01ED39BBD001AB13A /* CompanyFormViewController.swift in Sources */,

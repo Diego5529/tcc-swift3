@@ -33,4 +33,11 @@ extension String {
         dateFormatter.dateStyle = .full
         return dateFormatter.string(from: date)
     }
+    
+    static func fullTime(time: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeStyle = .medium
+        dateFormatter.dateStyle = .none
+        return dateFormatter.string(from: time)
+    }
 }
