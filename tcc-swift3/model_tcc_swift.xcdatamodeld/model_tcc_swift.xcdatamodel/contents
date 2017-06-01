@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Xcode 8.0" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="City" representedClassName="City" syncable="YES">
-        <attribute name="city_id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="ddd" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state_id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="zip_code" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="belongs_to_state" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="State" inverseName="has_many_city" inverseEntity="State" syncable="YES"/>
         <relationship name="has_many_event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="belongs_to_city" inverseEntity="Event" syncable="YES"/>
     </entity>
-    <entity name="Company" representedClassName=".Company" syncable="YES">
-        <attribute name="company_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+    <entity name="Company" representedClassName="Company" syncable="YES">
+        <attribute name="company_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="long_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="max_users" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="min_users" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="short_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="has_many_event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="belongs_to_company" inverseEntity="Event" syncable="YES"/>
         <relationship name="has_many_user_company" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserCompanyType" inverseName="has_many_company" inverseEntity="UserCompanyType" syncable="YES"/>
     </entity>
     <entity name="Country" representedClassName="Country" syncable="YES">
-        <attribute name="country_id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="initials" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="has_many_state" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="State" inverseName="belongs_to_country" inverseEntity="State" syncable="YES"/>
@@ -38,12 +40,14 @@
         <attribute name="end_date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="end_hour" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="event_category_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="event_id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <attribute name="event_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="event_type_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="facebook_page" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <attribute name="initial_date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="initial_hour" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="local" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="long_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="max_users" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
@@ -65,33 +69,34 @@
         <relationship name="has_many_invitations" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Invitation" inverseName="belongs_to_event" inverseEntity="Invitation" syncable="YES"/>
     </entity>
     <entity name="EventCategory" representedClassName="EventCategory" syncable="YES">
-        <attribute name="event_category_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="long_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="short_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="has_many_events" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="belongs_to_event_category" inverseEntity="Event" syncable="YES"/>
     </entity>
     <entity name="EventType" representedClassName="EventType" syncable="YES">
-        <attribute name="event_type_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="long_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="short_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="has_many_events" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="belongs_to_event_type" inverseEntity="Event" syncable="YES"/>
     </entity>
-    <entity name="Invitation" representedClassName="Guest" syncable="YES">
+    <entity name="Invitation" representedClassName="Invitation" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="event_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="guest_user_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="host_user_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="invitation_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="invitation_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="invitation_type_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="updated_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="belongs_to_event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Event" inverseName="has_many_invitations" inverseEntity="Event" syncable="YES"/>
         <relationship name="belongs_to_invitation_type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="InvitationType" inverseName="has_many_invitations" inverseEntity="InvitationType" syncable="YES"/>
         <relationship name="belongs_to_user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="has_many_invitation" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="InvitationType" representedClassName="GuestType" syncable="YES">
-        <attribute name="invitation_type_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+    <entity name="InvitationType" representedClassName="InvitationType" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="long_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="short_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
@@ -99,13 +104,13 @@
     </entity>
     <entity name="State" representedClassName="State" syncable="YES">
         <attribute name="country_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="initials" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="state_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="belongs_to_country" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Country" inverseName="has_many_state" inverseEntity="Country" syncable="YES"/>
         <relationship name="has_many_city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="belongs_to_state" inverseEntity="City" syncable="YES"/>
     </entity>
-    <entity name="User" representedClassName="User" isAbstract="YES" syncable="YES">
+    <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="active" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="birth_date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -114,6 +119,7 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="encrypted_password" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="genre" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="last_sign_in_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="last_sign_in_ip" optional="YES" attributeType="String" syncable="YES"/>
@@ -128,7 +134,7 @@
         <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updated_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="user_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="has_many_invitation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Invitation" inverseName="belongs_to_user" inverseEntity="Invitation" syncable="YES"/>
         <relationship name="has_many_users_company_type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserCompanyType" inverseName="has_many_user" inverseEntity="UserCompanyType" syncable="YES"/>
         <fetchedProperty name="fetchedProperty1" optional="YES" syncable="YES">
@@ -138,11 +144,14 @@
             <fetchRequest name="fetchedPropertyFetchRequest" entity="User"/>
         </fetchedProperty>
     </entity>
-    <entity name="UserCompanyType" representedClassName=".UserCompanyType" syncable="YES">
+    <entity name="UserCompanyType" representedClassName="UserCompanyType" syncable="YES">
         <attribute name="active" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="admin" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="company_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="user_company_type_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="user_company_type_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="user_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="user_type_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="belongs_user_type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserType" inverseName="has_many_user_company_type" inverseEntity="UserType" syncable="YES"/>
@@ -150,25 +159,25 @@
         <relationship name="has_many_user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="has_many_users_company_type" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="UserType" representedClassName="UserType" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="long_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="short_description" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="user_type_id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="has_many_user_company_type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserCompanyType" inverseName="belongs_user_type" inverseEntity="UserCompanyType" syncable="YES"/>
     </entity>
     <fetchRequest name="UserByToken" entity="User" predicateString="token == &quot;%@&quot;"/>
     <elements>
         <element name="City" positionX="279" positionY="-213" width="128" height="150"/>
-        <element name="Company" positionX="-245" positionY="-594" width="128" height="180"/>
+        <element name="Company" positionX="-245" positionY="-594" width="128" height="210"/>
         <element name="Country" positionX="286" positionY="-522" width="128" height="105"/>
-        <element name="Event" positionX="-63" positionY="-594" width="128" height="585"/>
+        <element name="Event" positionX="-63" positionY="-594" width="128" height="615"/>
         <element name="EventCategory" positionX="117" positionY="-288" width="128" height="120"/>
         <element name="EventType" positionX="-261" positionY="-381" width="128" height="120"/>
-        <element name="Invitation" positionX="-423" positionY="-387" width="128" height="195"/>
+        <element name="Invitation" positionX="-423" positionY="-387" width="128" height="210"/>
         <element name="InvitationType" positionX="-416" positionY="-120" width="128" height="120"/>
         <element name="State" positionX="286" positionY="-387" width="128" height="135"/>
-        <element name="User" positionX="-612" positionY="-459" width="128" height="464"/>
-        <element name="UserCompanyType" positionX="-414" positionY="-594" width="128" height="180"/>
+        <element name="User" positionX="-612" positionY="-459" width="128" height="479"/>
+        <element name="UserCompanyType" positionX="-414" positionY="-594" width="128" height="225"/>
         <element name="UserType" positionX="-612" positionY="-594" width="128" height="120"/>
     </elements>
 </model>

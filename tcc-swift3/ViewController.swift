@@ -94,8 +94,8 @@ class ViewController: UIViewController  {
     @IBAction func signIn(_ sender: UIButton) {
         print("SignIn")
         
-        delegate.genericUser?.email = signInEmailTextField.text as NSString?
-        delegate.genericUser?.password = signInPasswordTextField.text as NSString?
+        delegate.genericUser?.email = signInEmailTextField.text as String?
+        delegate.genericUser?.password = signInPasswordTextField.text as String?
         
         let message = UserBean().validateLoginUser(userEmail: (delegate.genericUser?.email!)! as String, userPassword: ((delegate.genericUser?.password)!) as String)
         
@@ -119,13 +119,13 @@ class ViewController: UIViewController  {
     @IBAction func signUp(_ sender: UIButton) {
         print("SignUp")
         
-        delegate.genericUser?.name = signUpNameTextField.text as NSString?
-        delegate.genericUser?.email = signUpEmailTextField.text as NSString?
-        delegate.genericUser?.password = signUpPassTextField.text as NSString?
-        delegate.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as NSString?
+        delegate.genericUser?.name = signUpNameTextField.text as String?
+        delegate.genericUser?.email = signUpEmailTextField.text as String?
+        delegate.genericUser?.password = signUpPassTextField.text as String?
+        delegate.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as String?
         
         if currentStatus == ViewController.ksignUp {
-            let message = UserBean().validateCreateUser(userEmail: (delegate.genericUser?.email)! as String, userName: (delegate.genericUser?.name)! as String, userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation! as! String)
+            let message = UserBean().validateCreateUser(userEmail: (delegate.genericUser?.email)! as String, userName: (delegate.genericUser?.name)! as String, userPassword: (delegate.genericUser?.password)!, userConfirmationPassword: (delegate.genericUser?.password_confirmation)!)
             
             if (message.isEmpty){
                 delegate.connection?.viewController = self
@@ -135,7 +135,7 @@ class ViewController: UIViewController  {
                 self.showMessage(message: message, title: "", cancel: "")
             }
         }else{
-            let message = UserBean().validateUpdatePassword(userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: delegate.genericUser?.password_confirmation! as! String)
+            let message = UserBean().validateUpdatePassword(userPassword: (delegate.genericUser?.password)! as String, userConfirmationPassword: (delegate.genericUser?.password_confirmation!)!)
             
             if (message.isEmpty){
                 delegate.connection?.viewController = self
@@ -155,9 +155,9 @@ class ViewController: UIViewController  {
     @IBAction func resetPassword(_ sender: UIButton) {
         print("Reset Password")
         
-        delegate.genericUser?.email = resetPasswordEmailTextField.text as NSString?
+        delegate.genericUser?.email = resetPasswordEmailTextField.text
         
-        let message = UserBean().validateResetPassword(userEmail: delegate.genericUser?.email! as! String)
+        let message = UserBean().validateResetPassword(userEmail: (delegate.genericUser?.email)!)
         
         if (message.isEmpty){
             delegate.connection?.viewController = self

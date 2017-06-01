@@ -38,7 +38,7 @@ class Connection : NSObject {
         print("SignIn")
         
         if (delegate.reachability?.isReachable)!{
-            let vc = viewController as! ViewController
+            //let vc = viewController as! ViewController
             
             //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
@@ -141,7 +141,7 @@ class Connection : NSObject {
     //Create Account
     func signUp(){
         if (delegate.reachability?.isReachable)!{
-            let vc = viewController as! ViewController
+            //let vc = viewController as! ViewController
             
             //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
@@ -201,9 +201,8 @@ class Connection : NSObject {
                                                 Answers.logSignUp(withMethod: "API",
                                                                  success: true,
                                                                  customAttributes: [
-                                                                    "email": self.delegate.genericUser?.email! as! NSString,
-                                                                    "name": self.delegate.genericUser?.name! as! NSString
-                                                    ])
+                                                                    "email": self.delegate.genericUser?.email as Any,
+                                                                    "name": self.delegate.genericUser?.name as Any                                     ])
                                             }
                                             
                                             if ((self.viewController) != nil) {
@@ -256,7 +255,7 @@ class Connection : NSObject {
         print("Reset Password")
         
         if (delegate.reachability?.isReachable)!{
-            let vc = viewController as! ViewController
+            //let vc = viewController as! ViewController
             
             //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
@@ -358,7 +357,7 @@ class Connection : NSObject {
         print("UpdatePassword")
         
         if (delegate.reachability?.isReachable)!{
-            let vc = viewController as! ViewController
+            //let vc = viewController as! ViewController
             
             //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
@@ -454,7 +453,7 @@ class Connection : NSObject {
     
     func setValuesByJSON (jsonResult: NSDictionary, userObj: NSManagedObject){
         for (key, value) in jsonResult {
-            print("Property: \"\(key as! String)\" Value: \"\(value as! String)\" ")
+            print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             
             userObj.setValue(value, forKey:key as! String);
             self.delegate.genericUser?.setValue(value, forKey:key as! String);
@@ -552,7 +551,7 @@ class Connection : NSObject {
     
     //AlertView
     func showMessage(message: String, title: String, cancel: String){
-        let vc = viewController as! ViewController
+        //let vc = viewController as! ViewController
         //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)

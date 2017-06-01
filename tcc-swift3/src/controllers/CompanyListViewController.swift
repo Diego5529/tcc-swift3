@@ -1,18 +1,17 @@
 //
-//  MasterViewController.swift
-//  Split2
+//  CompanyListViewController.swift
+//  tcc-swift3
 //
-//  Created by Diego Oliveira on 19/03/17.
-//  Copyright © 2017 Diego Oliveira. All rights reserved.
+//  Created by Diego Oliveira on 28/05/17.
+//  Copyright © 2017 DO. All rights reserved.
 //
 
 import UIKit
 import CoreData
 import Former
 
-class MasterViewController: FormViewController, NSFetchedResultsControllerDelegate {
-
-    var detailViewController: DetailViewController? = nil
+class CompanyListViewController: FormViewController, NSFetchedResultsControllerDelegate {
+    
     var managedObjectContext: NSManagedObjectContext? = nil
     var delegate: AppDelegate!
     var context: NSManagedObjectContext!
@@ -20,6 +19,7 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         delegate = UIApplication.shared.delegate as! AppDelegate
         
         context = self.delegate.managedObjectContext
@@ -51,13 +51,13 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
     override func viewDidAppear(_ animated: Bool) {
         
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         //self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
         super.viewWillAppear(animated)
         former.deselect(animated: true)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -79,27 +79,8 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
         }
         
         //Companies
-        let myCompaniesRow = createMenu("My Companies") { [weak self] in
-            self?.navigationController?.pushViewController(CompanyListViewController(), animated: true)
-        }
-        
         let newCompanyRow = createMenu("New Company") { [weak self] in
             self?.navigationController?.pushViewController(CompanyFormViewController(), animated: true)
-        }
-        
-        //Events
-        let myEventsRow = createMenu("My Events") { [weak self] in
-            self?.navigationController?.pushViewController(CompanyFormViewController(), animated: true)
-        }
-        
-        //Profile
-        let editProfileRow = createMenu("Profile") { [weak self] in
-            self?.navigationController?.pushViewController(DetailViewController(), animated: true)
-        }
-        
-        let logOutRow = createMenu("Log Out") { [weak self] in
-            self?.delegate.connection?.viewController = self
-            self?.delegate.connection?.logoutUser()
         }
         
         // Create Headers and Footers
@@ -111,25 +92,26 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
             }
         }
         
-        let createFooter: ((String) -> ViewFormer) = { text in
-            return LabelViewFormer<FormLabelFooterView>()
-                .configure {
-                    $0.text = text
-                    $0.viewHeight = 100
+        // Create SectionFormers
+        let optionsSection = SectionFormer(rowFormer: newCompanyRow)
+            .set(headerViewFormer: createHeader("Options"))
+        
+        let arrayCompaniesRow = NSMutableArray()
+        
+        for company in companies {
+            let companyRow = createMenu(company.key as! String) { [weak self] in
+                let companyVC = CompanyFormViewController()
+                companyVC.companyClass = company.value as! CompanyBean
+                
+                self?.navigationController?.pushViewController(companyVC, animated: true)
             }
+            
+            arrayCompaniesRow.add(companyRow)
         }
         
-        // Create SectionFormers
-        let companiesSection = SectionFormer(rowFormer: myCompaniesRow, newCompanyRow)
-            .set(headerViewFormer: createHeader("Companies"))
+        let companiesSection = SectionFormer(rowFormers: arrayCompaniesRow as! [RowFormer])
+            .set(headerViewFormer: createHeader("My Companies"))
         
-        let eventsSection = SectionFormer(rowFormer: myEventsRow)
-            .set(headerViewFormer: createHeader("Events"))
-        
-        let profileSection = SectionFormer(rowFormer: editProfileRow, logOutRow)
-            .set(headerViewFormer: createHeader("Profile"))
-            .set(footerViewFormer: createFooter("IFSP"))
-        
-        former.append(sectionFormer: companiesSection, eventsSection, profileSection)
+        former.append(sectionFormer: optionsSection, companiesSection)
     }
 }

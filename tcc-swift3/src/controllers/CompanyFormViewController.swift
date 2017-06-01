@@ -8,11 +8,49 @@
 
 import UIKit
 import Former
+import CoreData
+import ReachabilitySwift
+import Crashlytics
 
 class CompanyFormViewController : FormViewController {
     
+    var delegate: AppDelegate!
+    var context: NSManagedObjectContext!
+    var companyObject: [NSManagedObject] = []
+    var companyClass: CompanyBean!
+    var events: NSMutableDictionary = [:]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        context = self.delegate.managedObjectContext
+        
+        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "Event")
+        
+        do {
+            let results = try self.context.fetch(select)
+            
+            if results.count > 0 {
+                print(results)
+                
+                for event in results {
+                    if let key = (event as AnyObject).value(forKey: "title") {
+                        let eventClass = EventBean().serializer(object: event as AnyObject)
+                        
+                        events .setValue(eventClass, forKey: key as! String)
+                        print(key)
+                    }
+                }
+            }
+        }catch{
+            
+        }
+        
+        if  companyClass == nil {
+            companyClass = CompanyBean.init()
+        }
         
         configureCompanyRows()
 
@@ -25,7 +63,60 @@ class CompanyFormViewController : FormViewController {
     }
     
     func insertNewObject(_ sender: Any) {
-        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        if self.companyClass?.created_at == nil {
+            companyClass?.created_at = NSDate.init()
+        }
+        
+        let message = companyClass?.validateCreateCompany(title: companyClass.title!, shortDescription: companyClass.short_description!, longDescription: companyClass.long_description!, minUsers: (companyClass?.min_users)!, maxUsers: (companyClass?.max_users)!, createdAt: companyClass!.created_at)
+        
+        if (message?.isEmpty)! {
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            
+            self.companyClass.id = CompanyBean().getMaxCompany(context: self.context)
+            
+            let companyObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Company", into: self.context)
+            
+            companyObj.setValue(companyClass.id, forKey: "id")
+            companyObj.setValue(companyClass.title, forKey: "title")
+            companyObj.setValue(companyClass.short_description, forKey: "short_description")
+            companyObj.setValue(companyClass.long_description, forKey: "long_description")
+            companyObj.setValue(companyClass.min_users, forKey: "min_users")
+            companyObj.setValue(companyClass.max_users, forKey: "max_users")
+            companyObj.setValue(companyClass.created_at, forKey: "created_at")
+            
+            let userCompanyTypeObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "UserCompanyType", into: self.context)
+            
+            let uct = UserCompanyTypeBean.init()
+            uct.id = UserCompanyTypeBean().getMaxUserCompanyType(context: self.context)
+            uct.user_id = 1
+            uct.company_id = companyClass.id
+            uct.user_type_id = 1
+            uct.admin = true
+            uct.active = true
+            
+            userCompanyTypeObj.setValue(uct.id, forKey: "id")
+            userCompanyTypeObj.setValue(uct.user_id, forKey: "user_id")
+            userCompanyTypeObj.setValue(uct.company_id, forKey: "company_id")
+            userCompanyTypeObj.setValue(uct.user_type_id, forKey: "user_type_id")
+            userCompanyTypeObj.setValue(uct.admin, forKey: "admin")
+            userCompanyTypeObj.setValue(uct.active, forKey: "active")
+            
+            do {
+                try self.context.save()
+                
+                print("save success!")
+                
+                OperationQueue.main.addOperation {
+                    
+                }
+            }catch{
+                print("Salvou")
+            }
+            
+        }else{
+            showMessage(message: message!, title: "Error", cancel: "")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -39,6 +130,19 @@ class CompanyFormViewController : FormViewController {
     func configureCompanyRows (){
         // Create RowFormers
         // CompanyRows
+        
+        // Create RowFormers
+        let createMenu: ((String, (() -> Void)?) -> RowFormer) = { text, onSelected in
+            return LabelRowFormer<FormLabelCell>() {
+                $0.titleLabel.textColor = .formerColor()
+                $0.titleLabel.font = .boldSystemFont(ofSize: 16)
+                $0.accessoryType = .disclosureIndicator
+                }.configure {
+                    $0.text = text
+                }.onSelected { _ in
+                    onSelected?()
+            }
+        }
         
         let inputAccessoryView = FormerInputAccessoryView(former: former)
         
@@ -56,49 +160,129 @@ class CompanyFormViewController : FormViewController {
         //Title
         let textFieldTitleCompany = TextFieldRowFormer<FormTextFieldCell>() {
             $0.titleLabel.text = "Title"
+            $0.textField.keyboardType = .alphabet
+            $0.titleLabel.textColor = .formerColor()
+            $0.titleLabel.font = .boldSystemFont(ofSize: 15)
             }.configure {
                 $0.placeholder = "Ex: IFSP Ltda."
             }.onTextChanged {
                 print($0)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.companyClass?.title = $0
+            }.onUpdate{
+                $0.text = self.companyClass.title
         }
         
         //Description
         let textFieldDescription = TextFieldRowFormer<FormTextFieldCell>() {
             $0.titleLabel.text = "Description"
+            $0.textField.keyboardType = .alphabet
+            $0.titleLabel.textColor = .formerColor()
+            $0.titleLabel.font = .boldSystemFont(ofSize: 15)
             }.configure {
-                $0.placeholder = "Ex: Company description..."
+                $0.placeholder = ""
             }.onTextChanged {
                 print($0)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.companyClass?.short_description = $0
+            }.onUpdate{
+                $0.text = self.companyClass.short_description
+        }
+        
+        //Long Description
+        let textFieldLongDescription = TextViewRowFormer<FormTextViewCell> {
+            $0.titleLabel.text = "Long Description"
+            $0.textView.keyboardType = .alphabet
+            $0.titleLabel.textColor = .formerColor()
+            $0.titleLabel.font = .boldSystemFont(ofSize: 15)
+            }.configure {
+                $0.placeholder = ""
+            }.onTextChanged {
+                print($0)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.companyClass?.long_description = $0
+            }.onUpdate{
+                $0.text = self.companyClass.long_description
         }
         
         //Min User
         let stepperRowMinUser = StepperRowFormer<FormStepperCell>(){
             $0.titleLabel.text = "Min User"
-            }.displayTextFromValue { "\(Int($0))" }
+            $0.titleLabel.textColor = .formerColor()
+            $0.titleLabel.font = .boldSystemFont(ofSize: 15)
+            }.displayTextFromValue { "\(Int($0))" }.onValueChanged {
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                print($0)
+            }.onUpdate{
+                $0.value = Double(self.companyClass.min_users)
+        }
         
         //Max User
         let stepperRowMaxUser = StepperRowFormer<FormStepperCell>(){
             $0.titleLabel.text = "Max User"
+            $0.titleLabel.textColor = .formerColor()
+            $0.titleLabel.font = .boldSystemFont(ofSize: 15)
+            $0.stepper.value = Double(self.companyClass.max_users)
             }.displayTextFromValue { "\(Int($0))" }.onValueChanged {
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                
                 print($0)
+                 self.companyClass?.max_users = Int16($0)
+                
                 if stepperRowMinUser.value >= $0 {
                     stepperRowMinUser.value = $0
                     stepperRowMinUser.update()
                 }
+            }.onUpdate{
+                $0.value = Double(self.companyClass.max_users)
         }
         
         //Min User Value Changed
         stepperRowMinUser.onValueChanged {
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+            
             print($0)
+            
+            self.companyClass?.min_users = Int16($0)
+            
             stepperRowMaxUser.value = $0
             stepperRowMaxUser.update()
         }
         
         // Create SectionFormers
-        let section0 = SectionFormer(rowFormer: textFieldTitleCompany, textFieldDescription, stepperRowMinUser, stepperRowMaxUser)
+        let arrayEventsRow = NSMutableArray()
+        
+        if self.companyClass.id > 0 {
+            //Events
+            let newEventRow = createMenu("New Event") { [weak self] in
+                let eventVC = EventFormViewController()
+                eventVC.companyEvent = self?.companyClass
+                
+                self?.navigationController?.pushViewController(eventVC, animated: true)
+            }
+            
+            arrayEventsRow.add(newEventRow)
+        }
+        
+        for event in events {
+            let eventRow = createMenu(event.key as! String) { [weak self] in
+                let eventVC = EventFormViewController()
+                eventVC.eventClass = event.value as! EventBean
+                
+                self?.navigationController?.pushViewController(eventVC, animated: true)
+            }
+            
+            arrayEventsRow.add(eventRow)
+        }
+        
+        let eventsSection = SectionFormer(rowFormers: arrayEventsRow as! [RowFormer])
+            .set(headerViewFormer: createHeader("Events"))
+        
+        // Create SectionFormers
+        let section0 = SectionFormer(rowFormer: textFieldTitleCompany, textFieldDescription, textFieldLongDescription, stepperRowMinUser, stepperRowMaxUser)
             .set(headerViewFormer: createHeader("Company"))
         
-        former.append(sectionFormer: section0
+        former.append(sectionFormer: section0, eventsSection
             ).onCellSelected { _ in
                 inputAccessoryView.update()
         }
@@ -180,6 +364,31 @@ class CompanyFormViewController : FormViewController {
                 self?.present(sheet, animated: true, completion: nil)
                 self?.former.deselect(animated: true)
             }
+        }
+    }
+    
+    //AlertView
+    func showMessage(message: String, title: String, cancel: String){
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        if cancel.characters.count > 0 {
+            let DestructiveAction = UIAlertAction(title: cancel, style: UIAlertActionStyle.destructive) {
+                (result : UIAlertAction) -> Void in
+                print("Destructive")
+            }
+            
+            alertController.addAction(DestructiveAction)
+        }
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            (result : UIAlertAction) -> Void in
+            
+        }
+        
+        alertController.addAction(okAction)
+        OperationQueue.main.addOperation {
+            self.present(alertController, animated: false, completion: nil)
         }
     }
 }

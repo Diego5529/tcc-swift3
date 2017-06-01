@@ -7,11 +7,26 @@
 //
 
 import Former
+import CoreData
 
 class EventFormViewController : FormViewController {
     
+    var delegate: AppDelegate!
+    var context: NSManagedObjectContext!
+    var companyEvent: CompanyBean!
+    var eventClass: EventBean!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        context = self.delegate.managedObjectContext
+        
+        if  eventClass == nil {
+            eventClass = EventBean.init()
+            eventClass.company_id = companyEvent.id
+        }
         
         configureCompanyRows()
         
@@ -24,7 +39,48 @@ class EventFormViewController : FormViewController {
     }
     
     func insertNewObject(_ sender: Any) {
-        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        if self.eventClass?.created_at == nil {
+            eventClass?.created_at = NSDate.init()
+        }
+        
+        let message = eventClass?.validateCreateEvent(title: eventClass.title!, shortDescription: eventClass.short_description!, longDescription: eventClass.long_description!, minUsers: (eventClass?.min_users)!, maxUsers: (eventClass?.max_users)!, createdAt: eventClass!.created_at)
+        
+        if (message?.isEmpty)! {
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            
+            let eventObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Event", into: self.context)
+            
+            eventObj.setValue(eventClass.title, forKey: "title")
+            eventObj.setValue(eventClass.short_description, forKey: "short_description")
+            eventObj.setValue(eventClass.long_description, forKey: "long_description")
+            eventObj.setValue(eventClass.min_users, forKey: "min_users")
+            eventObj.setValue(eventClass.max_users, forKey: "max_users")
+            eventObj.setValue(eventClass.created_at, forKey: "created_at")
+            eventObj.setValue(eventClass.initial_date, forKey: "initial_date")
+            eventObj.setValue(eventClass.end_date, forKey: "end_date")
+            eventObj.setValue(eventClass.initial_hour, forKey: "initial_hour")
+            eventObj.setValue(eventClass.end_hour, forKey: "end_hour")
+            eventObj.setValue(eventClass.city_id, forKey: "city_id")
+            eventObj.setValue(eventClass.company_id, forKey: "company_id")
+            eventObj.setValue(eventClass.archive, forKey: "archive")
+            eventObj.setValue(eventClass.status, forKey: "status")
+            
+            do {
+                try self.context.save()
+                
+                print("save success!")
+                
+                OperationQueue.main.addOperation {
+                    
+                }
+            }catch{
+                print("Salvou")
+            }
+            
+        }else{
+            showMessage(message: message!, title: "Error", cancel: "")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,19 +124,29 @@ class EventFormViewController : FormViewController {
         //Title
         let textFieldTitleEvent = TextFieldRowFormer<FormTextFieldCell>() {
             $0.titleLabel.text = "Title"
+            $0.textField.keyboardType = .alphabet
             }.configure {
                 $0.placeholder = ""
             }.onTextChanged {
                 print($0)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.eventClass?.title = $0
+            }.onUpdate{
+                $0.text = self.eventClass.title
         }
         
         //Description
         let textFieldDescription = TextFieldRowFormer<FormTextFieldCell>() {
             $0.titleLabel.text = "Short Description"
+            $0.textField.keyboardType = .alphabet
             }.configure {
                 $0.placeholder = ""
             }.onTextChanged {
                 print($0)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.eventClass?.short_description = $0
+            }.onUpdate {
+                $0.text = self.eventClass.short_description
         }
         
         //Long Description
@@ -90,10 +156,17 @@ class EventFormViewController : FormViewController {
                 $0.placeholder = ""
             }.onTextChanged {
                 print($0)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.eventClass?.long_description = $0
+            }.onUpdate {
+                $0.text = self.eventClass.long_description
         }
         
         let newInviteRow = createMenu("New Invite") { [weak self] in
-            self?.navigationController?.pushViewController(InviteFormViewController(), animated: true)
+            let inviteFormVC = InviteFormViewController()
+            inviteFormVC.eventClass = self?.eventClass
+            
+            self?.navigationController?.pushViewController(inviteFormVC, animated: true)
         }
         
         //City
@@ -105,6 +178,9 @@ class EventFormViewController : FormViewController {
                     displayTitle: NSAttributedString(string: "Not Set"),
                     value: nil)]
                     + (1...20).map { SelectorPickerItem(title: "City \($0)") }
+            }.onValueChanged {
+                print($0)
+//                print($0.displayTitle!,$0.value!  , $0.title)
         }
         
         //Initial Date
@@ -114,8 +190,13 @@ class EventFormViewController : FormViewController {
                 $0.datePicker.datePickerMode = .date
             }.configure {
                 $0.displayEditingColor = .formerHighlightedSubColor()
-            }.displayTextFromDate(String.fullDate)
-        
+            }.displayTextFromDate(String.fullDate).onDateChanged {
+                print($0)
+                self.eventClass.initial_date = $0 as NSDate
+            }.onUpdate {
+                $0.date = self.eventClass.initial_date as Date
+        }
+    
         //End Date
         let endDateRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
             $0.titleLabel.text = "End Date"
@@ -123,7 +204,12 @@ class EventFormViewController : FormViewController {
                 $0.datePicker.datePickerMode = .date
             }.configure {
                 $0.displayEditingColor = .formerHighlightedSubColor()
-            }.displayTextFromDate(String.fullDate)
+            }.displayTextFromDate(String.fullDate).onDateChanged {
+                print($0)
+                self.eventClass.end_date = $0 as NSDate
+            }.onUpdate {
+                $0.date = self.eventClass.end_date as Date
+        }
         
         //Initial Hour
         let initialHourRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
@@ -132,7 +218,12 @@ class EventFormViewController : FormViewController {
                 $0.datePicker.datePickerMode = .time
             }.configure {
                 $0.displayEditingColor = .formerHighlightedSubColor()
-            }.displayTextFromDate(String.fullTime)
+            }.displayTextFromDate(String.fullTime).onDateChanged {
+                print($0)
+                self.eventClass.initial_hour = $0 as NSDate
+            }.onUpdate {
+                $0.date = self.eventClass.initial_hour as Date
+        }
         
         //End Hour
         let endHourRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {
@@ -141,27 +232,49 @@ class EventFormViewController : FormViewController {
                 $0.datePicker.datePickerMode = .time
             }.configure {
                 $0.displayEditingColor = .formerHighlightedSubColor()
-            }.displayTextFromDate(String.fullTime)
+            }.displayTextFromDate(String.fullTime).onDateChanged {
+                print($0)
+                self.eventClass.end_hour = $0 as NSDate
+            }.onUpdate {
+                $0.date = self.eventClass.end_hour as Date
+        }
         
         //Min User
         let stepperRowMinUser = StepperRowFormer<FormStepperCell>(){
             $0.titleLabel.text = "Min User"
-            }.displayTextFromValue { "\(Int($0))" }
+            }.displayTextFromValue { "\(Int($0))" }.onValueChanged {
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                print($0)
+            }.onUpdate{
+                $0.value = Double(self.eventClass.min_users)
+        }
         
         //Max User
         let stepperRowMaxUser = StepperRowFormer<FormStepperCell>(){
             $0.titleLabel.text = "Max User"
+            $0.stepper.value = Double(self.eventClass.max_users)
             }.displayTextFromValue { "\(Int($0))" }.onValueChanged {
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                
                 print($0)
+                self.eventClass?.max_users = Int16($0)
+                
                 if stepperRowMinUser.value >= $0 {
                     stepperRowMinUser.value = $0
                     stepperRowMinUser.update()
                 }
+            }.onUpdate{
+                $0.value = Double(self.eventClass.max_users)
         }
         
         //Min User Value Changed
         stepperRowMinUser.onValueChanged {
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+            
             print($0)
+            
+            self.eventClass?.min_users = Int16($0)
+            
             stepperRowMaxUser.value = $0
             stepperRowMaxUser.update()
         }
@@ -173,6 +286,10 @@ class EventFormViewController : FormViewController {
             $0.titleLabel.font = .boldSystemFont(ofSize: 16)
             }.configure {
                 $0.checked = false
+            }.onCheckChanged{
+                self.eventClass.archive = $0
+            }.onUpdate {
+                $0.checked = self.eventClass.archive
         }
         
         // Create SectionFormers
@@ -273,6 +390,32 @@ class EventFormViewController : FormViewController {
                 self?.present(sheet, animated: true, completion: nil)
                 self?.former.deselect(animated: true)
             }
+        }
+    }
+
+    
+    //AlertView
+    func showMessage(message: String, title: String, cancel: String){
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        if cancel.characters.count > 0 {
+            let DestructiveAction = UIAlertAction(title: cancel, style: UIAlertActionStyle.destructive) {
+                (result : UIAlertAction) -> Void in
+                print("Destructive")
+            }
+            
+            alertController.addAction(DestructiveAction)
+        }
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            (result : UIAlertAction) -> Void in
+            
+        }
+        
+        alertController.addAction(okAction)
+        OperationQueue.main.addOperation {
+            self.present(alertController, animated: false, completion: nil)
         }
     }
 }

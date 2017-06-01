@@ -8,11 +8,29 @@
 
 import UIKit
 import Former
+import CoreData
 
 class InviteFormViewController : FormViewController {
     
+    var delegate: AppDelegate!
+    var context: NSManagedObjectContext!
+    var companyEvent: CompanyBean!
+    var eventClass: EventBean!
+    var invitationClass: InvitationBean!
+    var userClass: UserBean!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        context = self.delegate.managedObjectContext
+        
+        if  invitationClass == nil {
+            invitationClass = InvitationBean.init()
+            invitationClass.event_id = eventClass.event_id
+            invitationClass.host_user_id = (delegate.genericUser?.user_id)!
+        }
         
         configureInviteRows()
         
@@ -25,7 +43,54 @@ class InviteFormViewController : FormViewController {
     }
     
     func insertNewObject(_ sender: Any) {
-        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        if self.invitationClass?.created_at == nil {
+            invitationClass?.created_at = NSDate.init()
+        }
+        
+        let message = invitationClass?.validateCreateInvitation(title: eventClass.title!, shortDescription: eventClass.short_description!, longDescription: eventClass.long_description!, minUsers: (eventClass?.min_users)!, maxUsers: (eventClass?.max_users)!, createdAt: eventClass!.created_at)
+        
+        if (message?.isEmpty)! {
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            
+            let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+            
+            let idMaxUser = UserBean.getMaxUser(context: self.context)
+            
+            userObj.setValue(invitationClass.email, forKey: "email")
+            userObj.setValue(idMaxUser, forKey: "user_id")
+            
+            let idMaxInvitation = InvitationBean.getMaxInvitation(context: self.context)
+            invitationClass.event_id = eventClass.event_id
+            invitationClass.host_user_id = (delegate.genericUser?.user_id)!
+            invitationClass.guest_user_id = idMaxInvitation
+            invitationClass.updated_at = NSDate.init()
+            
+            let invitationObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Invitation", into: self.context)
+            
+            invitationObj.setValue(invitationClass.id, forKey: "id")
+            invitationObj.setValue(invitationClass.invitation_id, forKey: "invitation_id")
+            invitationObj.setValue(invitationClass.invitation_type_id, forKey: "invitation_type_id")
+            invitationObj.setValue(invitationClass.event_id, forKey: "event_id")
+            invitationObj.setValue(invitationClass.host_user_id, forKey: "host_user_id")
+            invitationObj.setValue(invitationClass.guest_user_id, forKey: "guest_user_id")
+            invitationObj.setValue(invitationClass.created_at, forKey: "created_at")
+            invitationObj.setValue(invitationClass.updated_at, forKey: "updated_at")
+            
+            do {
+                try self.context.save()
+                
+                print("save success!")
+                
+                OperationQueue.main.addOperation {
+                    
+                }
+            }catch{
+                print("Salvou")
+            }
+            
+        }else{
+            showMessage(message: message!, title: "Error", cancel: "")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -56,10 +121,15 @@ class InviteFormViewController : FormViewController {
         //User
         let textFieldUserEvent = TextFieldRowFormer<FormTextFieldCell>() {
             $0.titleLabel.text = "User"
+            $0.textField.keyboardType = .emailAddress
             }.configure {
-                $0.placeholder = "Email or Number Phone"
+                $0.placeholder = "Email"
             }.onTextChanged {
                 print($0)
+                self.navigationItem.rightBarButtonItem?.isEnabled = true
+                self.invitationClass?.email = $0
+            }.onUpdate{
+                $0.text = self.invitationClass.email
         }
         
         //Invitation Type
@@ -159,6 +229,31 @@ class InviteFormViewController : FormViewController {
                 self?.present(sheet, animated: true, completion: nil)
                 self?.former.deselect(animated: true)
             }
+        }
+    }
+    
+    //AlertView
+    func showMessage(message: String, title: String, cancel: String){
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        
+        if cancel.characters.count > 0 {
+            let DestructiveAction = UIAlertAction(title: cancel, style: UIAlertActionStyle.destructive) {
+                (result : UIAlertAction) -> Void in
+                print("Destructive")
+            }
+            
+            alertController.addAction(DestructiveAction)
+        }
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            (result : UIAlertAction) -> Void in
+            
+        }
+        
+        alertController.addAction(okAction)
+        OperationQueue.main.addOperation {
+            self.present(alertController, animated: false, completion: nil)
         }
     }
 }

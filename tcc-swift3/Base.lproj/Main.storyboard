@@ -92,7 +92,8 @@
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController storyboardIdentifier="tabBarControllerScene1" id="49e-Tb-3d3" sceneMemberID="viewController">
+                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="1d2-aY-U4J"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -100,7 +101,6 @@
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
-                        <segue destination="spi-pL-EDb" kind="relationship" relationship="viewControllers" id="SU4-vi-dQg"/>
                         <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                     </connections>
@@ -357,17 +357,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t9I-ZC-uAd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2001" y="-940"/>
+            <point key="canvasLocation" x="1793" y="-629"/>
         </scene>
         <!--Menu-->
         <scene sceneID="Mih-gF-TtP">
             <objects>
-                <splitViewController id="spi-pL-EDb" sceneMemberID="viewController">
+                <splitViewController storyboardIdentifier="tabBarControllerScene1" id="spi-pL-EDb" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Menu" id="EfY-iI-6yD"/>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="FZA-Pn-Wew"/>
                     <connections>
                         <segue destination="L0n-bO-1Gd" kind="relationship" relationship="masterViewController" id="PAN-Rd-9a8"/>
-                        <segue destination="xMx-qz-Q8s" kind="relationship" relationship="detailViewController" id="ge2-ek-4e5"/>
+                        <segue destination="xMx-qz-Q8s" kind="relationship" relationship="detailViewController" id="ucp-4I-h2d"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tda-Ja-OLt" sceneMemberID="firstResponder"/>
@@ -378,10 +379,10 @@
         <scene sceneID="wpu-jj-8e0">
             <objects>
                 <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="zgi-fo-czY" customClass="MasterViewController" customModule="tcc_swift3" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Master" id="vkg-gb-a7c">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="aVX-lU-la8">
+                    <navigationItem key="navigationItem" title="Menu" id="vkg-gb-a7c">
+                        <barButtonItem key="rightBarButtonItem" title="=" id="aVX-lU-la8">
                             <connections>
-                                <segue destination="9pv-A4-QxB" kind="show" id="ad1-Ld-ORU"/>
+                                <segue destination="xMx-qz-Q8s" kind="showDetail" id="8yk-bF-eB0"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -399,12 +400,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="gOD-kR-pIQ" kind="relationship" relationship="rootViewController" id="NJ4-Vz-2Sc"/>
+                        <segue destination="49e-Tb-3d3" kind="relationship" relationship="rootViewController" id="o1Y-Zc-eAu"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vQ-Qm-6sF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="638" y="-940"/>
+            <point key="canvasLocation" x="-399" y="-894"/>
         </scene>
     </scenes>
     <resources>
@@ -412,6 +413,6 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ad1-Ld-ORU"/>
+        <segue reference="8yk-bF-eB0"/>
     </inferredMetricsTieBreakers>
 </document>

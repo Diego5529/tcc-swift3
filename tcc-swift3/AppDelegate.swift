@@ -124,9 +124,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
 
         let token = url.absoluteString as String
         let array = token .components(separatedBy: "=")
-        self.genericUser?.token = array .last as NSString?
+        self.genericUser?.token = array.last
 
-        if (self.genericUser?.token?.length)! > 0 {
+        if (self.genericUser?.token?.isEmpty)! {
             if self.connection?.viewController is ViewController {
                 let vc = self.connection?.viewController as! ViewController
 
