@@ -20,6 +20,8 @@ extension State {
     @NSManaged public var id: NSNumber?
     @NSManaged public var initials: String?
     @NSManaged public var name: String?
+    @NSManaged public var created_at: NSDate?
+    @NSManaged public var updated_at: NSDate?
     @NSManaged public var belongs_to_country: Country?
     @NSManaged public var has_many_city: City?
 

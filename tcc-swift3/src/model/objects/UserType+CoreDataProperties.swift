@@ -20,6 +20,8 @@ extension UserType {
     @NSManaged public var long_description: String?
     @NSManaged public var short_description: String?
     @NSManaged public var title: String?
+    @NSManaged public var created_at: NSDate?
+    @NSManaged public var updated_at: NSDate?
     @NSManaged public var has_many_user_company_type: UserCompanyType?
 
 }

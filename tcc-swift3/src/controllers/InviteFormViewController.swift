@@ -22,6 +22,10 @@ class InviteFormViewController : FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if eventClass == nil {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
         delegate = UIApplication.shared.delegate as! AppDelegate
         
         context = self.delegate.managedObjectContext
@@ -47,50 +51,60 @@ class InviteFormViewController : FormViewController {
             invitationClass?.created_at = NSDate.init()
         }
         
-        let message = invitationClass?.validateCreateInvitation(title: eventClass.title!, shortDescription: eventClass.short_description!, longDescription: eventClass.long_description!, minUsers: (eventClass?.min_users)!, maxUsers: (eventClass?.max_users)!, createdAt: eventClass!.created_at)
-        
-        if (message?.isEmpty)! {
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
+        DispatchQueue.global(qos: .default).async(execute: {() -> Void in
+            //
+            var idMaxUser = 0
             
-            let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+            let userBean = UserBean.getUserByEmail(context: self.context, email: self.invitationClass.email)
             
-            let idMaxUser = UserBean.getMaxUser(context: self.context)
-            
-            userObj.setValue(invitationClass.email, forKey: "email")
-            userObj.setValue(idMaxUser, forKey: "user_id")
-            
-            let idMaxInvitation = InvitationBean.getMaxInvitation(context: self.context)
-            invitationClass.event_id = eventClass.event_id
-            invitationClass.host_user_id = (delegate.genericUser?.user_id)!
-            invitationClass.guest_user_id = idMaxInvitation
-            invitationClass.updated_at = NSDate.init()
-            
-            let invitationObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Invitation", into: self.context)
-            
-            invitationObj.setValue(invitationClass.id, forKey: "id")
-            invitationObj.setValue(invitationClass.invitation_id, forKey: "invitation_id")
-            invitationObj.setValue(invitationClass.invitation_type_id, forKey: "invitation_type_id")
-            invitationObj.setValue(invitationClass.event_id, forKey: "event_id")
-            invitationObj.setValue(invitationClass.host_user_id, forKey: "host_user_id")
-            invitationObj.setValue(invitationClass.guest_user_id, forKey: "guest_user_id")
-            invitationObj.setValue(invitationClass.created_at, forKey: "created_at")
-            invitationObj.setValue(invitationClass.updated_at, forKey: "updated_at")
-            
-            do {
-                try self.context.save()
-                
-                print("save success!")
-                
-                OperationQueue.main.addOperation {
-                    
-                }
-            }catch{
-                print("Salvou")
+            if (userBean.id == 0) {
+                let sync = Sync.init()
+                sync.getUserEmailOrID(user: userBean, email: self.invitationClass.email, id: self.invitationClass.id)
             }
             
-        }else{
-            showMessage(message: message!, title: "Error", cancel: "")
-        }
+            DispatchQueue.main.async(execute: {() -> Void in
+                //
+                if userBean.id > 0 {
+                    self.invitationClass.guest_user_id = userBean.id
+                }else{
+                    let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                    
+                    idMaxUser = Int(UserBean.getMaxUser(context: self.context))
+                    
+                    userObj.setValue(self.invitationClass.email, forKey: "email")
+                    userObj.setValue(idMaxUser, forKey: "user_id")
+                    self.invitationClass.guest_user_id = Int16(idMaxUser)
+                }
+                
+                let message = self.invitationClass?.validateCreateInvitation()
+                
+                if (message?.isEmpty)! {
+                    self.navigationItem.rightBarButtonItem?.isEnabled = false
+                    
+                    let idMaxInvitation = InvitationBean.getMaxInvitation(context: self.context)
+                    self.invitationClass.invitation_id = idMaxInvitation
+                    self.invitationClass.event_id = self.eventClass.event_id
+                    self.invitationClass.host_user_id = (self.delegate.genericUser?.id)!
+                    self.invitationClass.updated_at = NSDate.init()
+
+                    do {
+                        InvitationBean.saveInvitation(context: self.context, invitation: self.invitationClass)
+                        
+                        try self.context.save()
+                        
+                        print("save success!")
+                        
+                        OperationQueue.main.addOperation {
+                            
+                        }
+                    }catch{
+                        print("Salvou")
+                    }
+                }else{
+                    self.showMessage(message: message!, title: "Error", cancel: "")
+                }
+            })
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -127,9 +141,9 @@ class InviteFormViewController : FormViewController {
             }.onTextChanged {
                 print($0)
                 self.navigationItem.rightBarButtonItem?.isEnabled = true
-                self.invitationClass?.email = $0
+                self.invitationClass?.email = $0.lowercased()
             }.onUpdate{
-                $0.text = self.invitationClass.email
+                $0.text = self.invitationClass.email.lowercased()
         }
         
         //Invitation Type

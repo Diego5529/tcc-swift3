@@ -55,6 +55,10 @@ class CompanyFormViewController : FormViewController {
         configureCompanyRows()
 
         addSaveButton()
+        
+        if companyClass.company_id > 0 {
+            Sync().sendCompany(company: companyClass, method: companyClass.id > 0 ? "update" : "create")
+        }
     }
     
     func addSaveButton(){
@@ -73,43 +77,28 @@ class CompanyFormViewController : FormViewController {
         if (message?.isEmpty)! {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             
-            self.companyClass.id = CompanyBean().getMaxCompany(context: self.context)
+            if !(self.companyClass.company_id > 0) {
+                self.companyClass.company_id = CompanyBean().getMaxCompany(context: self.context)
+            }
             
-            let companyObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Company", into: self.context)
-            
-            companyObj.setValue(companyClass.id, forKey: "id")
-            companyObj.setValue(companyClass.title, forKey: "title")
-            companyObj.setValue(companyClass.short_description, forKey: "short_description")
-            companyObj.setValue(companyClass.long_description, forKey: "long_description")
-            companyObj.setValue(companyClass.min_users, forKey: "min_users")
-            companyObj.setValue(companyClass.max_users, forKey: "max_users")
-            companyObj.setValue(companyClass.created_at, forKey: "created_at")
-            
-            let userCompanyTypeObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "UserCompanyType", into: self.context)
-            
+            CompanyBean.saveCompany(context: context, company: self.companyClass)
+
             let uct = UserCompanyTypeBean.init()
-            uct.id = UserCompanyTypeBean().getMaxUserCompanyType(context: self.context)
+            uct.user_company_type_id = UserCompanyTypeBean().getMaxUserCompanyType(context: self.context)
             uct.user_id = 1
             uct.company_id = companyClass.id
             uct.user_type_id = 1
             uct.admin = true
             uct.active = true
             
-            userCompanyTypeObj.setValue(uct.id, forKey: "id")
-            userCompanyTypeObj.setValue(uct.user_id, forKey: "user_id")
-            userCompanyTypeObj.setValue(uct.company_id, forKey: "company_id")
-            userCompanyTypeObj.setValue(uct.user_type_id, forKey: "user_type_id")
-            userCompanyTypeObj.setValue(uct.admin, forKey: "admin")
-            userCompanyTypeObj.setValue(uct.active, forKey: "active")
+            UserCompanyTypeBean.saveUserCompanyType(context: context, userCompanyType: uct)
             
             do {
                 try self.context.save()
                 
                 print("save success!")
                 
-                OperationQueue.main.addOperation {
-                    
-                }
+                self.former.reload()
             }catch{
                 print("Salvou")
             }
@@ -252,7 +241,7 @@ class CompanyFormViewController : FormViewController {
         // Create SectionFormers
         let arrayEventsRow = NSMutableArray()
         
-        if self.companyClass.id > 0 {
+        if self.companyClass.company_id > 0 {
             //Events
             let newEventRow = createMenu("New Event") { [weak self] in
                 let eventVC = EventFormViewController()

@@ -49,7 +49,7 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        Sync.syncTables(context: context)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -84,7 +84,7 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
         }
         
         let newCompanyRow = createMenu("New Company") { [weak self] in
-            self?.navigationController?.pushViewController(CompanyFormViewController(), animated: true)
+            self?.navigationController?.pushViewController(InviteFormViewController(), animated: true)
         }
         
         //Events

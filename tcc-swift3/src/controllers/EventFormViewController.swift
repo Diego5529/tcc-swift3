@@ -15,6 +15,7 @@ class EventFormViewController : FormViewController {
     var context: NSManagedObjectContext!
     var companyEvent: CompanyBean!
     var eventClass: EventBean!
+    var invitations: NSMutableDictionary = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +26,7 @@ class EventFormViewController : FormViewController {
         
         if  eventClass == nil {
             eventClass = EventBean.init()
-            eventClass.company_id = companyEvent.id
+            eventClass.company_id = companyEvent.company_id
         }
         
         configureCompanyRows()
@@ -49,8 +50,11 @@ class EventFormViewController : FormViewController {
         if (message?.isEmpty)! {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             
+            self.eventClass.event_id = EventBean().getMaxEvent(context: self.context)
+            
             let eventObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Event", into: self.context)
             
+            eventObj.setValue(self.eventClass.event_id, forKey: "event_id")
             eventObj.setValue(eventClass.title, forKey: "title")
             eventObj.setValue(eventClass.short_description, forKey: "short_description")
             eventObj.setValue(eventClass.long_description, forKey: "long_description")
@@ -71,13 +75,10 @@ class EventFormViewController : FormViewController {
                 
                 print("save success!")
                 
-                OperationQueue.main.addOperation {
-                    
-                }
+                self.former.reload()
             }catch{
                 print("Salvou")
             }
-            
         }else{
             showMessage(message: message!, title: "Error", cancel: "")
         }
@@ -162,12 +163,34 @@ class EventFormViewController : FormViewController {
                 $0.text = self.eventClass.long_description
         }
         
-        let newInviteRow = createMenu("New Invite") { [weak self] in
-            let inviteFormVC = InviteFormViewController()
-            inviteFormVC.eventClass = self?.eventClass
+        // Create SectionFormers
+        let arrayInvitesRow = NSMutableArray()
+        
+        if self.eventClass.event_id > 0 {
+            //Invitations
+            let myInvitationsRow = createMenu("My Invitations") { [weak self] in
+                let inviteFormVC = InvitationListViewController()
+                inviteFormVC.companyEvent = self?.companyEvent
+                inviteFormVC.eventClass = self?.eventClass
+                
+                self?.navigationController?.pushViewController(inviteFormVC, animated: true)
+            }
             
-            self?.navigationController?.pushViewController(inviteFormVC, animated: true)
+            arrayInvitesRow.add(myInvitationsRow)
+            
+            //
+            let newInviteRow = createMenu("New Invite") { [weak self] in
+                let inviteFormVC = InviteFormViewController()
+                inviteFormVC.eventClass = self?.eventClass
+                
+                self?.navigationController?.pushViewController(inviteFormVC, animated: true)
+            }
+            
+            arrayInvitesRow.add(newInviteRow)
         }
+        
+        let invitationsSection = SectionFormer(rowFormers: arrayInvitesRow as! [RowFormer])
+            .set(headerViewFormer: createHeader("Invitations"))
         
         //City
         let selectorCityPickerRow = SelectorPickerRowFormer<FormSelectorPickerCell, Any>() {
@@ -299,16 +322,13 @@ class EventFormViewController : FormViewController {
         let section1 = SectionFormer(rowFormer: initialDateRow, endDateRow, initialHourRow, endHourRow)
             .set(headerViewFormer: createHeader("Date"))
         
-        let section15 = SectionFormer(rowFormer: newInviteRow)
-            .set(headerViewFormer: createHeader("Invites"))
-        
         let section2 = SectionFormer(rowFormer: selectorCityPickerRow)
             .set(headerViewFormer: createHeader("Address"))
         
         let section3 = SectionFormer(rowFormer: archiveEventCheckRow)
             .set(headerViewFormer: createHeader("Others"))
         
-        former.append(sectionFormer: section0, section1, section15, section2, section3
+        former.append(sectionFormer: section0, section1, invitationsSection, section2, section3
             ).onCellSelected { _ in
                 inputAccessoryView.update()
         }

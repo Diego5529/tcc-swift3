@@ -19,6 +19,8 @@ extension Country {
     @NSManaged public var id: NSNumber?
     @NSManaged public var initials: String?
     @NSManaged public var name: String?
+    @NSManaged public var created_at: NSDate?
+    @NSManaged public var updated_at: NSDate?
     @NSManaged public var has_many_state: State?
 
 }

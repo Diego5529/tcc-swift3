@@ -10,6 +10,10 @@ import UIKit
 
 extension String {
     
+    static func urlPath() -> String {
+        return "http://localhost:3000/api"
+    }
+    
     static func mediumDateShortTime(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = .current

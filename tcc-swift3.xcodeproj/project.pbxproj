@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		521477FC1EE4957400314D3E /* InvitationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521477FB1EE4957400314D3E /* InvitationListViewController.swift */; };
 		5225F1F01ED39BBD001AB13A /* CompanyFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */; };
 		5225F2231ED3A067001AB13A /* Former.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5225F2221ED3A067001AB13A /* Former.framework */; };
 		5225F22C1ED3A33B001AB13A /* CenterLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2261ED3A33B001AB13A /* CenterLabelCell.swift */; };
@@ -62,6 +63,9 @@
 		52B4D23E1EDE3EF2009EB548 /* UserCompanyType+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B4D2211EDE3EF2009EB548 /* UserCompanyType+CoreDataProperties.swift */; };
 		52B4D23F1EDE3EF2009EB548 /* UserType+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B4D2221EDE3EF2009EB548 /* UserType+CoreDataClass.swift */; };
 		52B4D2401EDE3EF2009EB548 /* UserType+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B4D2231EDE3EF2009EB548 /* UserType+CoreDataProperties.swift */; };
+		52BEAA471EEA1F5300305DF8 /* CityBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BEAA461EEA1F5300305DF8 /* CityBean.swift */; };
+		52BEAA491EEA1F5F00305DF8 /* StateBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BEAA481EEA1F5F00305DF8 /* StateBean.swift */; };
+		52BEAA4B1EEA1F7100305DF8 /* CountryBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BEAA4A1EEA1F7100305DF8 /* CountryBean.swift */; };
 		52C448941ED675A3008C54BB /* EventFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C448931ED675A3008C54BB /* EventFormViewController.swift */; };
 		52DB79ED1E478DB400658171 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB79EC1E478DB400658171 /* AppDelegate.swift */; };
 		52DB79EF1E478DB400658171 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB79EE1E478DB400658171 /* HomeViewController.swift */; };
@@ -71,12 +75,18 @@
 		52DB79F91E478DB400658171 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52DB79F71E478DB400658171 /* LaunchScreen.storyboard */; };
 		52DB7A031E4791F200658171 /* model_tcc_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52DB7A001E4791F200658171 /* model_tcc_swift.xcdatamodeld */; };
 		52DB7A041E4791F200658171 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB7A021E4791F200658171 /* ViewController.swift */; };
+		52F2D7C61EE0DCD70002915A /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2D7C51EE0DCD70002915A /* Sync.swift */; };
 		52F759721EDBB08900F02B7E /* CompanyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F759711EDBB08900F02B7E /* CompanyListViewController.swift */; };
+		52FB18311EEF64A90005A867 /* UserTypeBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FB18301EEF64A90005A867 /* UserTypeBean.swift */; };
+		52FB18331EEF64F10005A867 /* EventCategoryBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FB18321EEF64F10005A867 /* EventCategoryBean.swift */; };
+		52FB18351EEF651C0005A867 /* InvitationTypeBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FB18341EEF651C0005A867 /* InvitationTypeBean.swift */; };
+		52FB18371EEF68E30005A867 /* EventTypeBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FB18361EEF68E30005A867 /* EventTypeBean.swift */; };
 		B93C5A37FF0403CAC80710B9 /* Pods_tcc_swift3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD21AC968FCC7AA9B9D238F /* Pods_tcc_swift3.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1EDECDCED8854A0042E0CF8D /* Pods-tcc-swift3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tcc-swift3.release.xcconfig"; path = "Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3.release.xcconfig"; sourceTree = "<group>"; };
+		521477FB1EE4957400314D3E /* InvitationListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationListViewController.swift; sourceTree = "<group>"; };
 		5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyFormViewController.swift; sourceTree = "<group>"; };
 		5225F2221ED3A067001AB13A /* Former.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Former.framework; path = "../../../../Library/Developer/Xcode/DerivedData/tcc-swift3-akcbrosnscstzxbfogoiecwnunzz/Build/Products/Debug-iphonesimulator/Former/Former.framework"; sourceTree = "<group>"; };
 		5225F2261ED3A33B001AB13A /* CenterLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterLabelCell.swift; sourceTree = "<group>"; };
@@ -132,6 +142,9 @@
 		52B4D2211EDE3EF2009EB548 /* UserCompanyType+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserCompanyType+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		52B4D2221EDE3EF2009EB548 /* UserType+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserType+CoreDataClass.swift"; sourceTree = "<group>"; };
 		52B4D2231EDE3EF2009EB548 /* UserType+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserType+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		52BEAA461EEA1F5300305DF8 /* CityBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityBean.swift; sourceTree = "<group>"; };
+		52BEAA481EEA1F5F00305DF8 /* StateBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateBean.swift; sourceTree = "<group>"; };
+		52BEAA4A1EEA1F7100305DF8 /* CountryBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryBean.swift; sourceTree = "<group>"; };
 		52C448931ED675A3008C54BB /* EventFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventFormViewController.swift; sourceTree = "<group>"; };
 		52DB79E91E478DB400658171 /* tcc-swift3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tcc-swift3.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52DB79EC1E478DB400658171 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -144,7 +157,12 @@
 		52DB7A011E4791F200658171 /* model_tcc_swift.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = model_tcc_swift.xcdatamodel; sourceTree = "<group>"; };
 		52DB7A021E4791F200658171 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		52DB7A091E4792BF00658171 /* tcc-swift3-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tcc-swift3-Bridging-Header.h"; sourceTree = "<group>"; };
+		52F2D7C51EE0DCD70002915A /* Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
 		52F759711EDBB08900F02B7E /* CompanyListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyListViewController.swift; sourceTree = "<group>"; };
+		52FB18301EEF64A90005A867 /* UserTypeBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTypeBean.swift; sourceTree = "<group>"; };
+		52FB18321EEF64F10005A867 /* EventCategoryBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCategoryBean.swift; sourceTree = "<group>"; };
+		52FB18341EEF651C0005A867 /* InvitationTypeBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationTypeBean.swift; sourceTree = "<group>"; };
+		52FB18361EEF68E30005A867 /* EventTypeBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTypeBean.swift; sourceTree = "<group>"; };
 		8FD21AC968FCC7AA9B9D238F /* Pods_tcc_swift3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tcc_swift3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3F4C58CCCFF8D35F4283AC2 /* Pods-tcc-swift3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tcc-swift3.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -295,6 +313,8 @@
 				52C448931ED675A3008C54BB /* EventFormViewController.swift */,
 				524E333A1ED930070035D443 /* InviteFormViewController.swift */,
 				52F759711EDBB08900F02B7E /* CompanyListViewController.swift */,
+				52F2D7C51EE0DCD70002915A /* Sync.swift */,
+				521477FB1EE4957400314D3E /* InvitationListViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -307,6 +327,13 @@
 				52B4D2081EDE3EF2009EB548 /* InvitationBean.swift */,
 				52B4D2091EDE3EF2009EB548 /* UserBean.swift */,
 				52B4D20A1EDE3EF2009EB548 /* UserCompanyTypeBean.swift */,
+				52BEAA461EEA1F5300305DF8 /* CityBean.swift */,
+				52BEAA481EEA1F5F00305DF8 /* StateBean.swift */,
+				52BEAA4A1EEA1F7100305DF8 /* CountryBean.swift */,
+				52FB18301EEF64A90005A867 /* UserTypeBean.swift */,
+				52FB18321EEF64F10005A867 /* EventCategoryBean.swift */,
+				52FB18341EEF651C0005A867 /* InvitationTypeBean.swift */,
+				52FB18361EEF68E30005A867 /* EventTypeBean.swift */,
 			);
 			path = bean;
 			sourceTree = "<group>";
@@ -556,6 +583,7 @@
 				52B4D23A1EDE3EF2009EB548 /* State+CoreDataProperties.swift in Sources */,
 				52B4D2321EDE3EF2009EB548 /* EventCategory+CoreDataProperties.swift in Sources */,
 				52B4D2311EDE3EF2009EB548 /* EventCategory+CoreDataClass.swift in Sources */,
+				52FB18331EEF64F10005A867 /* EventCategoryBean.swift in Sources */,
 				52B4D23C1EDE3EF2009EB548 /* User+CoreDataProperties.swift in Sources */,
 				5225F2351ED3A36D001AB13A /* Login.swift in Sources */,
 				5225F23D1ED3A4CD001AB13A /* FormerInputAccessoryView.swift in Sources */,
@@ -568,6 +596,7 @@
 				52B4D2401EDE3EF2009EB548 /* UserType+CoreDataProperties.swift in Sources */,
 				52B4D2361EDE3EF2009EB548 /* Invitation+CoreDataProperties.swift in Sources */,
 				52B4D23E1EDE3EF2009EB548 /* UserCompanyType+CoreDataProperties.swift in Sources */,
+				521477FC1EE4957400314D3E /* InvitationListViewController.swift in Sources */,
 				52B4D2261EDE3EF2009EB548 /* InvitationBean.swift in Sources */,
 				52B4D22A1EDE3EF2009EB548 /* City+CoreDataProperties.swift in Sources */,
 				52F759721EDBB08900F02B7E /* CompanyListViewController.swift in Sources */,
@@ -579,26 +608,33 @@
 				52B4D22D1EDE3EF2009EB548 /* Country+CoreDataClass.swift in Sources */,
 				5225F22C1ED3A33B001AB13A /* CenterLabelCell.swift in Sources */,
 				52B4D23B1EDE3EF2009EB548 /* User+CoreDataClass.swift in Sources */,
+				52BEAA471EEA1F5300305DF8 /* CityBean.swift in Sources */,
 				52B4D2351EDE3EF2009EB548 /* Invitation+CoreDataClass.swift in Sources */,
 				52DB79EF1E478DB400658171 /* HomeViewController.swift in Sources */,
 				522889E91ED0DC84007BC49D /* DetailViewController.swift in Sources */,
 				52B4D2271EDE3EF2009EB548 /* UserBean.swift in Sources */,
 				52B4D22C1EDE3EF2009EB548 /* Company+CoreDataProperties.swift in Sources */,
 				52B4D22B1EDE3EF2009EB548 /* Company+CoreDataClass.swift in Sources */,
+				52FB18311EEF64A90005A867 /* UserTypeBean.swift in Sources */,
 				52B4D2331EDE3EF2009EB548 /* EventType+CoreDataClass.swift in Sources */,
 				52B4D23D1EDE3EF2009EB548 /* UserCompanyType+CoreDataClass.swift in Sources */,
 				5225F2311ED3A33B001AB13A /* ProfileLabelCell.swift in Sources */,
+				52BEAA4B1EEA1F7100305DF8 /* CountryBean.swift in Sources */,
 				5225F23B1ED3A433001AB13A /* UIColor.swift in Sources */,
 				52B4D2371EDE3EF2009EB548 /* InvitationType+CoreDataClass.swift in Sources */,
 				52B4D2341EDE3EF2009EB548 /* EventType+CoreDataProperties.swift in Sources */,
 				52B4D2381EDE3EF2009EB548 /* InvitationType+CoreDataProperties.swift in Sources */,
+				52F2D7C61EE0DCD70002915A /* Sync.swift in Sources */,
 				5225F2301ED3A33B001AB13A /* ProfileImageCell.swift in Sources */,
 				52B4D2301EDE3EF2009EB548 /* Event+CoreDataProperties.swift in Sources */,
 				52B4D2291EDE3EF2009EB548 /* City+CoreDataClass.swift in Sources */,
 				522889F31ED0F62F007BC49D /* MenuViewCell.swift in Sources */,
 				529737441E47E84200C65464 /* Connection.swift in Sources */,
 				5225F22F1ED3A33B001AB13A /* ProfileFieldCell.swift in Sources */,
+				52FB18371EEF68E30005A867 /* EventTypeBean.swift in Sources */,
 				522889EA1ED0DC84007BC49D /* MasterViewController.swift in Sources */,
+				52FB18351EEF651C0005A867 /* InvitationTypeBean.swift in Sources */,
+				52BEAA491EEA1F5F00305DF8 /* StateBean.swift in Sources */,
 				5225F23A1ED3A433001AB13A /* String.swift in Sources */,
 				52B4D2241EDE3EF2009EB548 /* CompanyBean.swift in Sources */,
 			);

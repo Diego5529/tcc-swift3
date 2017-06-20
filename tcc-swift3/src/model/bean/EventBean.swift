@@ -69,6 +69,29 @@ class EventBean : NSObject {
         self.max_users = 10
     }
     
+    //Dao
+    class func saveEvent(context: NSManagedObjectContext, event: EventBean){
+        let eventObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Event", into: context)
+        
+        eventObj.setValue(event.id, forKey: "id")
+        eventObj.setValue(event.event_id, forKey: "event_id")
+        eventObj.setValue(event.title, forKey: "title")
+        eventObj.setValue(event.short_description, forKey: "short_description")
+        eventObj.setValue(event.long_description, forKey: "long_description")
+        eventObj.setValue(event.min_users, forKey: "min_users")
+        eventObj.setValue(event.max_users, forKey: "max_users")
+        eventObj.setValue(event.initial_date, forKey: "initial_date")
+        eventObj.setValue(event.end_date, forKey: "end_date")
+        eventObj.setValue(event.initial_hour, forKey: "initial_hour")
+        eventObj.setValue(event.end_hour, forKey: "end_hour")
+        eventObj.setValue(event.city_id, forKey: "city_id")
+        eventObj.setValue(event.company_id, forKey: "company_id")
+        eventObj.setValue(event.archive, forKey: "archive")
+        eventObj.setValue(event.status, forKey: "status")
+        eventObj.setValue(event.created_at, forKey: "created_at")
+        eventObj.setValue(event.updated_at, forKey: "updated_at")
+    }
+    
     func getMaxEvent(context: NSManagedObjectContext) -> Int16 {
         var idMax = 0
         
@@ -89,6 +112,7 @@ class EventBean : NSObject {
         let eventBean = EventBean()
         
         eventBean.id = object.value(forKey: "id") as! Int16
+        eventBean.event_id = object.value(forKey: "event_id") as! Int16
         eventBean.company_id = object.value(forKey: "company_id") as! Int16
         eventBean.title = object.value(forKey: "title") as? String
         eventBean.short_description = object.value(forKey: "short_description") as? String

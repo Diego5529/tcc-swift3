@@ -32,12 +32,18 @@ class Connection : NSObject {
         
         super.init()
     }
+    
+    class func isReachable () -> Bool {
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        return (delegate.reachability?.isReachable)!
+    }
 
     //Login
     func signIn() {
         print("SignIn")
         
-        if (delegate.reachability?.isReachable)!{
+        if (Connection.isReachable()){
             //let vc = viewController as! ViewController
             
             //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
@@ -50,7 +56,7 @@ class Connection : NSObject {
             request.httpMethod = "POST"
             
             let bodyData = String(format: "user[email]=%@&user[password]=%@", delegate.genericUser!.email!, delegate.genericUser!.password!)
-            request.httpBody = bodyData.data(using: String.Encoding.utf8);
+            request.httpBody = bodyData.data(using: String.Encoding.utf8)
             
             let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
                 if (error != nil){
@@ -96,6 +102,9 @@ class Connection : NSObject {
                                     
                                     do {
                                         //save user on db
+                                        
+                                        userObj .setValue(UserBean.getMaxUser(context: self.context), forKey: "user_id")
+                                        
                                         try self.context.save()
                                         
                                         //set defaults users
@@ -140,7 +149,7 @@ class Connection : NSObject {
     
     //Create Account
     func signUp(){
-        if (delegate.reachability?.isReachable)!{
+        if (Connection.isReachable()){
             //let vc = viewController as! ViewController
             
             //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
@@ -195,6 +204,8 @@ class Connection : NSObject {
                                     self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                                     
                                     do {
+                                        userObj .setValue(UserBean.getMaxUser(context: self.context), forKey: "user_id")
+                                        
                                         try self.context.save()
                                         OperationQueue.main.addOperation {
                                             if (self.delegate.loggedUser != nil) {
@@ -254,7 +265,7 @@ class Connection : NSObject {
     func resetPassword() {
         print("Reset Password")
         
-        if (delegate.reachability?.isReachable)!{
+        if (Connection.isReachable()){
             //let vc = viewController as! ViewController
             
             //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
@@ -356,7 +367,7 @@ class Connection : NSObject {
     func updatePassword(){
         print("UpdatePassword")
         
-        if (delegate.reachability?.isReachable)!{
+        if (Connection.isReachable()){
             //let vc = viewController as! ViewController
             
             //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
@@ -457,6 +468,10 @@ class Connection : NSObject {
             
             userObj.setValue(value, forKey:key as! String);
             self.delegate.genericUser?.setValue(value, forKey:key as! String);
+        }
+        
+        if !((self.delegate.genericUser?.user_id)! > 0) {
+            self.delegate.genericUser?.user_id = UserBean.getMaxUser(context: self.context)
         }
     }
     

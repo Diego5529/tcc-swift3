@@ -9,4 +9,5 @@ target 'tcc-swift3' do
   pod 'Crashlytics'
   pod 'ReachabilitySwift', '~> 3'
   pod 'Former', '~> 1.5'
+  pod 'Alamofire'
 end

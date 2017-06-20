@@ -29,6 +29,19 @@ class UserCompanyTypeBean : NSObject {
         self.user_type_id = 0
     }
     
+    //Dao
+    class func saveUserCompanyType(context: NSManagedObjectContext, userCompanyType: UserCompanyTypeBean){
+        let userCompanyTypeObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "UserCompanyType", into: context)
+        
+        userCompanyTypeObj.setValue(userCompanyType.id, forKey: "id")
+        userCompanyTypeObj.setValue(userCompanyType.user_company_type_id, forKey: "user_company_type_id")
+        userCompanyTypeObj.setValue(userCompanyType.user_id, forKey: "user_id")
+        userCompanyTypeObj.setValue(userCompanyType.company_id, forKey: "company_id")
+        userCompanyTypeObj.setValue(userCompanyType.user_type_id, forKey: "user_type_id")
+        userCompanyTypeObj.setValue(userCompanyType.admin, forKey: "admin")
+        userCompanyTypeObj.setValue(userCompanyType.active, forKey: "active")
+    }
+    
     func getMaxUserCompanyType(context: NSManagedObjectContext) -> Int16 {
         var idMax = 0
         
@@ -43,5 +56,19 @@ class UserCompanyTypeBean : NSObject {
         }
         
         return Int16(idMax)
+    }
+    
+    class func serializer(object: AnyObject) -> UserCompanyTypeBean {
+        let uct = UserCompanyTypeBean()
+        
+        uct.id = object.value(forKey: "id") as! Int16
+        uct.user_company_type_id = object.value(forKey: "user_company_type_id") as! Int16
+        uct.user_id = object.value(forKey: "user_id") as! Int16
+        uct.company_id = object.value(forKey: "company_id") as! Int16
+        uct.user_type_id = object.value(forKey: "user_type_id") as! Int16
+        uct.admin = object.value(forKey: "admin") as! Bool
+        uct.active = object.value(forKey: "active") as! Bool
+        
+        return uct
     }
 }

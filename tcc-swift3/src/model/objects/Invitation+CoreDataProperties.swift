@@ -21,11 +21,11 @@ extension Invitation {
     @NSManaged public var guest_user_id: NSNumber?
     @NSManaged public var host_user_id: NSNumber?
     @NSManaged public var id: NSNumber?
+    @NSManaged public var email: String?
     @NSManaged public var invitation_id: Int16
     @NSManaged public var invitation_type_id: NSNumber?
     @NSManaged public var updated_at: NSDate?
     @NSManaged public var belongs_to_event: Event?
     @NSManaged public var belongs_to_invitation_type: InvitationType?
     @NSManaged public var belongs_to_user: User?
-
 }

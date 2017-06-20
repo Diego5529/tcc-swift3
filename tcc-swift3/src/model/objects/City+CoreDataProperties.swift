@@ -21,6 +21,8 @@ extension City {
     @NSManaged public var name: String?
     @NSManaged public var state_id: NSNumber?
     @NSManaged public var zip_code: String?
+    @NSManaged public var created_at: NSDate?
+    @NSManaged public var updated_at: NSDate?
     @NSManaged public var belongs_to_state: State?
     @NSManaged public var has_many_event: Event?
 
