@@ -22,23 +22,21 @@ class InviteFormViewController : FormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if eventClass == nil {
-            self.dismiss(animated: true, completion: nil)
-        }
-        
         delegate = UIApplication.shared.delegate as! AppDelegate
         
         context = self.delegate.managedObjectContext
         
-        if  invitationClass == nil {
+        if  invitationClass == nil && eventClass != nil {
             invitationClass = InvitationBean.init()
             invitationClass.event_id = eventClass.event_id
             invitationClass.host_user_id = (delegate.genericUser?.user_id)!
+            
+            configureInviteRows()
+            
+            addSaveButton()
+        }else {
+            self.dismiss(animated: true, completion: nil)
         }
-        
-        configureInviteRows()
-        
-        addSaveButton()
     }
     
     func addSaveButton(){

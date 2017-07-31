@@ -10,4 +10,5 @@ target 'tcc-swift3' do
   pod 'ReachabilitySwift', '~> 3'
   pod 'Former', '~> 1.5'
   pod 'Alamofire'
+  pod 'FMDB'
 end
