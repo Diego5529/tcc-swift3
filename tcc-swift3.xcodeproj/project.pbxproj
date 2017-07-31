@@ -73,9 +73,10 @@
 		52DB79F41E478DB400658171 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52DB79F21E478DB400658171 /* Main.storyboard */; };
 		52DB79F61E478DB400658171 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52DB79F51E478DB400658171 /* Assets.xcassets */; };
 		52DB79F91E478DB400658171 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52DB79F71E478DB400658171 /* LaunchScreen.storyboard */; };
-		52DB7A031E4791F200658171 /* model_tcc_swift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52DB7A001E4791F200658171 /* model_tcc_swift.xcdatamodeld */; };
 		52DB7A041E4791F200658171 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB7A021E4791F200658171 /* ViewController.swift */; };
 		52F2D7C61EE0DCD70002915A /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2D7C51EE0DCD70002915A /* Sync.swift */; };
+		52F73AB01F2ECC490046E4AD /* tcc-swift3.db in Resources */ = {isa = PBXBuildFile; fileRef = 52F73AAF1F2ECC490046E4AD /* tcc-swift3.db */; };
+		52F73AB21F2ECF4C0046E4AD /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F73AB11F2ECF4C0046E4AD /* Database.swift */; };
 		52F759721EDBB08900F02B7E /* CompanyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F759711EDBB08900F02B7E /* CompanyListViewController.swift */; };
 		52FB18311EEF64A90005A867 /* UserTypeBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FB18301EEF64A90005A867 /* UserTypeBean.swift */; };
 		52FB18331EEF64F10005A867 /* EventCategoryBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FB18321EEF64F10005A867 /* EventCategoryBean.swift */; };
@@ -158,6 +159,8 @@
 		52DB7A021E4791F200658171 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		52DB7A091E4792BF00658171 /* tcc-swift3-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tcc-swift3-Bridging-Header.h"; sourceTree = "<group>"; };
 		52F2D7C51EE0DCD70002915A /* Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
+		52F73AAF1F2ECC490046E4AD /* tcc-swift3.db */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "tcc-swift3.db"; sourceTree = "<group>"; };
+		52F73AB11F2ECF4C0046E4AD /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		52F759711EDBB08900F02B7E /* CompanyListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyListViewController.swift; sourceTree = "<group>"; };
 		52FB18301EEF64A90005A867 /* UserTypeBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTypeBean.swift; sourceTree = "<group>"; };
 		52FB18321EEF64F10005A867 /* EventCategoryBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCategoryBean.swift; sourceTree = "<group>"; };
@@ -395,6 +398,7 @@
 				52DB7A001E4791F200658171 /* model_tcc_swift.xcdatamodeld */,
 				52DB7A021E4791F200658171 /* ViewController.swift */,
 				52DB79EC1E478DB400658171 /* AppDelegate.swift */,
+				52F73AAF1F2ECC490046E4AD /* tcc-swift3.db */,
 				52DB79EE1E478DB400658171 /* HomeViewController.swift */,
 				52DB79F01E478DB400658171 /* SecondViewController.swift */,
 				52DB79F21E478DB400658171 /* Main.storyboard */,
@@ -404,6 +408,7 @@
 				522889E51ED0DB3D007BC49D /* MenuViewController.swift */,
 				522889E71ED0DC84007BC49D /* DetailViewController.swift */,
 				522889E81ED0DC84007BC49D /* MasterViewController.swift */,
+				52F73AB11F2ECF4C0046E4AD /* Database.swift */,
 			);
 			path = "tcc-swift3";
 			sourceTree = "<group>";
@@ -503,6 +508,7 @@
 				5225F24C1ED3AEF9001AB13A /* ProfileLabelCell.xib in Resources */,
 				5225F2471ED3AEF9001AB13A /* ColorListCell.xib in Resources */,
 				5225F24B1ED3AEF9001AB13A /* ProfileImageCell.xib in Resources */,
+				52F73AB01F2ECC490046E4AD /* tcc-swift3.db in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,11 +609,11 @@
 				5225F1F01ED39BBD001AB13A /* CompanyFormViewController.swift in Sources */,
 				52DB79ED1E478DB400658171 /* AppDelegate.swift in Sources */,
 				52B4D2251EDE3EF2009EB548 /* EventBean.swift in Sources */,
-				52DB7A031E4791F200658171 /* model_tcc_swift.xcdatamodeld in Sources */,
 				52B4D22F1EDE3EF2009EB548 /* Event+CoreDataClass.swift in Sources */,
 				52B4D22D1EDE3EF2009EB548 /* Country+CoreDataClass.swift in Sources */,
 				5225F22C1ED3A33B001AB13A /* CenterLabelCell.swift in Sources */,
 				52B4D23B1EDE3EF2009EB548 /* User+CoreDataClass.swift in Sources */,
+				52F73AB21F2ECF4C0046E4AD /* Database.swift in Sources */,
 				52BEAA471EEA1F5300305DF8 /* CityBean.swift in Sources */,
 				52B4D2351EDE3EF2009EB548 /* Invitation+CoreDataClass.swift in Sources */,
 				52DB79EF1E478DB400658171 /* HomeViewController.swift in Sources */,
