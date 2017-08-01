@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5202F3E11F3014E00003B031 /* CityDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5202F3E01F3014E00003B031 /* CityDao.swift */; };
 		521477FC1EE4957400314D3E /* InvitationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521477FB1EE4957400314D3E /* InvitationListViewController.swift */; };
 		5225F1F01ED39BBD001AB13A /* CompanyFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */; };
 		5225F2231ED3A067001AB13A /* Former.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5225F2221ED3A067001AB13A /* Former.framework */; };
@@ -87,6 +88,7 @@
 
 /* Begin PBXFileReference section */
 		1EDECDCED8854A0042E0CF8D /* Pods-tcc-swift3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tcc-swift3.release.xcconfig"; path = "Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3.release.xcconfig"; sourceTree = "<group>"; };
+		5202F3E01F3014E00003B031 /* CityDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityDao.swift; sourceTree = "<group>"; };
 		521477FB1EE4957400314D3E /* InvitationListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationListViewController.swift; sourceTree = "<group>"; };
 		5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyFormViewController.swift; sourceTree = "<group>"; };
 		5225F2221ED3A067001AB13A /* Former.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Former.framework; path = "../../../../Library/Developer/Xcode/DerivedData/tcc-swift3-akcbrosnscstzxbfogoiecwnunzz/Build/Products/Debug-iphonesimulator/Former/Former.framework"; sourceTree = "<group>"; };
@@ -199,6 +201,14 @@
 				1EDECDCED8854A0042E0CF8D /* Pods-tcc-swift3.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		5202F3DF1F3014C50003B031 /* dao */ = {
+			isa = PBXGroup;
+			children = (
+				5202F3E01F3014E00003B031 /* CityDao.swift */,
+			);
+			name = dao;
 			sourceTree = "<group>";
 		};
 		5225F2241ED3A33B001AB13A /* form */ = {
@@ -427,6 +437,7 @@
 		52DB7A081E47926400658171 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				5202F3DF1F3014C50003B031 /* dao */,
 				52B4D2051EDE3EF2009EB548 /* bean */,
 				52B4D20B1EDE3EF2009EB548 /* objects */,
 			);
@@ -601,6 +612,7 @@
 				52DB79F11E478DB400658171 /* SecondViewController.swift in Sources */,
 				52B4D2401EDE3EF2009EB548 /* UserType+CoreDataProperties.swift in Sources */,
 				52B4D2361EDE3EF2009EB548 /* Invitation+CoreDataProperties.swift in Sources */,
+				5202F3E11F3014E00003B031 /* CityDao.swift in Sources */,
 				52B4D23E1EDE3EF2009EB548 /* UserCompanyType+CoreDataProperties.swift in Sources */,
 				521477FC1EE4957400314D3E /* InvitationListViewController.swift in Sources */,
 				52B4D2261EDE3EF2009EB548 /* InvitationBean.swift in Sources */,

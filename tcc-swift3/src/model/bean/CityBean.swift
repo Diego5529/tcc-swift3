@@ -15,6 +15,25 @@ import Crashlytics
 import Alamofire
 
 class CityBean : NSObject {
+    
+    var id: Int16 = 0
+    var state_id: Int16 = 0
+    var name: String!
+    var zip_code: String!
+    var ddd: Int16 = 0
+    var created_at: NSDate!
+    var updated_at: NSDate!
+    
+    override init () {
+        self.id = 0
+        self.state_id = 0
+        self.name = ""
+        self.zip_code = ""
+        self.ddd = 0
+        
+        self.created_at = NSDate.init()
+        self.updated_at = self.created_at
+    }
 
     //City
     class func listAllCities(context: NSManagedObjectContext) {
