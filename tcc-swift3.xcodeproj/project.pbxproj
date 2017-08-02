@@ -83,6 +83,8 @@
 		52FB18331EEF64F10005A867 /* EventCategoryBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FB18321EEF64F10005A867 /* EventCategoryBean.swift */; };
 		52FB18351EEF651C0005A867 /* InvitationTypeBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FB18341EEF651C0005A867 /* InvitationTypeBean.swift */; };
 		52FB18371EEF68E30005A867 /* EventTypeBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FB18361EEF68E30005A867 /* EventTypeBean.swift */; };
+		9A8164A01F323C7C00D87C60 /* StateDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A81649F1F323C7C00D87C60 /* StateDao.swift */; };
+		9A8164A21F323CE200D87C60 /* CountryDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8164A11F323CE200D87C60 /* CountryDao.swift */; };
 		B93C5A37FF0403CAC80710B9 /* Pods_tcc_swift3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FD21AC968FCC7AA9B9D238F /* Pods_tcc_swift3.framework */; };
 /* End PBXBuildFile section */
 
@@ -169,6 +171,8 @@
 		52FB18341EEF651C0005A867 /* InvitationTypeBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationTypeBean.swift; sourceTree = "<group>"; };
 		52FB18361EEF68E30005A867 /* EventTypeBean.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTypeBean.swift; sourceTree = "<group>"; };
 		8FD21AC968FCC7AA9B9D238F /* Pods_tcc_swift3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_tcc_swift3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A81649F1F323C7C00D87C60 /* StateDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateDao.swift; sourceTree = "<group>"; };
+		9A8164A11F323CE200D87C60 /* CountryDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryDao.swift; sourceTree = "<group>"; };
 		E3F4C58CCCFF8D35F4283AC2 /* Pods-tcc-swift3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tcc-swift3.debug.xcconfig"; path = "Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -207,6 +211,8 @@
 			isa = PBXGroup;
 			children = (
 				5202F3E01F3014E00003B031 /* CityDao.swift */,
+				9A81649F1F323C7C00D87C60 /* StateDao.swift */,
+				9A8164A11F323CE200D87C60 /* CountryDao.swift */,
 			);
 			name = dao;
 			sourceTree = "<group>";
@@ -592,8 +598,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5225F22D1ED3A33B001AB13A /* ColorListCell.swift in Sources */,
+				9A8164A21F323CE200D87C60 /* CountryDao.swift in Sources */,
 				5225F2361ED3A36D001AB13A /* Profile.swift in Sources */,
 				52B4D2391EDE3EF2009EB548 /* State+CoreDataClass.swift in Sources */,
+				9A8164A01F323C7C00D87C60 /* StateDao.swift in Sources */,
 				52B4D23F1EDE3EF2009EB548 /* UserType+CoreDataClass.swift in Sources */,
 				52B4D2281EDE3EF2009EB548 /* UserCompanyTypeBean.swift in Sources */,
 				52DB7A041E4791F200658171 /* ViewController.swift in Sources */,

@@ -27,9 +27,9 @@ class Database : NSObject {
         if !fileExists {
             copiaDatabase()
             
-            fmDatabase = FMDatabase(path: databasePath)!
+            fmDatabase = FMDatabase(path: databasePath)
         }else{
-            fmDatabase = FMDatabase(path: databasePath)!
+            fmDatabase = FMDatabase(path: databasePath)
         }
         guard fmDatabase.open() else {
             print("Unable to open database")
@@ -39,14 +39,11 @@ class Database : NSObject {
         do {
             //try database.executeUpdate("create table test(x text, y text, z text)", values: nil)
 //            try database.executeUpdate("insert into test (x, y, z) values (?, ?, ?)", values: ["a", "b", "c"])
-//            try database.executeUpdate("insert into test (x, y, z) values (?, ?, ?)", values: ["e", "f", "g"])
+            try fmDatabase.executeUpdate("insert or replace into cities (id, state_id, name, created_at, updated_at) values (?, ?, ?, ?, ?)", values: [1, 1, "Birigui", "2017-05-12", "2017-05-13"])
             
-            let rs = try fmDatabase.executeQuery("select * from cities", values: nil)
-            let array = NSMutableArray()
-            while rs.next() {
-                array .add((serializer(byResultset: rs, obj: CityBean()) as! CityBean))
-            }
-//            print((array .object(at: 0)).self)
+            let array = CityDao.selectCityById(db: fmDatabase, id: 1)
+            
+            print(array)
         } catch {
             print("failed: \(error.localizedDescription)")
         }
@@ -54,10 +51,10 @@ class Database : NSObject {
 //        fmDatabase.close()
     }
     
-    func serializer(byResultset rs: FMResultSet, obj: AnyObject) -> AnyObject {
+    class func serializer(rs: FMResultSet, obj: AnyObject) -> AnyObject {
 
-        for i in 0 ..< rs.columnCount() {
-            let column: String = rs.columnName(for: i)
+        for i in 0 ..< rs.columnCount {
+            let column: String = rs.columnName(for: i)!
             let value: Any? = rs.object(forColumnIndex: i)
             
             do {
@@ -67,11 +64,9 @@ class Database : NSObject {
                     } else {
                         obj.setValue(value, forKey: column)
                     }
-                }else{
-                    obj.setValue(value, forKey: column)
                 }
-            } catch is exception {
-                print("%s", exception())
+            } catch {
+                print("failed: \(error.localizedDescription)")
             }
         }
         

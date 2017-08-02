@@ -1,25 +1,25 @@
 //
-//  CityDao.swift
+//  StateDao.swift
 //  tcc-swift3
 //
-//  Created by Diego Oliveira on 31/07/17.
+//  Created by macmini on 02/08/17.
 //  Copyright © 2017 DO. All rights reserved.
 //
 
 import Foundation
 import FMDB
 
-class CityDao : NSObject {
+class StateDao : NSObject {
     
-    class func selectCityById(db: FMDatabase, id: Int16) -> NSMutableArray {
+    class func selectStateById(db: FMDatabase, id: Int16) -> NSMutableArray {
         
         let array = NSMutableArray()
         
         do {
-            let rs = try db.executeQuery("select * from cities where id = ?", values: [1])
+            let rs = try db.executeQuery("select * from states where id = ?", values: [1])
             
             while rs.next() {
-                array .add(Database.serializer(rs: rs, obj: CityBean()))
+                array .add(Database.serializer(rs: rs, obj: StateBean()))
             }
             
         } catch {
@@ -29,15 +29,15 @@ class CityDao : NSObject {
         return array
     }
     
-    class func selectAllCities(db: FMDatabase) -> NSMutableArray {
+    class func selectAllStates(db: FMDatabase) -> NSMutableArray {
         
         let array = NSMutableArray()
         
         do {
-            let rs = try db.executeQuery("select * from cities", values: nil)
+            let rs = try db.executeQuery("select * from states", values: nil)
             
             while rs.next() {
-                array .add(Database.serializer(rs: rs, obj: CityBean()))
+                array .add(Database.serializer(rs: rs, obj: StateBean()))
             }
             
         } catch {
