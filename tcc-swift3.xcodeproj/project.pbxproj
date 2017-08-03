@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5202F3E11F3014E00003B031 /* CityDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5202F3E01F3014E00003B031 /* CityDao.swift */; };
+		5212F7821F32AA00006FAE4C /* CompanyDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5212F7811F32AA00006FAE4C /* CompanyDao.swift */; };
+		5212F7841F32AB8D006FAE4C /* InvitationDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5212F7831F32AB8D006FAE4C /* InvitationDao.swift */; };
+		5212F7861F32AC0D006FAE4C /* EventDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5212F7851F32AC0D006FAE4C /* EventDao.swift */; };
+		5212F7881F32AE76006FAE4C /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5212F7871F32AE76006FAE4C /* UserDao.swift */; };
 		521477FC1EE4957400314D3E /* InvitationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521477FB1EE4957400314D3E /* InvitationListViewController.swift */; };
 		5225F1F01ED39BBD001AB13A /* CompanyFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */; };
 		5225F2231ED3A067001AB13A /* Former.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5225F2221ED3A067001AB13A /* Former.framework */; };
@@ -91,6 +95,10 @@
 /* Begin PBXFileReference section */
 		1EDECDCED8854A0042E0CF8D /* Pods-tcc-swift3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tcc-swift3.release.xcconfig"; path = "Pods/Target Support Files/Pods-tcc-swift3/Pods-tcc-swift3.release.xcconfig"; sourceTree = "<group>"; };
 		5202F3E01F3014E00003B031 /* CityDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityDao.swift; sourceTree = "<group>"; };
+		5212F7811F32AA00006FAE4C /* CompanyDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyDao.swift; sourceTree = "<group>"; };
+		5212F7831F32AB8D006FAE4C /* InvitationDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationDao.swift; sourceTree = "<group>"; };
+		5212F7851F32AC0D006FAE4C /* EventDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDao.swift; sourceTree = "<group>"; };
+		5212F7871F32AE76006FAE4C /* UserDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
 		521477FB1EE4957400314D3E /* InvitationListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationListViewController.swift; sourceTree = "<group>"; };
 		5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyFormViewController.swift; sourceTree = "<group>"; };
 		5225F2221ED3A067001AB13A /* Former.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Former.framework; path = "../../../../Library/Developer/Xcode/DerivedData/tcc-swift3-akcbrosnscstzxbfogoiecwnunzz/Build/Products/Debug-iphonesimulator/Former/Former.framework"; sourceTree = "<group>"; };
@@ -213,6 +221,10 @@
 				5202F3E01F3014E00003B031 /* CityDao.swift */,
 				9A81649F1F323C7C00D87C60 /* StateDao.swift */,
 				9A8164A11F323CE200D87C60 /* CountryDao.swift */,
+				5212F7811F32AA00006FAE4C /* CompanyDao.swift */,
+				5212F7831F32AB8D006FAE4C /* InvitationDao.swift */,
+				5212F7851F32AC0D006FAE4C /* EventDao.swift */,
+				5212F7871F32AE76006FAE4C /* UserDao.swift */,
 			);
 			name = dao;
 			sourceTree = "<group>";
@@ -341,18 +353,18 @@
 		52B4D2051EDE3EF2009EB548 /* bean */ = {
 			isa = PBXGroup;
 			children = (
+				52BEAA461EEA1F5300305DF8 /* CityBean.swift */,
 				52B4D2061EDE3EF2009EB548 /* CompanyBean.swift */,
+				52BEAA4A1EEA1F7100305DF8 /* CountryBean.swift */,
 				52B4D2071EDE3EF2009EB548 /* EventBean.swift */,
+				52FB18321EEF64F10005A867 /* EventCategoryBean.swift */,
+				52FB18361EEF68E30005A867 /* EventTypeBean.swift */,
 				52B4D2081EDE3EF2009EB548 /* InvitationBean.swift */,
+				52FB18341EEF651C0005A867 /* InvitationTypeBean.swift */,
+				52BEAA481EEA1F5F00305DF8 /* StateBean.swift */,
 				52B4D2091EDE3EF2009EB548 /* UserBean.swift */,
 				52B4D20A1EDE3EF2009EB548 /* UserCompanyTypeBean.swift */,
-				52BEAA461EEA1F5300305DF8 /* CityBean.swift */,
-				52BEAA481EEA1F5F00305DF8 /* StateBean.swift */,
-				52BEAA4A1EEA1F7100305DF8 /* CountryBean.swift */,
 				52FB18301EEF64A90005A867 /* UserTypeBean.swift */,
-				52FB18321EEF64F10005A867 /* EventCategoryBean.swift */,
-				52FB18341EEF651C0005A867 /* InvitationTypeBean.swift */,
-				52FB18361EEF68E30005A867 /* EventTypeBean.swift */,
 			);
 			path = bean;
 			sourceTree = "<group>";
@@ -605,6 +617,7 @@
 				52B4D23F1EDE3EF2009EB548 /* UserType+CoreDataClass.swift in Sources */,
 				52B4D2281EDE3EF2009EB548 /* UserCompanyTypeBean.swift in Sources */,
 				52DB7A041E4791F200658171 /* ViewController.swift in Sources */,
+				5212F7861F32AC0D006FAE4C /* EventDao.swift in Sources */,
 				52B4D23A1EDE3EF2009EB548 /* State+CoreDataProperties.swift in Sources */,
 				52B4D2321EDE3EF2009EB548 /* EventCategory+CoreDataProperties.swift in Sources */,
 				52B4D2311EDE3EF2009EB548 /* EventCategory+CoreDataClass.swift in Sources */,
@@ -612,6 +625,8 @@
 				52B4D23C1EDE3EF2009EB548 /* User+CoreDataProperties.swift in Sources */,
 				5225F2351ED3A36D001AB13A /* Login.swift in Sources */,
 				5225F23D1ED3A4CD001AB13A /* FormerInputAccessoryView.swift in Sources */,
+				5212F7841F32AB8D006FAE4C /* InvitationDao.swift in Sources */,
+				5212F7881F32AE76006FAE4C /* UserDao.swift in Sources */,
 				52C448941ED675A3008C54BB /* EventFormViewController.swift in Sources */,
 				522889E61ED0DB3D007BC49D /* MenuViewController.swift in Sources */,
 				52B4D22E1EDE3EF2009EB548 /* Country+CoreDataProperties.swift in Sources */,
@@ -661,6 +676,7 @@
 				522889EA1ED0DC84007BC49D /* MasterViewController.swift in Sources */,
 				52FB18351EEF651C0005A867 /* InvitationTypeBean.swift in Sources */,
 				52BEAA491EEA1F5F00305DF8 /* StateBean.swift in Sources */,
+				5212F7821F32AA00006FAE4C /* CompanyDao.swift in Sources */,
 				5225F23A1ED3A433001AB13A /* String.swift in Sources */,
 				52B4D2241EDE3EF2009EB548 /* CompanyBean.swift in Sources */,
 			);

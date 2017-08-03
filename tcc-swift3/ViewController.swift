@@ -48,7 +48,6 @@ class ViewController: UIViewController  {
     @IBOutlet var cancelResetPasswordButton: UIButton!
     
     var delegate: AppDelegate!
-    var context: NSManagedObjectContext!
     var urlPath: NSString = ""
 
     override func viewDidLoad() {
@@ -65,8 +64,6 @@ class ViewController: UIViewController  {
         //Init Reachability
         delegate.setupReachability(nil, useClosures: true)
         delegate.startNotifier()
-    
-        context = delegate.managedObjectContext
         
         urlPath = "http://localhost:3000/api"
         
@@ -79,8 +76,6 @@ class ViewController: UIViewController  {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        
         //try login by token on defaults users
         delegate.connection?.loginByToken()
     }

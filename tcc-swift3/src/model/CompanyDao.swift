@@ -1,25 +1,25 @@
 //
-//  StateDao.swift
+//  CompanyDao.swift
 //  tcc-swift3
 //
-//  Created by macmini on 02/08/17.
+//  Created by Diego Oliveira on 02/08/17.
 //  Copyright © 2017 DO. All rights reserved.
 //
 
 import Foundation
 import FMDB
 
-class StateDao : NSObject {
+class CompanyDao : NSObject {
     
-    class func selectStateById(db: FMDatabase, id: Int16) -> NSMutableArray {
+    class func selectCompanyById(db: FMDatabase, id: Int16) -> NSMutableArray {
         
         let array = NSMutableArray()
         
         do {
-            let rs = try db.executeQuery("select * from states where id = ?", values: [1])
+            let rs = try db.executeQuery("select * from companies where id = ?", values: [1])
             
             if rs.next() {
-                array .add(Database.serializer(rs: rs, obj: StateBean()))
+                array .add(Database.serializer(rs: rs, obj: CompanyBean()))
             }
             
         } catch {
@@ -29,15 +29,15 @@ class StateDao : NSObject {
         return array
     }
     
-    class func selectAllStates(db: FMDatabase) -> NSMutableArray {
+    class func selectAllCompanies(db: FMDatabase) -> NSMutableArray {
         
         let array = NSMutableArray()
         
         do {
-            let rs = try db.executeQuery("select * from states", values: nil)
+            let rs = try db.executeQuery("select * from companies", values: nil)
             
             while rs.next() {
-                array .add(Database.serializer(rs: rs, obj: StateBean()))
+                array .add(Database.serializer(rs: rs, obj: CompanyBean()))
             }
             
         } catch {
@@ -45,5 +45,5 @@ class StateDao : NSObject {
         }
         
         return array
-    } 
+    }
 }

@@ -17,7 +17,6 @@ class Sync : NSObject {
     
     var urlApi: NSString = ""
     var delegate: AppDelegate!
-    var context: NSManagedObjectContext!
     var urlPath: NSString = ""
     var viewController: UIViewController!
     
@@ -25,9 +24,7 @@ class Sync : NSObject {
         urlApi = ""
         
         delegate = UIApplication.shared.delegate as! AppDelegate
-        
-        context = self.delegate.managedObjectContext
-        
+    
         urlPath = "http://localhost:3000/api"
         
         super.init()
@@ -87,7 +84,7 @@ class Sync : NSObject {
                                         
                                         do {
                                             //save user on db
-                                            try self.context.save()
+                                            //try self.context.save()
                                             
                                             userBean = UserBean.serializer(object: userObj)
                                         }catch{
@@ -255,15 +252,15 @@ class Sync : NSObject {
     //
     
     //Sync
-    class func syncTables(context: NSManagedObjectContext) {
-        EventTypeBean.listAllEventTypes(context: context)
-        EventCategoryBean.listAllEventCategories(context: context)
-        UserTypeBean.listAllUserTypes(context: context)
-        InvitationTypeBean.listAllInvitationType(context: context)
+    class func syncTables(db: Database) {
+        EventTypeBean.listAllEventTypes(db: Database)
+        EventCategoryBean.listAllEventCategories(db: Database)
+        UserTypeBean.listAllUserTypes(db: Database)
+        InvitationTypeBean.listAllInvitationType(db: Database)
         
-        CountryBean.listAllCountry(context: context)
-        StateBean.listAllStates(context: context)
-        CityBean.listAllCities(context: context)
+        CountryBean.listAllCountry(db: Database)
+        StateBean.listAllStates(db: Database)
+        CityBean.listAllCities(db: Database)
     }
     //
     

@@ -25,12 +25,8 @@ class CompanyFormViewController : FormViewController {
         
         delegate = UIApplication.shared.delegate as! AppDelegate
         
-        context = self.delegate.managedObjectContext
-        
-        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "Event")
-        
         do {
-            let results = try self.context.fetch(select)
+            let results = try EventDao.selectAllEvents(db: delegate.db.fmDatabase)
             
             if results.count > 0 {
                 print(results)

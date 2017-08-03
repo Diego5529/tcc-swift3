@@ -12,7 +12,6 @@ import CoreData
 class EventFormViewController : FormViewController {
     
     var delegate: AppDelegate!
-    var context: NSManagedObjectContext!
     var companyEvent: CompanyBean!
     var eventClass: EventBean!
     var invitations: NSMutableDictionary = [:]
@@ -21,8 +20,6 @@ class EventFormViewController : FormViewController {
         super.viewDidLoad()
         
         delegate = UIApplication.shared.delegate as! AppDelegate
-        
-        context = self.delegate.managedObjectContext
         
         if  eventClass == nil {
             eventClass = EventBean.init()
@@ -50,9 +47,9 @@ class EventFormViewController : FormViewController {
         if (message?.isEmpty)! {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             
-            self.eventClass.event_id = EventBean().getMaxEvent(context: self.context)
+            self.eventClass.event_id = EventDao.getEventMaxId(db: delegate.db.fmDatabase)
             
-            let eventObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Event", into: self.context)
+            /*let eventObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Event", into: self.context)
             
             eventObj.setValue(self.eventClass.event_id, forKey: "event_id")
             eventObj.setValue(eventClass.title, forKey: "title")
@@ -69,9 +66,10 @@ class EventFormViewController : FormViewController {
             eventObj.setValue(eventClass.company_id, forKey: "company_id")
             eventObj.setValue(eventClass.archive, forKey: "archive")
             eventObj.setValue(eventClass.status, forKey: "status")
+            */
             
             do {
-                try self.context.save()
+                try EventDao.insertEvent(db: delegate.db.fmDatabase, event: self.eventClass)
                 
                 print("save success!")
                 

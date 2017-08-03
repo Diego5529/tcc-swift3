@@ -15,6 +15,22 @@ import Alamofire
 
 class EventCategoryBean : NSObject {
     
+    public var id: Int16
+    public var long_description: NSString
+    public var short_description: NSString
+    public var title: NSString
+    public var created_at: NSDate
+    public var updated_at: NSDate
+    
+    override init () {
+        self.id = 0
+        self.long_description = ""
+        self.short_description = ""
+        self.title = ""
+        self.created_at = NSDate.init()
+        self.updated_at = NSDate.init()
+    }
+    
     //EventCategory
     class func listAllEventCategories(context: NSManagedObjectContext) {
         if (Connection.isReachable()){

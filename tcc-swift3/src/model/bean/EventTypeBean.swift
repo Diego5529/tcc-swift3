@@ -15,8 +15,24 @@ import Alamofire
 
 class EventTypeBean : NSObject {
     
+    public var id: Int16
+    public var long_description: NSString
+    public var short_description: NSString
+    public var title: NSString
+    public var created_at: NSDate
+    public var updated_at: NSDate
+    
+    override init () {
+        self.id = 0
+        self.long_description = ""
+        self.short_description = ""
+        self.title = ""
+        self.created_at = NSDate.init()
+        self.updated_at = NSDate.init()
+    }
+    
     //EventType
-    class func listAllEventTypes(context: NSManagedObjectContext) {
+    class func listAllEventTypes(db: Database) {
         if (Connection.isReachable()){
             
             let stringURL = String.urlPath() .appending("/event_type/event_types")
@@ -44,7 +60,7 @@ class EventTypeBean : NSObject {
                                                 print(value, key)
                                             }else{
                                                 let array = value as! NSArray
-                                                
+                                                /*
                                                 for dic in array  {
                                                     let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "EventType", into: context)
                                                     
@@ -52,17 +68,17 @@ class EventTypeBean : NSObject {
                                                     
                                                     do {
                                                         //save user on db
-                                                        try context.save()
+                                                        //try context.save()
                                                         
                                                         let select = NSFetchRequest<NSFetchRequestResult>(entityName: "EventType")
                                                         
                                                         do {
-                                                            let results = try context.fetch(select)
-                                                            //let cities: NSMutableDictionary = [:]
-                                                            
-                                                            if results.count > 0 {
-                                                                print(results)
-                                                            }
+//                                                            let results = try context.fetch(select)
+//                                                            //let cities: NSMutableDictionary = [:]
+//                                                            
+//                                                            if results.count > 0 {
+//                                                                print(results)
+//                                                            }
                                                         }catch{
                                                             
                                                         }
@@ -70,10 +86,12 @@ class EventTypeBean : NSObject {
                                                         //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                                     }
                                                 }
+ */
                                             }
                                         }
                                     }else{
                                         
+                                        /*
                                         let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "EventType", into: context)
                                         
                                         self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: cityObj)
@@ -96,7 +114,7 @@ class EventTypeBean : NSObject {
                                             }
                                         }catch{
                                             //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
-                                        }
+                                        }*/
                                     }
                                 }
                             }else if(jsonResult is NSString){

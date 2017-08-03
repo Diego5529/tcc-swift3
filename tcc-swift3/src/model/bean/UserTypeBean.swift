@@ -15,6 +15,22 @@ import Alamofire
 
 class UserTypeBean : NSObject {
     
+    public var id: Int16
+    public var long_description: String
+    public var short_description: String
+    public var title: String
+    public var created_at: NSDate
+    public var updated_at: NSDate
+    
+    override init () {
+        self.id = 0
+        self.title = ""
+        self.long_description = ""
+        self.short_description = ""
+        self.created_at = NSDate.init()
+        self.updated_at = self.created_at
+    }
+    
     //UserType
     class func listAllUserTypes(context: NSManagedObjectContext) {
         if (Connection.isReachable()){

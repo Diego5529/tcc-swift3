@@ -15,19 +15,17 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
     var detailViewController: DetailViewController? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
     var delegate: AppDelegate!
-    var context: NSManagedObjectContext!
     var companies: NSMutableDictionary = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate = UIApplication.shared.delegate as! AppDelegate
         
-        context = self.delegate.managedObjectContext
+        delegate = UIApplication.shared.delegate as! AppDelegate
         
         let select = NSFetchRequest<NSFetchRequestResult>(entityName: "Company")
         
         do {
-            let results = try self.context.fetch(select)
+            let results = try CompanyDao.selectAllCompanies(db: delegate.db.fmDatabase)
             
             if results.count > 0 {
                 print(results)

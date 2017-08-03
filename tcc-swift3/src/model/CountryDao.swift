@@ -18,7 +18,7 @@ class CountryDao : NSObject {
         do {
             let rs = try db.executeQuery("select * from countries where id = ?", values: [1])
             
-            while rs.next() {
+            if rs.next() {
                 array .add(Database.serializer(rs: rs, obj: CountryBean()))
             }
             

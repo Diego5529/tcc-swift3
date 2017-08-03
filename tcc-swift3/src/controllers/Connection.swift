@@ -16,17 +16,14 @@ class Connection : NSObject {
 
     var urlApi: NSString = ""
     var delegate: AppDelegate!
-    var context: NSManagedObjectContext!
     var urlPath: NSString = ""
     var viewController: UIViewController!
-    var person: [NSManagedObject] = []
+    var person: UserBean
     
     override init () {        
         urlApi = ""
         
         delegate = UIApplication.shared.delegate as! AppDelegate
-        
-        context = self.delegate.managedObjectContext
         
         urlPath = "http://localhost:3000/api"
         
@@ -480,18 +477,15 @@ class Connection : NSObject {
         let token = delegate.defaults.string(forKey: delegate.keyDefaultsToken)
         
         if (token != nil && (token?.characters.count)! > 0) {
-            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
-            
-            fetchRequest.predicate = NSPredicate(format: "token == %@", token!)
             
             do {
-                person = try context.fetch(fetchRequest)
+                person = try UserDao.getUserByToken(db: delegate.db.fmDatabase, token: token!)
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.userInfo)")
             }
             
-            if (person.count > 0){
-                delegate.loggedUser = person.first as! User!
+            if (person.token != nil){
+                delegate.loggedUser = person
                 
                 logUserFabric()
                 

@@ -26,12 +26,8 @@ class InvitationListViewController: FormViewController, NSFetchedResultsControll
         
         delegate = UIApplication.shared.delegate as! AppDelegate
         
-        context = self.delegate.managedObjectContext
-        
-        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "Invitation")
-        
         do {
-            let results = try self.context.fetch(select)
+            let results = try InvitationDao.selectAllInvitations(db: delegate.db.fmDatabase)
             
             if results.count > 0 {
                 print(results)

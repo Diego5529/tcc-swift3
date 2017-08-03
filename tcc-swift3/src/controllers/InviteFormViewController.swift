@@ -13,7 +13,6 @@ import CoreData
 class InviteFormViewController : FormViewController {
     
     var delegate: AppDelegate!
-    var context: NSManagedObjectContext!
     var companyEvent: CompanyBean!
     var eventClass: EventBean!
     var invitationClass: InvitationBean!
@@ -23,8 +22,6 @@ class InviteFormViewController : FormViewController {
         super.viewDidLoad()
         
         delegate = UIApplication.shared.delegate as! AppDelegate
-        
-        context = self.delegate.managedObjectContext
         
         if  invitationClass == nil && eventClass != nil {
             invitationClass = InvitationBean.init()
@@ -53,7 +50,7 @@ class InviteFormViewController : FormViewController {
             //
             var idMaxUser = 0
             
-            let userBean = UserBean.getUserByEmail(context: self.context, email: self.invitationClass.email)
+            let userBean = UserDao.getUserByEmail(db: self.delegate.db.fmDatabase, email: self.invitationClass.email)
             
             if (userBean.id == 0) {
                 let sync = Sync.init()
@@ -65,9 +62,7 @@ class InviteFormViewController : FormViewController {
                 if userBean.id > 0 {
                     self.invitationClass.guest_user_id = userBean.id
                 }else{
-                    let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
-                    
-                    idMaxUser = Int(UserBean.getMaxUser(context: self.context))
+                    idMaxUser = Int(UserDao.getUserMaxId(db: self.delegate.db.fmDatabase))
                     
                     userObj.setValue(self.invitationClass.email, forKey: "email")
                     userObj.setValue(idMaxUser, forKey: "user_id")
@@ -79,7 +74,7 @@ class InviteFormViewController : FormViewController {
                 if (message?.isEmpty)! {
                     self.navigationItem.rightBarButtonItem?.isEnabled = false
                     
-                    let idMaxInvitation = InvitationBean.getMaxInvitation(context: self.context)
+                    let idMaxInvitation = InvitationDao.getInvitationMaxId(db: self.delegate.db.fmDatabase)
                     self.invitationClass.invitation_id = idMaxInvitation
                     self.invitationClass.event_id = self.eventClass.event_id
                     self.invitationClass.host_user_id = (self.delegate.genericUser?.id)!

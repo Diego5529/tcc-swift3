@@ -15,6 +15,22 @@ import Alamofire
 
 class StateBean : NSObject {
     
+    public var country_id: Int16
+    public var id: Int16
+    public var initials: NSString
+    public var name: NSString
+    public var created_at: NSDate
+    public var updated_at: NSDate
+    
+    override init () {
+        self.id = 0
+        self.name = ""
+        self.created_at = NSDate.init()
+        self.updated_at = self.created_at
+        self.initials = ""
+        self.country_id = 0
+    }
+    
     //State
     class func listAllStates(context: NSManagedObjectContext) {
         if (Connection.isReachable()){
