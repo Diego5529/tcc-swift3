@@ -47,7 +47,7 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        Sync.syncTables(context: context)
+        //Sync.syncTables(context: context)
     }
 
     override func viewWillAppear(_ animated: Bool) {

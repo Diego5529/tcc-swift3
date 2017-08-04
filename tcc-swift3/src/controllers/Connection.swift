@@ -18,7 +18,7 @@ class Connection : NSObject {
     var delegate: AppDelegate!
     var urlPath: NSString = ""
     var viewController: UIViewController!
-    var person: UserBean
+    var person: UserBean!
     
     override init () {        
         urlApi = ""
@@ -71,7 +71,7 @@ class Connection : NSObject {
                         }else if(jsonResult is NSDictionary){
                             print(jsonResult)
                             
-                            let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                            let userObj = UserBean()
                             
                             if ((jsonResult as AnyObject).count >= 1){
                                 
@@ -95,15 +95,8 @@ class Connection : NSObject {
                                     }
                                 }else{
                             
-                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
-                                    
                                     do {
                                         //save user on db
-                                        
-                                        userObj .setValue(UserBean.getMaxUser(context: self.context), forKey: "user_id")
-                                        
-                                        try self.context.save()
-                                        
                                         //set defaults users
                                         self.delegate.defaults.set(self.delegate.genericUser?.token, forKey: self.delegate.keyDefaultsToken)
                                         
@@ -125,11 +118,11 @@ class Connection : NSObject {
                         select.returnsObjectsAsFaults = false
                         
                         do {
-                            let results = try self.context.fetch(select)
-                            
-                            if results.count > 0 {
-                                print(results.count)
-                            }
+//                            let results = try self.context.fetch(select)
+//                            
+//                            if results.count > 0 {
+//                                print(results.count)
+//                            }
                         }catch{
                         }
                     }
@@ -175,7 +168,7 @@ class Connection : NSObject {
                         else if(jsonResult is NSDictionary){
                             print(jsonResult)
                             
-                            let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                            let userObj = UserBean()
                             
                             if ((jsonResult as AnyObject).count >= 1){
                                 
@@ -198,12 +191,12 @@ class Connection : NSObject {
                                     self.showMessage(message: mutable as String, title: mutable2 as String, cancel: "")
                                 }else{
                                 
-                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
+//                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                                     
                                     do {
-                                        userObj .setValue(UserBean.getMaxUser(context: self.context), forKey: "user_id")
-                                        
-                                        try self.context.save()
+//                                        userObj .setValue(UserBean.getMaxUser(context: self.context), forKey: "user_id")
+//                                        
+//                                        try self.context.save()
                                         OperationQueue.main.addOperation {
                                             if (self.delegate.loggedUser != nil) {
                                                 Answers.logSignUp(withMethod: "API",
@@ -242,11 +235,11 @@ class Connection : NSObject {
                         select.returnsObjectsAsFaults = false
                         
                         do {
-                            let results = try self.context.fetch(select)
-                            
-                            if results.count > 0 {
-                                print(results.count)
-                            }
+//                            let results = try self.context.fetch(select)
+//                            
+//                            if results.count > 0 {
+//                                print(results.count)
+//                            }
                         }catch{
                         }
                     }
@@ -296,7 +289,7 @@ class Connection : NSObject {
                         }else if(jsonResult is NSDictionary){
                             print(jsonResult)
                             
-                            let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                            let userObj = UserBean()
                             
                             if ((jsonResult as AnyObject).count >= 1){
                                 
@@ -320,11 +313,11 @@ class Connection : NSObject {
                                     }
                                 }else{
                                     
-                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
+                                    //self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                                     
                                     do {
                                         //save user on db
-                                        try self.context.save()
+                                        //try self.context.save()
                                     }catch{
                                         self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                     }
@@ -341,11 +334,11 @@ class Connection : NSObject {
                         select.returnsObjectsAsFaults = false
                         
                         do {
-                            let results = try self.context.fetch(select)
-                            
-                            if results.count > 0 {
-                                print(results.count)
-                            }
+//                            let results = try self.context.fetch(select)
+//                            
+//                            if results.count > 0 {
+//                                print(results.count)
+//                            }
                         }catch{
                         }
                     }
@@ -397,7 +390,7 @@ class Connection : NSObject {
                         }else if(jsonResult is NSDictionary){
                             print(jsonResult)
                             
-                            let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                            let userObj = UserBean()
                             
                             if ((jsonResult as AnyObject).count >= 1){
                                 
@@ -421,11 +414,11 @@ class Connection : NSObject {
                                     }
                                 }else{
                                     
-                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
+                                    //self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                                     
                                     do {
                                         //save user on db
-                                        try self.context.save()
+                                        //try self.context.save()
                                     }catch{
                                         self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                     }
@@ -442,11 +435,11 @@ class Connection : NSObject {
                         select.returnsObjectsAsFaults = false
                         
                         do {
-                            let results = try self.context.fetch(select)
-                            
-                            if results.count > 0 {
-                                print(results.count)
-                            }
+//                            let results = try self.context.fetch(select)
+//                            
+//                            if results.count > 0 {
+//                                print(results.count)
+//                            }
                         }catch{
                         }
                     }
@@ -468,7 +461,7 @@ class Connection : NSObject {
         }
         
         if !((self.delegate.genericUser?.user_id)! > 0) {
-            self.delegate.genericUser?.user_id = UserBean.getMaxUser(context: self.context)
+            //self.delegate.genericUser?.user_id = UserBean.getMaxUser(context: self.context)
         }
     }
     
@@ -485,7 +478,7 @@ class Connection : NSObject {
             }
             
             if (person.token != nil){
-                delegate.loggedUser = person
+                //delegate.loggedUser = person
                 
                 logUserFabric()
                 

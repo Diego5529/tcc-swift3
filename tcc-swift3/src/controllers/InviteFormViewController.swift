@@ -64,8 +64,8 @@ class InviteFormViewController : FormViewController {
                 }else{
                     idMaxUser = Int(UserDao.getUserMaxId(db: self.delegate.db.fmDatabase))
                     
-                    userObj.setValue(self.invitationClass.email, forKey: "email")
-                    userObj.setValue(idMaxUser, forKey: "user_id")
+                    //userObj.setValue(self.invitationClass.email, forKey: "email")
+                    //userObj.setValue(idMaxUser, forKey: "user_id")
                     self.invitationClass.guest_user_id = Int16(idMaxUser)
                 }
                 
@@ -81,9 +81,9 @@ class InviteFormViewController : FormViewController {
                     self.invitationClass.updated_at = NSDate.init()
 
                     do {
-                        InvitationBean.saveInvitation(context: self.context, invitation: self.invitationClass)
-                        
-                        try self.context.save()
+//                        InvitationBean.saveInvitation(context: self.context, invitation: self.invitationClass)
+//                        
+//                        try self.context.save()
                         
                         print("save success!")
                         

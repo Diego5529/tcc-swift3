@@ -69,7 +69,7 @@ class EventFormViewController : FormViewController {
             */
             
             do {
-                try EventDao.insertEvent(db: delegate.db.fmDatabase, event: self.eventClass)
+                try EventDao.insertOrReplaceEvent(db: delegate.db.fmDatabase, event: self.eventClass)
                 
                 print("save success!")
                 

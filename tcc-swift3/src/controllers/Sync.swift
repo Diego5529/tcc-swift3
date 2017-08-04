@@ -56,7 +56,7 @@ class Sync : NSObject {
                             }else if(jsonResult is NSDictionary){
                                 print(jsonResult)
                                 
-                                let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: self.context)
+                                let userObj = UserBean()
                                 
                                 if ((jsonResult as AnyObject).count >= 1){
                                     
@@ -104,29 +104,7 @@ class Sync : NSObject {
         }
     }
     
-    func setCompanyValuesByJSON (result: NSDictionary, context: NSManagedObjectContext, company: CompanyBean){
-            
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Company")
-        
-        fetchRequest.predicate = NSPredicate(format: "company_id == %i", company.company_id)
-        
-        do {
-            let obj = try context.fetch(fetchRequest)
-            
-            if obj.count > 0 {
-                for c in obj {
-                    for (key, value) in result {
-                        c.setValue(value, forKey: key as! String)
-                    }
-                }
-            }
-            
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-    }
-    
-    func setValuesByJSON (result: NSDictionary, obj: NSManagedObject, id_local: Int16){        
+    func setValuesByJSON (result: NSDictionary, obj: AnyObject, id_local: Int16){
         for (key, value) in result {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             let keys = key as! NSString
@@ -187,26 +165,7 @@ class Sync : NSObject {
                                                 
                                                 for dic in array  {
                                                     
-                                                    let companyObj = CompanyBean.getCompanyById(context: self.context, id: company.company_id)
-                                                    
-                                                    self.setCompanyValuesByJSON(result: dic as! NSDictionary, context: self.context, company: company)
-                                                    
                                                     do {
-                                                        //save user on db
-                                                        try self.context.save()
-                                                        
-                                                        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "Company")
-                                                        
-                                                        do {
-                                                            let results = try self.context.fetch(select)
-                                                            //let companies: NSMutableDictionary = [:]
-                                                            
-                                                            if results.count > 0 {
-                                                                print(results)
-                                                            }
-                                                        }catch{
-                                                            
-                                                        }
                                                     }catch{
                                                         self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                                     }
@@ -215,24 +174,8 @@ class Sync : NSObject {
                                         }
                                     }else{
                                         
-                                        self.setCompanyValuesByJSON(result: jsonResult as! NSDictionary, context: self.context, company: company)
                                         
                                         do {
-                                            //save user on db
-                                            try self.context.save()
-                                            
-                                            let select = NSFetchRequest<NSFetchRequestResult>(entityName: "Company")
-                                            
-                                            do {
-                                                let results = try self.context.fetch(select)
-                                                //let cities: NSMutableDictionary = [:]
-                                                
-                                                if results.count > 0 {
-                                                    print(results)
-                                                }
-                                            }catch{
-                                                
-                                            }
                                         }catch{
                                             self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                         }
@@ -253,14 +196,14 @@ class Sync : NSObject {
     
     //Sync
     class func syncTables(db: Database) {
-        EventTypeBean.listAllEventTypes(db: Database)
-        EventCategoryBean.listAllEventCategories(db: Database)
-        UserTypeBean.listAllUserTypes(db: Database)
-        InvitationTypeBean.listAllInvitationType(db: Database)
-        
-        CountryBean.listAllCountry(db: Database)
-        StateBean.listAllStates(db: Database)
-        CityBean.listAllCities(db: Database)
+//        EventTypeBean.listAllEventTypes(db: Database)
+//        EventCategoryBean.listAllEventCategories(db: Database)
+//        UserTypeBean.listAllUserTypes(db: Database)
+//        InvitationTypeBean.listAllInvitationType(db: Database)
+//        
+//        CountryBean.listAllCountry(db: Database)
+//        StateBean.listAllStates(db: Database)
+//        CityBean.listAllCities(db: Database)
     }
     //
     
