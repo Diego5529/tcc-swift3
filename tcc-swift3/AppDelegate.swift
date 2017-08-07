@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
     var window: UIWindow?
     var db: Database!
     var reachability: Reachability?
-    var loggedUser: User!
+    var loggedUser: UserBean!
     var genericUser: UserBean?
     var connection: Connection?
     var defaults: UserDefaults!
@@ -91,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
 
         self.connection = Connection()
         self.defaults = UserDefaults.standard
-        self.loggedUser = User()
+        self.loggedUser = UserBean()
         self.genericUser = UserBean()
 
         NSLog("6");

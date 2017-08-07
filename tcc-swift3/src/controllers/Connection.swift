@@ -52,7 +52,7 @@ class Connection : NSObject {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
-            let bodyData = String(format: "user[email]=%@&user[password]=%@", delegate.genericUser!.email!, delegate.genericUser!.password!)
+            let bodyData = String(format: "user[email]=%@&user[password]=%@", delegate.genericUser!.email, delegate.genericUser!.password!)
             request.httpBody = bodyData.data(using: String.Encoding.utf8)
             
             let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
@@ -94,9 +94,12 @@ class Connection : NSObject {
                                         }
                                     }
                                 }else{
+                                    
+                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                             
                                     do {
                                         //save user on db
+                                        _ = try UserDao.insertOrReplaceUser(db: self.delegate.db.fmDatabase, user: userObj)
                                         //set defaults users
                                         self.delegate.defaults.set(self.delegate.genericUser?.token, forKey: self.delegate.keyDefaultsToken)
                                         
@@ -151,7 +154,7 @@ class Connection : NSObject {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
-            let bodyData = String(format: "user[name]=%@&user[email]=%@&user[password]=%@&user[password_confirmation]=%@", (delegate.genericUser?.name!)!, (delegate.genericUser?.email!)!, (delegate.genericUser?.password!)!, (delegate.genericUser?.password_confirmation!)!)
+            let bodyData = String(format: "user[name]=%@&user[email]=%@&user[password]=%@&user[password_confirmation]=%@", (delegate.genericUser?.name!)!, (delegate.genericUser?.email)!, (delegate.genericUser?.password!)!, (delegate.genericUser?.password_confirmation!)!)
             request.httpBody = bodyData.data(using: String.Encoding.utf8);
             
             let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
@@ -267,7 +270,7 @@ class Connection : NSObject {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
-            let bodyData = String(format: "user[email]=%@", delegate.genericUser!.email!)
+            let bodyData = String(format: "user[email]=%@", delegate.genericUser!.email)
             
             request.httpBody = bodyData.data(using: String.Encoding.utf8);
             
@@ -414,7 +417,7 @@ class Connection : NSObject {
                                     }
                                 }else{
                                     
-                                    //self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
+                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                                     
                                     do {
                                         //save user on db
@@ -452,7 +455,7 @@ class Connection : NSObject {
         }
     }
     
-    func setValuesByJSON (jsonResult: NSDictionary, userObj: NSManagedObject){
+    func setValuesByJSON (jsonResult: NSDictionary, userObj: UserBean){
         for (key, value) in jsonResult {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             
@@ -478,7 +481,7 @@ class Connection : NSObject {
             }
             
             if (person.token != nil){
-                //delegate.loggedUser = person
+                delegate.loggedUser = person
                 
                 logUserFabric()
                 
@@ -501,7 +504,7 @@ class Connection : NSObject {
             Answers.logLogin(withMethod: "API",
                                        success: true,
                                        customAttributes: [
-                                        "email": delegate.loggedUser.email! as String,
+                                        "email": delegate.loggedUser.email as String,
                                         "name": delegate.loggedUser.name! as String
                 ])
         }
@@ -509,7 +512,7 @@ class Connection : NSObject {
     
     //Logout User
     func logoutUser(){
-        delegate.loggedUser = User();
+        delegate.loggedUser = UserBean();
         delegate.genericUser = UserBean()
         delegate.defaults .set(nil, forKey: delegate.keyDefaultsToken)
         

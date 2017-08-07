@@ -89,10 +89,10 @@ class ViewController: UIViewController  {
     @IBAction func signIn(_ sender: UIButton) {
         print("SignIn")
         
-        delegate.genericUser?.email = signInEmailTextField.text as String?
+        delegate.genericUser?.email = (signInEmailTextField.text as String?)!
         delegate.genericUser?.password = signInPasswordTextField.text as String?
         
-        let message = UserBean().validateLoginUser(userEmail: (delegate.genericUser?.email!)! as String, userPassword: ((delegate.genericUser?.password)!) as String)
+        let message = UserBean().validateLoginUser(userEmail: (delegate.genericUser?.email)! as String, userPassword: ((delegate.genericUser?.password)!) as String)
         
         if (message.isEmpty){
             delegate.connection?.viewController = self
@@ -115,7 +115,7 @@ class ViewController: UIViewController  {
         print("SignUp")
         
         delegate.genericUser?.name = signUpNameTextField.text as String?
-        delegate.genericUser?.email = signUpEmailTextField.text as String?
+        delegate.genericUser?.email = (signUpEmailTextField.text as String?)!
         delegate.genericUser?.password = signUpPassTextField.text as String?
         delegate.genericUser?.password_confirmation = signUpPassConfirmationTextField.text as String?
         
@@ -150,7 +150,7 @@ class ViewController: UIViewController  {
     @IBAction func resetPassword(_ sender: UIButton) {
         print("Reset Password")
         
-        delegate.genericUser?.email = resetPasswordEmailTextField.text
+        delegate.genericUser?.email = resetPasswordEmailTextField.text!
         
         let message = UserBean().validateResetPassword(userEmail: (delegate.genericUser?.email)!)
         

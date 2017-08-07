@@ -11,17 +11,15 @@ import CoreData
 
 class CompanyBean : NSObject {
     
-    var id: Int16 = 0
     var company_id: Int16 = 0
     var created_at: NSDate
-    var updated_at: NSDate
+    var id: Int16 = 0
     var long_description: String?
     var max_users: Int16 = 0
     var min_users: Int16 = 0
     var short_description: String?
     var title: String?
-    var has_many_event: Event?
-    var has_many_user_company: UserCompanyType?
+    var updated_at: NSDate
     
     override init () {
         self.id = 0

@@ -174,8 +174,10 @@ class Sync : NSObject {
                                         }
                                     }else{
                                         
+                                        self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, obj: company)
                                         
                                         do {
+                                            try CompanyDao.insertOrReplaceCompany(db: self.delegate.db.fmDatabase, company: company)
                                         }catch{
                                             self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                         }
@@ -193,6 +195,14 @@ class Sync : NSObject {
         }
     }
     //
+    
+    func setValuesByJSON (jsonResult: NSDictionary, obj: CompanyBean){
+        for (key, value) in jsonResult {
+            print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
+            
+            obj.setValue(value, forKey:key as! String);
+        }
+    }
     
     //Sync
     class func syncTables(db: Database) {
@@ -217,7 +227,7 @@ class Sync : NSObject {
             Answers.logLogin(withMethod: "API",
                              success: true,
                              customAttributes: [
-                                "email": delegate.loggedUser.email! as String,
+                                "email": delegate.loggedUser.email as String,
                                 "name": delegate.loggedUser.name! as String
                 ])
         }

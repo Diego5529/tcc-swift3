@@ -11,14 +11,34 @@ import CoreData
 
 class UserBean : NSObject {
     
-    var id: Int16 = 0
-    var user_id: Int16 = 0
-    var password_confirmation: String?
-    var email: String?
-    var name: String?
-    var password: String?
-    var token: String?
-    var deviseMinPassword = 6
+    public var active: Int16 = 1
+    public var admin: Bool = false
+    public var birth_date: NSDate?
+    public var created_at: NSDate = NSDate.init()
+    public var current_sign_in_at: NSDate?
+    public var current_sign_in_ip: String?
+    public var deviseMinPassword = 6
+    public var email: String = ""
+    public var encrypted_password: String = ""
+    public var genre: String?
+    public var id: Int16 = 0
+    public var last_name: String?
+    public var last_sign_in_at: NSDate?
+    public var last_sign_in_ip: String?
+    public var long_name: String?
+    public var name: String?
+    public var password: String?
+    public var password_confirmation: String?
+    public var phone_number: String?
+    public var provider: String?
+    public var remember_created_at: NSDate?
+    public var reset_password_sent_at: NSDate?
+    public var reset_password_token: String?
+    public var sign_in_count: Int16 = 0
+    public var token: String?
+    public var uid: String?
+    public var updated_at: NSDate = NSDate.init()
+    public var user_id: Int16 = 0
     
     //Dao
     class func saveUser(context: NSManagedObjectContext, user: UserBean){
@@ -75,7 +95,7 @@ class UserBean : NSObject {
         userBean.id = object.value(forKey: "id") as! Int16
         userBean.user_id = object.value(forKey: "user_id") as! Int16
         userBean.name = object.value(forKey: "name") as? String
-        userBean.email = object.value(forKey: "email") as? String
+        userBean.email = (object.value(forKey: "email") as? String)!
         
         return userBean
     }

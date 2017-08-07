@@ -15,8 +15,6 @@ import Crashlytics
 class CompanyFormViewController : FormViewController {
     
     var delegate: AppDelegate!
-    var context: NSManagedObjectContext!
-    var companyObject: [NSManagedObject] = []
     var companyClass: CompanyBean!
     var events: NSMutableDictionary = [:]
     
@@ -53,6 +51,7 @@ class CompanyFormViewController : FormViewController {
         addSaveButton()
         
         if companyClass.company_id > 0 {
+            Sync().viewController = self
             Sync().sendCompany(company: companyClass, method: companyClass.id > 0 ? "update" : "create")
         }
     }
@@ -74,31 +73,30 @@ class CompanyFormViewController : FormViewController {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             
             if !(self.companyClass.company_id > 0) {
-                self.companyClass.company_id = CompanyBean().getMaxCompany(context: self.context)
+                self.companyClass.company_id = CompanyDao.getCompanyMaxId(db: delegate.db.fmDatabase)
             }
             
-            CompanyBean.saveCompany(context: context, company: self.companyClass)
+            if (CompanyDao.insertOrReplaceCompany(db: delegate.db.fmDatabase, company: self.companyClass)){
 
-            let uct = UserCompanyTypeBean.init()
-            uct.user_company_type_id = UserCompanyTypeBean().getMaxUserCompanyType(context: self.context)
-            uct.user_id = 1
-            uct.company_id = companyClass.id
-            uct.user_type_id = 1
-            uct.admin = true
-            uct.active = true
-            
-            UserCompanyTypeBean.saveUserCompanyType(context: context, userCompanyType: uct)
-            
-            do {
-                try self.context.save()
+                let uct = UserCompanyTypeBean.init()
+//                uct.user_company_type_id = UserCompanyTypeBean().getMaxUserCompanyType(context: self.context)
+                uct.user_id = 1
+                uct.company_id = companyClass.id
+                uct.user_type_id = 1
+                uct.admin = true
+                uct.active = true
                 
-                print("save success!")
+    //            UserCompanyTypeBean.saveUserCompanyType(context: context, userCompanyType: uct)
                 
-                self.former.reload()
-            }catch{
-                print("Salvou")
+                do {
+                    
+                    print("save success!")
+                    
+                    self.former.reload()
+                }catch{
+                    print("Salvou")
+                }
             }
-            
         }else{
             showMessage(message: message!, title: "Error", cancel: "")
         }

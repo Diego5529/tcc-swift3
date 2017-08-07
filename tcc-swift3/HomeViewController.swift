@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
         if (delegate.loggedUser == nil) {
             self .dismiss(animated: true, completion: nil)
         }else{
-            print(delegate.loggedUser.name! as String, delegate.loggedUser.email! as String, delegate.loggedUser.token! as String)
+            print(delegate.loggedUser.name! as String, delegate.loggedUser.email as String, delegate.loggedUser.token! as String)
         }
     }
 

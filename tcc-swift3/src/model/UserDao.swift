@@ -11,6 +11,53 @@ import FMDB
 
 class UserDao : NSObject {
     
+    class func insertOrReplaceUser(db: FMDatabase, user: UserBean) -> Bool {
+        
+        var success = false
+        
+        if user.user_id == 0 {
+            user.user_id = self.getUserMaxId(db: db)
+        }
+        
+        user.updated_at = NSDate.init()
+        
+        do {
+            
+            var sqlUpdate = "INSERT OR REPLACE INTO users ( active, admin, birth_date, created_at, current_sign_in_at, current_sign_in_ip, email, encrypted_password, genre, id, last_name, last_sign_in_at, last_sign_in_ip, long_name, name, phone_number, provider, remember_created_at, reset_password_sent_at, reset_password_token, sign_in_count, token, uid, updated_at, user_id ) VALUES ("
+            
+            var dictionaryParams = [AnyHashable: Any]()
+            var propertyValue: Any?
+            var propertyName: String = ""
+            
+            let pokeMirror = Mirror(reflecting: user)
+            let properties = pokeMirror.children
+            
+            var count = 0 as IntMax
+            for property in properties {
+                print("\(property.label!) = \(property.value)")
+                
+                if !(property.label == "deviseMinPassword") && !(property.label == "password") && !(property.label == "password_confirmation")  {
+                    let isLast = (count == (properties.count-4))
+                    
+                    propertyName = property.label!
+                    sqlUpdate = sqlUpdate + (" :\(propertyName) \(isLast ? "" : ",")")
+                    propertyValue = user.value(forKey: propertyName)
+                    dictionaryParams[propertyName] = (propertyValue == nil ? NSNull() : propertyValue)
+                    count += 1
+                }
+            }
+            
+            sqlUpdate = sqlUpdate + (")")
+            
+            success = db.executeUpdate(sqlUpdate, withParameterDictionary: dictionaryParams)
+            
+        } catch is Error {
+            
+        }
+        
+        return success
+    }
+    
     class func getUserMaxId(db: FMDatabase) -> Int16 {
         
         var max = Int16()
@@ -26,7 +73,7 @@ class UserDao : NSObject {
             print("failed: \(error.localizedDescription)")
         }
         
-        return max
+        return max + 1
     }
     
     class func getUserByToken(db: FMDatabase, token: String) -> UserBean {
