@@ -13,6 +13,11 @@
 		5212F7861F32AC0D006FAE4C /* EventDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5212F7851F32AC0D006FAE4C /* EventDao.swift */; };
 		5212F7881F32AE76006FAE4C /* UserDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5212F7871F32AE76006FAE4C /* UserDao.swift */; };
 		521477FC1EE4957400314D3E /* InvitationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521477FB1EE4957400314D3E /* InvitationListViewController.swift */; };
+		521BA8FA1F392EE400D8BB14 /* UserCompanyTypeDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521BA8F91F392EE400D8BB14 /* UserCompanyTypeDao.swift */; };
+		521BA8FC1F393C6D00D8BB14 /* EventTypeDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521BA8FB1F393C6D00D8BB14 /* EventTypeDao.swift */; };
+		521BA8FE1F393D7300D8BB14 /* EventCategoryDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521BA8FD1F393D7300D8BB14 /* EventCategoryDao.swift */; };
+		521BA9001F393DEA00D8BB14 /* UserTypeDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521BA8FF1F393DEA00D8BB14 /* UserTypeDao.swift */; };
+		521BA9021F393E8800D8BB14 /* InvitationTypeDao.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521BA9011F393E8800D8BB14 /* InvitationTypeDao.swift */; };
 		5225F1F01ED39BBD001AB13A /* CompanyFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */; };
 		5225F2231ED3A067001AB13A /* Former.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5225F2221ED3A067001AB13A /* Former.framework */; };
 		5225F22C1ED3A33B001AB13A /* CenterLabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5225F2261ED3A33B001AB13A /* CenterLabelCell.swift */; };
@@ -100,6 +105,11 @@
 		5212F7851F32AC0D006FAE4C /* EventDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDao.swift; sourceTree = "<group>"; };
 		5212F7871F32AE76006FAE4C /* UserDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDao.swift; sourceTree = "<group>"; };
 		521477FB1EE4957400314D3E /* InvitationListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationListViewController.swift; sourceTree = "<group>"; };
+		521BA8F91F392EE400D8BB14 /* UserCompanyTypeDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCompanyTypeDao.swift; sourceTree = "<group>"; };
+		521BA8FB1F393C6D00D8BB14 /* EventTypeDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTypeDao.swift; sourceTree = "<group>"; };
+		521BA8FD1F393D7300D8BB14 /* EventCategoryDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCategoryDao.swift; sourceTree = "<group>"; };
+		521BA8FF1F393DEA00D8BB14 /* UserTypeDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTypeDao.swift; sourceTree = "<group>"; };
+		521BA9011F393E8800D8BB14 /* InvitationTypeDao.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationTypeDao.swift; sourceTree = "<group>"; };
 		5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyFormViewController.swift; sourceTree = "<group>"; };
 		5225F2221ED3A067001AB13A /* Former.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Former.framework; path = "../../../../Library/Developer/Xcode/DerivedData/tcc-swift3-akcbrosnscstzxbfogoiecwnunzz/Build/Products/Debug-iphonesimulator/Former/Former.framework"; sourceTree = "<group>"; };
 		5225F2261ED3A33B001AB13A /* CenterLabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterLabelCell.swift; sourceTree = "<group>"; };
@@ -225,6 +235,11 @@
 				5212F7831F32AB8D006FAE4C /* InvitationDao.swift */,
 				5212F7851F32AC0D006FAE4C /* EventDao.swift */,
 				5212F7871F32AE76006FAE4C /* UserDao.swift */,
+				521BA8F91F392EE400D8BB14 /* UserCompanyTypeDao.swift */,
+				521BA8FB1F393C6D00D8BB14 /* EventTypeDao.swift */,
+				521BA8FD1F393D7300D8BB14 /* EventCategoryDao.swift */,
+				521BA8FF1F393DEA00D8BB14 /* UserTypeDao.swift */,
+				521BA9011F393E8800D8BB14 /* InvitationTypeDao.swift */,
 			);
 			name = dao;
 			sourceTree = "<group>";
@@ -611,6 +626,7 @@
 			files = (
 				5225F22D1ED3A33B001AB13A /* ColorListCell.swift in Sources */,
 				9A8164A21F323CE200D87C60 /* CountryDao.swift in Sources */,
+				521BA8FA1F392EE400D8BB14 /* UserCompanyTypeDao.swift in Sources */,
 				5225F2361ED3A36D001AB13A /* Profile.swift in Sources */,
 				52B4D2391EDE3EF2009EB548 /* State+CoreDataClass.swift in Sources */,
 				9A8164A01F323C7C00D87C60 /* StateDao.swift in Sources */,
@@ -637,9 +653,11 @@
 				52B4D2361EDE3EF2009EB548 /* Invitation+CoreDataProperties.swift in Sources */,
 				5202F3E11F3014E00003B031 /* CityDao.swift in Sources */,
 				52B4D23E1EDE3EF2009EB548 /* UserCompanyType+CoreDataProperties.swift in Sources */,
+				521BA9001F393DEA00D8BB14 /* UserTypeDao.swift in Sources */,
 				521477FC1EE4957400314D3E /* InvitationListViewController.swift in Sources */,
 				52B4D2261EDE3EF2009EB548 /* InvitationBean.swift in Sources */,
 				52B4D22A1EDE3EF2009EB548 /* City+CoreDataProperties.swift in Sources */,
+				521BA9021F393E8800D8BB14 /* InvitationTypeDao.swift in Sources */,
 				52F759721EDBB08900F02B7E /* CompanyListViewController.swift in Sources */,
 				5225F1F01ED39BBD001AB13A /* CompanyFormViewController.swift in Sources */,
 				52DB79ED1E478DB400658171 /* AppDelegate.swift in Sources */,
@@ -669,11 +687,13 @@
 				5225F2301ED3A33B001AB13A /* ProfileImageCell.swift in Sources */,
 				52B4D2301EDE3EF2009EB548 /* Event+CoreDataProperties.swift in Sources */,
 				52B4D2291EDE3EF2009EB548 /* City+CoreDataClass.swift in Sources */,
+				521BA8FC1F393C6D00D8BB14 /* EventTypeDao.swift in Sources */,
 				522889F31ED0F62F007BC49D /* MenuViewCell.swift in Sources */,
 				529737441E47E84200C65464 /* Connection.swift in Sources */,
 				5225F22F1ED3A33B001AB13A /* ProfileFieldCell.swift in Sources */,
 				52FB18371EEF68E30005A867 /* EventTypeBean.swift in Sources */,
 				522889EA1ED0DC84007BC49D /* MasterViewController.swift in Sources */,
+				521BA8FE1F393D7300D8BB14 /* EventCategoryDao.swift in Sources */,
 				52FB18351EEF651C0005A867 /* InvitationTypeBean.swift in Sources */,
 				52BEAA491EEA1F5F00305DF8 /* StateBean.swift in Sources */,
 				5212F7821F32AA00006FAE4C /* CompanyDao.swift in Sources */,

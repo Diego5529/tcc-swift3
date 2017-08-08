@@ -11,22 +11,25 @@ import CoreData
 
 class UserCompanyTypeBean : NSObject {
     
-    var id: Int16 = 0
-    var user_company_type_id: Int16 = 0
     var active: Bool
     var admin: Bool
     var company_id: Int16
+    var created_at: NSDate
+    var id: Int16 = 0
+    var updated_at: NSDate
+    var user_company_type_id: Int16 = 0
     var user_id: Int16
     var user_type_id: Int16
     
     override init () {
-        
         self.active = true
         self.admin = true
         self.company_id = 0
         self.id = 0
         self.user_id = 0
         self.user_type_id = 0
+        self.created_at = NSDate.init()
+        self.updated_at = NSDate.init()
     }
     
     //Dao

@@ -15,11 +15,11 @@ import Alamofire
 
 class UserTypeBean : NSObject {
     
-    public var id: Int16
-    public var long_description: String
-    public var short_description: String
-    public var title: String
     public var created_at: NSDate
+    public var id: Int16
+    public var long_description: NSString
+    public var short_description: NSString
+    public var title: NSString
     public var updated_at: NSDate
     
     override init () {
@@ -32,7 +32,7 @@ class UserTypeBean : NSObject {
     }
     
     //UserType
-    class func listAllUserTypes(context: NSManagedObjectContext) {
+    class func listAllUserTypes(db: Database) {
         if (Connection.isReachable()){
             
             let stringURL = String.urlPath() .appending("/user_type/user_types")
@@ -62,26 +62,14 @@ class UserTypeBean : NSObject {
                                                 let array = value as! NSArray
                                                 
                                                 for dic in array  {
-                                                    let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "UserType", into: context)
+                                                    let obj = UserTypeBean()
                                                     
-                                                    self.setValuesByJSON(result: dic as! NSDictionary, obj: cityObj)
+                                                    self.setValuesByJSON(result: dic as! NSDictionary, obj: obj)
                                                     
                                                     do {
                                                         //save user on db
-                                                        try context.save()
+                                                        try UserTypeDao.insertOrReplaceUserType(db: db.fmDatabase, userType: obj)
                                                         
-                                                        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "UserType")
-                                                        
-                                                        do {
-                                                            let results = try context.fetch(select)
-                                                            //let cities: NSMutableDictionary = [:]
-                                                            
-                                                            if results.count > 0 {
-                                                                print(results)
-                                                            }
-                                                        }catch{
-                                                            
-                                                        }
                                                     }catch{
                                                         //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                                     }
@@ -90,26 +78,14 @@ class UserTypeBean : NSObject {
                                         }
                                     }else{
                                         
-                                        let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "UserType", into: context)
+                                        let obj = UserTypeBean()
                                         
-                                        self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: cityObj)
+                                        self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: obj)
                                         
                                         do {
                                             //save user on db
-                                            try context.save()
+                                            try UserTypeDao.insertOrReplaceUserType(db: db.fmDatabase, userType: obj)
                                             
-                                            let select = NSFetchRequest<NSFetchRequestResult>(entityName: "UserType")
-                                            
-                                            do {
-                                                let results = try context.fetch(select)
-                                                //let cities: NSMutableDictionary = [:]
-                                                
-                                                if results.count > 0 {
-                                                    print(results)
-                                                }
-                                            }catch{
-                                                
-                                            }
                                         }catch{
                                             //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                         }
@@ -128,7 +104,7 @@ class UserTypeBean : NSObject {
     }
     //
     
-    class func setValuesByJSON (result: NSDictionary, obj: NSManagedObject){
+    class func setValuesByJSON (result: NSDictionary, obj: UserTypeBean){
         for (key, value) in result {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             let keys = key as! NSString

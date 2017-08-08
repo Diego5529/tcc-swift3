@@ -206,14 +206,14 @@ class Sync : NSObject {
     
     //Sync
     class func syncTables(db: Database) {
-//        EventTypeBean.listAllEventTypes(db: Database)
-//        EventCategoryBean.listAllEventCategories(db: Database)
-//        UserTypeBean.listAllUserTypes(db: Database)
-//        InvitationTypeBean.listAllInvitationType(db: Database)
-//        
-//        CountryBean.listAllCountry(db: Database)
-//        StateBean.listAllStates(db: Database)
-//        CityBean.listAllCities(db: Database)
+        EventTypeBean.listAllEventTypes(db: db)
+        EventCategoryBean.listAllEventCategories(db: db)
+        UserTypeBean.listAllUserTypes(db: db)
+        InvitationTypeBean.listAllInvitationType(db: db)
+        
+        CountryBean.listAllCountry(db: db)
+        StateBean.listAllStates(db: db)
+        CityBean.listAllCities(db: db)
     }
     //
     

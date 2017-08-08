@@ -16,10 +16,10 @@ import Alamofire
 class StateBean : NSObject {
     
     public var country_id: Int16
+    public var created_at: NSDate
     public var id: Int16
     public var initials: NSString
     public var name: NSString
-    public var created_at: NSDate
     public var updated_at: NSDate
     
     override init () {
@@ -32,7 +32,7 @@ class StateBean : NSObject {
     }
     
     //State
-    class func listAllStates(context: NSManagedObjectContext) {
+    class func listAllStates(db: Database) {
         if (Connection.isReachable()){
             
             let stringURL = String.urlPath() .appending("/state/states")
@@ -62,23 +62,15 @@ class StateBean : NSObject {
                                                 let array = value as! NSArray
                                                 
                                                 for dic in array  {
-                                                    let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "State", into: context)
+                                                    let stateObj = StateBean()
                                                     
-                                                    self.setValuesByJSON(result: dic as! NSDictionary, obj: cityObj)
+                                                    self.setValuesByJSON(result: dic as! NSDictionary, obj: stateObj)
                                                     
                                                     do {
                                                         //save user on db
-                                                        try context.save()
-                                                        
-                                                        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "State")
                                                         
                                                         do {
-                                                            let results = try context.fetch(select)
-                                                            //let cities: NSMutableDictionary = [:]
-                                                            
-                                                            if results.count > 0 {
-                                                                print(results)
-                                                            }
+                                                            StateDao.insertOrReplaceState(db: db.fmDatabase, state: stateObj)
                                                         }catch{
                                                             
                                                         }
@@ -90,23 +82,15 @@ class StateBean : NSObject {
                                         }
                                     }else{
                                         
-                                        let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "State", into: context)
+                                        let stateObj = StateBean()
                                         
-                                        self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: cityObj)
+                                        self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: stateObj)
                                         
                                         do {
                                             //save user on db
-                                            try context.save()
-                                            
-                                            let select = NSFetchRequest<NSFetchRequestResult>(entityName: "State")
                                             
                                             do {
-                                                let results = try context.fetch(select)
-                                                //let cities: NSMutableDictionary = [:]
-                                                
-                                                if results.count > 0 {
-                                                    print(results)
-                                                }
+                                                StateDao.insertOrReplaceState(db: db.fmDatabase, state: stateObj)
                                             }catch{
                                                 
                                             }
@@ -128,7 +112,7 @@ class StateBean : NSObject {
     }
     //
     
-    class func setValuesByJSON (result: NSDictionary, obj: NSManagedObject){
+    class func setValuesByJSON (result: NSDictionary, obj: StateBean){
         for (key, value) in result {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             let keys = key as! NSString

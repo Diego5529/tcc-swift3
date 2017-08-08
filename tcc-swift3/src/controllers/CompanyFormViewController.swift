@@ -79,17 +79,16 @@ class CompanyFormViewController : FormViewController {
             if (CompanyDao.insertOrReplaceCompany(db: delegate.db.fmDatabase, company: self.companyClass)){
 
                 let uct = UserCompanyTypeBean.init()
-//                uct.user_company_type_id = UserCompanyTypeBean().getMaxUserCompanyType(context: self.context)
+                uct.user_company_type_id = UserCompanyTypeDao.getUserCompanyTypeMaxId(db: delegate.db.fmDatabase)
                 uct.user_id = 1
                 uct.company_id = companyClass.id
                 uct.user_type_id = 1
                 uct.admin = true
                 uct.active = true
-                
-    //            UserCompanyTypeBean.saveUserCompanyType(context: context, userCompanyType: uct)
+                uct.created_at = NSDate.init()
                 
                 do {
-                    
+                    UserCompanyTypeDao.insertOrReplaceUser(db: delegate.db.fmDatabase, userCompanyType: uct)
                     print("save success!")
                     
                     self.former.reload()

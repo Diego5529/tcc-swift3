@@ -15,11 +15,11 @@ import Alamofire
 
 class EventCategoryBean : NSObject {
     
+    public var created_at: NSDate
     public var id: Int16
     public var long_description: NSString
     public var short_description: NSString
     public var title: NSString
-    public var created_at: NSDate
     public var updated_at: NSDate
     
     override init () {
@@ -32,7 +32,7 @@ class EventCategoryBean : NSObject {
     }
     
     //EventCategory
-    class func listAllEventCategories(context: NSManagedObjectContext) {
+    class func listAllEventCategories(db: Database) {
         if (Connection.isReachable()){
             
             let stringURL = String.urlPath() .appending("/event_category/event_categories")
@@ -62,26 +62,14 @@ class EventCategoryBean : NSObject {
                                                 let array = value as! NSArray
                                                 
                                                 for dic in array  {
-                                                    let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "EventCategory", into: context)
+                                                    let obj = EventCategoryBean()
                                                     
-                                                    self.setValuesByJSON(result: dic as! NSDictionary, obj: cityObj)
+                                                    self.setValuesByJSON(result: dic as! NSDictionary, obj: obj)
                                                     
                                                     do {
                                                         //save user on db
-                                                        try context.save()
+                                                        try EventCategoryDao.insertOrReplaceEventCategory(db: db.fmDatabase, eventCategory: obj)
                                                         
-                                                        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "EventCategory")
-                                                        
-                                                        do {
-                                                            let results = try context.fetch(select)
-                                                            //let cities: NSMutableDictionary = [:]
-                                                            
-                                                            if results.count > 0 {
-                                                                print(results)
-                                                            }
-                                                        }catch{
-                                                            
-                                                        }
                                                     }catch{
                                                         //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                                     }
@@ -90,26 +78,14 @@ class EventCategoryBean : NSObject {
                                         }
                                     }else{
                                         
-                                        let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "EventCategory", into: context)
+                                        let obj = EventCategoryBean()
                                         
-                                        self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: cityObj)
+                                        self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: obj)
                                         
                                         do {
                                             //save user on db
-                                            try context.save()
+                                            try EventCategoryDao.insertOrReplaceEventCategory(db: db.fmDatabase, eventCategory: obj)
                                             
-                                            let select = NSFetchRequest<NSFetchRequestResult>(entityName: "EventCategory")
-                                            
-                                            do {
-                                                let results = try context.fetch(select)
-                                                //let cities: NSMutableDictionary = [:]
-                                                
-                                                if results.count > 0 {
-                                                    print(results)
-                                                }
-                                            }catch{
-                                                
-                                            }
                                         }catch{
                                             //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                         }
@@ -128,7 +104,7 @@ class EventCategoryBean : NSObject {
     }
     //
     
-    class func setValuesByJSON (result: NSDictionary, obj: NSManagedObject){
+    class func setValuesByJSON (result: NSDictionary, obj: EventCategoryBean){
         for (key, value) in result {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             let keys = key as! NSString

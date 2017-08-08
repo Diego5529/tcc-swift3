@@ -15,10 +15,10 @@ import Alamofire
 
 class CountryBean : NSObject {
     
+    public var created_at: NSDate
     public var id: Int16
     public var initials: NSString
     public var name: NSString
-    public var created_at: NSDate
     public var updated_at: NSDate
     
     override init () {
@@ -30,7 +30,7 @@ class CountryBean : NSObject {
     }
     
     //Country
-    class func listAllCountry(context: NSManagedObjectContext) {
+    class func listAllCountry(db: Database) {
         if (Connection.isReachable()){
             
             let stringURL = String.urlPath() .appending("/country/countries")
@@ -60,26 +60,13 @@ class CountryBean : NSObject {
                                                 let array = value as! NSArray
                                                 
                                                 for dic in array  {
-                                                    let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Country", into: context)
+                                                    let countryObj =  CountryBean()
                                                     
-                                                    self.setValuesByJSON(result: dic as! NSDictionary, obj: cityObj)
+                                                    self.setValuesByJSON(result: dic as! NSDictionary, obj: countryObj)
                                                     
                                                     do {
                                                         //save user on db
-                                                        try context.save()
-                                                        
-                                                        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "Country")
-                                                        
-                                                        do {
-                                                            let results = try context.fetch(select)
-                                                            //let cities: NSMutableDictionary = [:]
-                                                            
-                                                            if results.count > 0 {
-                                                                print(results)
-                                                            }
-                                                        }catch{
-                                                            
-                                                        }
+                                                        _ = CountryDao.insertOrReplaceCountry(db: db.fmDatabase, country: countryObj)
                                                     }catch{
                                                         //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                                     }
@@ -87,27 +74,13 @@ class CountryBean : NSObject {
                                             }
                                         }
                                     }else{
+                                        let countryObj =  CountryBean()
                                         
-                                        let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Country", into: context)
-                                        
-                                        self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: cityObj)
+                                        self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: countryObj)
                                         
                                         do {
                                             //save user on db
-                                            try context.save()
-                                            
-                                            let select = NSFetchRequest<NSFetchRequestResult>(entityName: "Country")
-                                            
-                                            do {
-                                                let results = try context.fetch(select)
-                                                //let cities: NSMutableDictionary = [:]
-                                                
-                                                if results.count > 0 {
-                                                    print(results)
-                                                }
-                                            }catch{
-                                                
-                                            }
+                                            _ = CountryDao.insertOrReplaceCountry(db: db.fmDatabase, country: countryObj)
                                         }catch{
                                             //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                         }
@@ -126,7 +99,7 @@ class CountryBean : NSObject {
     }
     //
     
-    class func setValuesByJSON (result: NSDictionary, obj: NSManagedObject){
+    class func setValuesByJSON (result: NSDictionary, obj: CountryBean){
         for (key, value) in result {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             let keys = key as! NSString

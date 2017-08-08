@@ -15,11 +15,11 @@ import Alamofire
 
 class EventTypeBean : NSObject {
     
+    public var created_at: NSDate
     public var id: Int16
     public var long_description: NSString
     public var short_description: NSString
     public var title: NSString
-    public var created_at: NSDate
     public var updated_at: NSDate
     
     override init () {
@@ -130,7 +130,7 @@ class EventTypeBean : NSObject {
     }
     //
     
-    class func setValuesByJSON (result: NSDictionary, obj: NSManagedObject){
+    class func setValuesByJSON (result: NSDictionary, obj: EventType){
         for (key, value) in result {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             let keys = key as! NSString

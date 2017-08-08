@@ -1,29 +1,29 @@
 //
-//  CityDao.swift
+//  InvitationTypeDao.swift
 //  tcc-swift3
 //
-//  Created by Diego Oliveira on 31/07/17.
+//  Created by Diego Oliveira on 07/08/17.
 //  Copyright © 2017 DO. All rights reserved.
 //
 
 import Foundation
 import FMDB
 
-class CityDao : NSObject {
+class InvitationTypeDao : NSObject {
     
-    class func insertOrReplaceCity(db: FMDatabase, city: CityBean) -> Bool {
+    class func insertOrReplaceInvitationType(db: FMDatabase, invitationType: InvitationTypeBean) -> Bool {
         
         var success = false
         
         do {
             
-            var sqlUpdate = "INSERT OR REPLACE INTO cities (created_at, ddd, id, name, state_id, updated_at, zip_code) VALUES ("
+            var sqlUpdate = "INSERT OR REPLACE INTO Invitation_types (created_at, id, long_description, short_description, title, updated_at) VALUES ("
             
             var dictionaryParams = [AnyHashable: Any]()
             var propertyValue: Any?
             var propertyName: String = ""
             
-            let pokeMirror = Mirror(reflecting: city)
+            let pokeMirror = Mirror(reflecting: invitationType)
             let properties = pokeMirror.children
             
             var count = 0 as IntMax
@@ -34,7 +34,7 @@ class CityDao : NSObject {
                 
                 propertyName = property.label!
                 sqlUpdate = sqlUpdate + (" :\(propertyName) \(isLast ? "" : ",")")
-                propertyValue = city.value(forKey: propertyName)
+                propertyValue = invitationType.value(forKey: propertyName)
                 dictionaryParams[propertyName] = (propertyValue == nil ? NSNull() : propertyValue)
                 count += 1
             }
@@ -50,33 +50,15 @@ class CityDao : NSObject {
         return success
     }
     
-    class func getCityMaxId(db: FMDatabase) -> Int16 {
-        
-        var max = Int16()
-        
-        do {
-            let rs = try db.executeQuery("select max(id) from cities", values: nil)
-            
-            if rs.next() {
-                max = Int16(rs.int(forColumnIndex: 0))
-            }
-            
-        } catch {
-            print("failed: \(error.localizedDescription)")
-        }
-        
-        return max
-    }
-    
-    class func selectCityById(db: FMDatabase, id: Int16) -> NSMutableArray {
+    class func selectInvitationTypeById(db: FMDatabase, id: Int16) -> NSMutableArray {
         
         let array = NSMutableArray()
         
         do {
-            let rs = try db.executeQuery("select * from cities where id = ?", values: [1])
+            let rs = try db.executeQuery("select * from Invitation_types where id = ?", values: [1])
             
             while rs.next() {
-                array .add(Database.serializer(rs: rs, obj: CityBean()))
+                array .add(Database.serializer(rs: rs, obj: InvitationTypeBean()))
             }
             
         } catch {
@@ -86,15 +68,15 @@ class CityDao : NSObject {
         return array
     }
     
-    class func selectAllCities(db: FMDatabase) -> NSMutableArray {
+    class func selectAllInvitationTypes(db: FMDatabase) -> NSMutableArray {
         
         let array = NSMutableArray()
         
         do {
-            let rs = try db.executeQuery("select * from cities", values: nil)
+            let rs = try db.executeQuery("select * from Invitation_types", values: nil)
             
             while rs.next() {
-                array .add(Database.serializer(rs: rs, obj: CityBean()))
+                array .add(Database.serializer(rs: rs, obj: InvitationTypeBean()))
             }
             
         } catch {
@@ -102,5 +84,5 @@ class CityDao : NSObject {
         }
         
         return array
-    } 
+    }
 }

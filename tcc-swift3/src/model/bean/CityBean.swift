@@ -16,13 +16,13 @@ import Alamofire
 
 class CityBean : NSObject {
     
-    var id: Int16 = 0
-    var state_id: Int16 = 0
-    var name: String!
-    var zip_code: String!
-    var ddd: Int16 = 0
     var created_at: NSDate!
+    var ddd: Int16 = 0
+    var id: Int16 = 0
+    var name: String!
+    var state_id: Int16 = 0
     var updated_at: NSDate!
+    var zip_code: String!
     
     override init () {
         self.id = 0
@@ -36,7 +36,7 @@ class CityBean : NSObject {
     }
 
     //City
-    class func listAllCities(context: NSManagedObjectContext) {
+    class func listAllCities(db: Database) {
         if (Connection.isReachable()){
             
             let stringURL = String.urlPath() .appending("/city/cities")
@@ -66,26 +66,13 @@ class CityBean : NSObject {
                                                 let array = value as! NSArray
                                                 
                                                 for dic in array  {
-                                                    let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "City", into: context)
+                                                    let cityObj =  CityBean()
                                                     
                                                     self.setValuesByJSON(result: dic as! NSDictionary, obj: cityObj)
                                                     
                                                     do {
                                                         //save user on db
-                                                        try context.save()
-                                                        
-                                                        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "City")
-                                                        
-                                                        do {
-                                                            let results = try context.fetch(select)
-                                                            //let cities: NSMutableDictionary = [:]
-                                                            
-                                                            if results.count > 0 {
-                                                                print(results)
-                                                            }
-                                                        }catch{
-                                                            
-                                                        }
+                                                        try CityDao.insertOrReplaceCity(db: db.fmDatabase, city: cityObj)
                                                     }catch{
                                                         //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                                     }
@@ -94,26 +81,13 @@ class CityBean : NSObject {
                                         }
                                     }else{
                                         
-                                        let cityObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "City", into: context)
+                                        let cityObj =  CityBean()
                                         
                                         self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: cityObj)
                                         
                                         do {
                                             //save user on db
-                                            try context.save()
-                                            
-                                            let select = NSFetchRequest<NSFetchRequestResult>(entityName: "City")
-                                            
-                                            do {
-                                                let results = try context.fetch(select)
-                                                //let cities: NSMutableDictionary = [:]
-                                                
-                                                if results.count > 0 {
-                                                    print(results)
-                                                }
-                                            }catch{
-                                                
-                                            }
+                                            _ = CityDao.insertOrReplaceCity(db: db.fmDatabase, city: cityObj)
                                         }catch{
                                             //self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                         }
@@ -132,7 +106,7 @@ class CityBean : NSObject {
     }
     //
     
-    class func setValuesByJSON (result: NSDictionary, obj: NSManagedObject){
+    class func setValuesByJSON (result: NSDictionary, obj: CityBean){
         for (key, value) in result {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             let keys = key as! NSString
