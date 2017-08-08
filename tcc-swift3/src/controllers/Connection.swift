@@ -41,9 +41,6 @@ class Connection : NSObject {
         print("SignIn")
         
         if (Connection.isReachable()){
-            //let vc = viewController as! ViewController
-            
-            //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
             let stringURL = urlPath .appending("/user/sign_in")
             
@@ -99,12 +96,13 @@ class Connection : NSObject {
                             
                                     do {
                                         //save user on db
-                                        _ = try UserDao.insertOrReplaceUser(db: self.delegate.db.fmDatabase, user: userObj)
-                                        //set defaults users
-                                        self.delegate.defaults.set(self.delegate.genericUser?.token, forKey: self.delegate.keyDefaultsToken)
-                                        
-                                        //login with token
-                                        self.loginByToken()
+                                        if(UserDao.insertOrReplaceUser(db: self.delegate.db.fmDatabase, user: userObj)){
+                                            //set defaults users
+                                            self.delegate.defaults.set(self.delegate.genericUser?.token, forKey: self.delegate.keyDefaultsToken)
+                                            
+                                            //login with token
+                                            self.loginByToken()
+                                        }
                                     }catch{
                                         self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                     }
@@ -130,8 +128,6 @@ class Connection : NSObject {
                         }
                     }
                 }
-                
-                //self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
@@ -142,11 +138,7 @@ class Connection : NSObject {
     
     //Create Account
     func signUp(){
-        if (Connection.isReachable()){
-            //let vc = viewController as! ViewController
-            
-            //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
-            
+        if (Connection.isReachable()){            
             let stringURL = urlPath .appending("/user/sign_up")
             
             let url = URL(string: stringURL as String)!
@@ -194,25 +186,24 @@ class Connection : NSObject {
                                     self.showMessage(message: mutable as String, title: mutable2 as String, cancel: "")
                                 }else{
                                 
-//                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
+                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                                     
                                     do {
-//                                        userObj .setValue(UserBean.getMaxUser(context: self.context), forKey: "user_id")
-//                                        
-//                                        try self.context.save()
-                                        OperationQueue.main.addOperation {
-                                            if (self.delegate.loggedUser != nil) {
-                                                Answers.logSignUp(withMethod: "API",
-                                                                 success: true,
-                                                                 customAttributes: [
-                                                                    "email": self.delegate.genericUser?.email as Any,
-                                                                    "name": self.delegate.genericUser?.name as Any                                     ])
-                                            }
-                                            
-                                            if ((self.viewController) != nil) {
-                                                let vc = self.viewController as! ViewController;
-                                                vc.signInEmailTextField.text = self.delegate.genericUser?.email as String?
-                                                vc.showSignInView()
+                                        if (UserDao.insertOrReplaceUser(db: self.delegate.db.fmDatabase, user: userObj)){
+                                            OperationQueue.main.addOperation {
+                                                if (self.delegate.loggedUser != nil) {
+                                                    Answers.logSignUp(withMethod: "API",
+                                                                     success: true,
+                                                                     customAttributes: [
+                                                                        "email": self.delegate.genericUser?.email as Any,
+                                                                        "name": self.delegate.genericUser?.name as Any                                     ])
+                                                }
+                                                
+                                                if ((self.viewController) != nil) {
+                                                    let vc = self.viewController as! ViewController;
+                                                    vc.signInEmailTextField.text = self.delegate.genericUser?.email as String?
+                                                    vc.showSignInView()
+                                                }
                                             }
                                         }
                                     }catch{
@@ -247,7 +238,6 @@ class Connection : NSObject {
                         }
                     }
                 }
-                //self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
@@ -259,9 +249,6 @@ class Connection : NSObject {
         print("Reset Password")
         
         if (Connection.isReachable()){
-            //let vc = viewController as! ViewController
-            
-            //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
             
             let stringURL = urlPath .appending("/user/reset_password")
             
@@ -316,11 +303,17 @@ class Connection : NSObject {
                                     }
                                 }else{
                                     
-                                    //self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
+                                    self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, userObj: userObj)
                                     
                                     do {
                                         //save user on db
-                                        //try self.context.save()
+                                        if(UserDao.insertOrReplaceUser(db: self.delegate.db.fmDatabase, user: userObj)){
+                                            //set defaults users
+                                            self.delegate.defaults.set(self.delegate.genericUser?.token, forKey: self.delegate.keyDefaultsToken)
+                                            
+                                            //login with token
+                                            self.loginByToken()
+                                        }
                                     }catch{
                                         self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                     }
@@ -346,8 +339,6 @@ class Connection : NSObject {
                         }
                     }
                 }
-                
-                //self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
@@ -361,10 +352,6 @@ class Connection : NSObject {
         print("UpdatePassword")
         
         if (Connection.isReachable()){
-            //let vc = viewController as! ViewController
-            
-            //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
-            
             let stringURL = urlPath .appending("/user/update_password")
             
             let url = URL(string: stringURL as String)!
@@ -421,7 +408,13 @@ class Connection : NSObject {
                                     
                                     do {
                                         //save user on db
-                                        //try self.context.save()
+                                        if(UserDao.insertOrReplaceUser(db: self.delegate.db.fmDatabase, user: userObj)){
+                                            //set defaults users
+                                            self.delegate.defaults.set(self.delegate.genericUser?.token, forKey: self.delegate.keyDefaultsToken)
+                                            
+                                            //login with token
+                                            self.loginByToken()
+                                        }
                                     }catch{
                                         self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                     }
@@ -447,8 +440,6 @@ class Connection : NSObject {
                         }
                     }
                 }
-                
-                //self.activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: true)
             })
             
             task.resume()
@@ -462,10 +453,6 @@ class Connection : NSObject {
             userObj.setValue(value, forKey:key as! String);
             self.delegate.genericUser?.setValue(value, forKey:key as! String);
         }
-        
-        if !((self.delegate.genericUser?.user_id)! > 0) {
-            //self.delegate.genericUser?.user_id = UserBean.getMaxUser(context: self.context)
-        }
     }
     
     //Login User
@@ -475,7 +462,7 @@ class Connection : NSObject {
         if (token != nil && (token?.characters.count)! > 0) {
             
             do {
-                person = try UserDao.getUserByToken(db: delegate.db.fmDatabase, token: token!)
+                person = UserDao.getUserByToken(db: delegate.db.fmDatabase, token: token!)
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.userInfo)")
             }
@@ -556,8 +543,6 @@ class Connection : NSObject {
     
     //AlertView
     func showMessage(message: String, title: String, cancel: String){
-        //let vc = viewController as! ViewController
-        //activityChangeStatus(activityView: vc.activityView, activityIndicator: vc.activityIndicator, hidden: false)
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         

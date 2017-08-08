@@ -12,7 +12,7 @@
         <!--Login View Controller-->
         <scene sceneID="6WW-ML-T2K">
             <objects>
-                <viewController id="FLk-xs-t2Q" customClass="LoginViewController" customModule="Former_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="FLk-xs-t2Q" customClass="LoginViewController" customModule="tcc_swift3" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Bek-Wo-uH2"/>
                         <viewControllerLayoutGuide type="bottom" id="dHn-nh-avc"/>
