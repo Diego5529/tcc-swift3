@@ -43,8 +43,8 @@ class CountryDao : NSObject {
             
             success = db.executeUpdate(sqlUpdate, withParameterDictionary: dictionaryParams)
             
-        } catch is Error {
-            
+        } catch {
+            print("failed: \(error.localizedDescription)")
         }
         
         return success

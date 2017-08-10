@@ -15,18 +15,9 @@ class EventDao : NSObject {
         
         var success = false
         
-        var count: UInt32 = 0
-        let properties = class_copyPropertyList(object_getClass(EventBean.self), &count)
-        
-        for index in 0...count {
-            let property1 = property_getName(properties?[Int(index)])
-            let result1 = String(cString: property1!)
-            print(result1)
-        }
-        
         do {
 
-            var sqlUpdate = "INSERT OR REPLACE INTO events (id, event_id, title, short_description, long_description, city_id, address, address_complement, number, district, zip_code, latitude, longitude, url_site, facebook_page, initial_date, end_date, initial_hour, end_hour, status, note, archive, event_type_id, use_password, password, confirm_password, min_users, max_users, company_id, created_at, updated_at) VALUES ("
+            var sqlUpdate = "INSERT OR REPLACE INTO events (address, address_complement, archive, city_id, company_id, confirm_password, created_at, district, end_date, end_hour, event_category_id, event_id, event_type_id, facebook_page, id, initial_date, initial_hour, latitude, long_description, longitude, max_users, min_users, note, number, password, short_description, status, title, updated_at, url_site, use_password, zip_code) VALUES ("
             
             var dictionaryParams = [AnyHashable: Any]()
             var propertyValue: Any?
@@ -51,8 +42,8 @@ class EventDao : NSObject {
             sqlUpdate = sqlUpdate + (")")
             
             success = db.executeUpdate(sqlUpdate, withParameterDictionary: dictionaryParams)
-        } catch is Error {
-            
+        } catch {
+            print("failed: \(error.localizedDescription)")
         }
         
         return success

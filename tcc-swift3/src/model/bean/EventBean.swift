@@ -43,11 +43,6 @@ class EventBean : NSObject {
     var url_site: String?
     var use_password: Bool = false
     var zip_code: String?
-    var belongs_to_city: City?
-    var belongs_to_company: Company?
-    var belongs_to_event_category: EventCategory?
-    var belongs_to_event_type: EventType?
-    var has_many_invitations: Invitation?
     
     override init () {
         self.company_id = 0

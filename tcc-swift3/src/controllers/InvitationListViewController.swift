@@ -13,7 +13,6 @@ import Former
 class InvitationListViewController: FormViewController, NSFetchedResultsControllerDelegate {
     
     var delegate: AppDelegate!
-    var context: NSManagedObjectContext!
     var companyEvent: CompanyBean!
     var eventClass: EventBean!
     var invitationClass: InvitationBean!
@@ -42,7 +41,7 @@ class InvitationListViewController: FormViewController, NSFetchedResultsControll
                 }
             }
         }catch{
-            
+            print("failed: \(error.localizedDescription)")
         }
         
         configure()

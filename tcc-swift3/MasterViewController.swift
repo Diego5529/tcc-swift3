@@ -39,8 +39,8 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
                     }
                 }
             }
-        }catch{
-            
+        } catch{
+            print("failed: \(error.localizedDescription)")
         }
         
         configure()

@@ -20,10 +20,6 @@ class ViewController: UIViewController  {
     static var kupdatePassword = "updatePassword"
     var currentStatus = ksignIn
     
-    //views
-    //@IBOutlet var activityView: UIView!
-    //@IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
     //signInView
     @IBOutlet var signInView: UIView!
     @IBOutlet weak var signInEmailTextField: UITextField!
@@ -68,7 +64,7 @@ class ViewController: UIViewController  {
         urlPath = "http://localhost:3000/api"
         
         signInEmailTextField.text = "diego.6.souza@gmail.com"
-        signInPasswordTextField.text = "12345678"
+        signInPasswordTextField.text = "87654321"
     }
     
     @IBAction func crashButtonTapped(_ sender: AnyObject) {
@@ -169,10 +165,6 @@ class ViewController: UIViewController  {
     
     //manipulateViews
     func hiddenAllViews() {
-        //hidden ActivityViews
-        //activityView.isHidden = true
-        //activityIndicator.isHidden = true
-  
         //signInView
         signInView.isHidden = true
         signInEmailTextField.text = ""
