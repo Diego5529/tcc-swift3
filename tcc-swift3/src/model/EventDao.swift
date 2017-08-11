@@ -15,6 +15,10 @@ class EventDao : NSObject {
         
         var success = false
         
+        if event.event_id == 0 {
+            event.event_id = getEventMaxId(db: db)
+        }
+        
         do {
 
             var sqlUpdate = "INSERT OR REPLACE INTO events (address, address_complement, archive, city_id, company_id, confirm_password, created_at, district, end_date, end_hour, event_category_id, event_id, event_type_id, facebook_page, id, initial_date, initial_hour, latitude, long_description, longitude, max_users, min_users, note, number, password, short_description, status, title, updated_at, url_site, use_password, zip_code) VALUES ("

@@ -11,6 +11,51 @@ import FMDB
 
 class InvitationDao : NSObject {
     
+    class func insertOrReplaceInvitation(db: FMDatabase, invitation: InvitationBean) -> Bool {
+        
+        var success = false
+        
+        if invitation.invitation_id == 0 {
+            invitation.invitation_id = self.getInvitationMaxId(db: db)
+        }
+        
+        invitation.updated_at = NSDate.init()
+        
+        do {
+            
+            var sqlUpdate = "INSERT OR REPLACE INTO companies ( created_at, email, event_id, host_user_id, id, invitation_id, invitation_type_id, updated_at, user_id ) VALUES ("
+            
+            var dictionaryParams = [AnyHashable: Any]()
+            var propertyValue: Any?
+            var propertyName: String = ""
+            
+            let pokeMirror = Mirror(reflecting: invitation)
+            let properties = pokeMirror.children
+            
+            var count = 0 as IntMax
+            for property in properties {
+                print("\(property.label!) = \(property.value)")
+                
+                let isLast = (count == (properties.count-1))
+                
+                propertyName = property.label!
+                sqlUpdate = sqlUpdate + (" :\(propertyName) \(isLast ? "" : ",")")
+                propertyValue = invitation.value(forKey: propertyName)
+                dictionaryParams[propertyName] = (propertyValue == nil ? NSNull() : propertyValue)
+                count += 1
+            }
+            
+            sqlUpdate = sqlUpdate + (")")
+            
+            success = db.executeUpdate(sqlUpdate, withParameterDictionary: dictionaryParams)
+            
+        } catch is Error {
+            
+        }
+        
+        return success
+    }
+    
     class func getInvitationMaxId(db: FMDatabase) -> Int16 {
         
         var max = Int16()

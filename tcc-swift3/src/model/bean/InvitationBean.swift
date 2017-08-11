@@ -11,8 +11,8 @@ import CoreData
 
 class InvitationBean : NSObject {
     
-    public var email: String
     public var created_at: NSDate
+    public var email: String
     public var event_id: Int16 = 0
     public var guest_user_id: Int16 = 0
     public var host_user_id: Int16 = 0
@@ -20,9 +20,6 @@ class InvitationBean : NSObject {
     public var invitation_id: Int16 = 0
     public var invitation_type_id: Int16 = 0
     public var updated_at: NSDate
-    public var belongs_to_event: Event?
-    public var belongs_to_invitation_type: InvitationType?
-    public var belongs_to_user: User?
     
     override init () {
         self.id = 0
