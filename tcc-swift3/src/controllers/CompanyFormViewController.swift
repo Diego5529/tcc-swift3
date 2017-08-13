@@ -24,14 +24,14 @@ class CompanyFormViewController : FormViewController {
         delegate = UIApplication.shared.delegate as! AppDelegate
         
         do {
-            let results = try EventDao.selectAllEvents(db: delegate.db.fmDatabase)
+            let results = EventDao.selectAllEvents(db: delegate.db.fmDatabase)
             
             if results.count > 0 {
                 print(results)
                 
                 for event in results {
                     if let key = (event as AnyObject).value(forKey: "title") {
-                        let eventClass = EventBean().serializer(object: event as AnyObject)
+                        let eventClass = event as! EventBean
                         
                         events .setValue(eventClass, forKey: key as! String)
                         print(key)
@@ -88,10 +88,11 @@ class CompanyFormViewController : FormViewController {
                 uct.created_at = NSDate.init()
                 
                 do {
-                    UserCompanyTypeDao.insertOrReplaceUser(db: delegate.db.fmDatabase, userCompanyType: uct)
-                    print("save success!")
+                    if(UserCompanyTypeDao.insertOrReplaceUser(db: delegate.db.fmDatabase, userCompanyType: uct)){
+                        print("save success!")
                     
-                    self.former.reload()
+                        self.former.reload()
+                    }
                 }catch{
                     print("Salvou")
                 }

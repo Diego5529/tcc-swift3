@@ -68,7 +68,7 @@ class EventDao : NSObject {
             print("failed: \(error.localizedDescription)")
         }
         
-        return max
+        return max + 1
     }
     
     class func selectEventById(db: FMDatabase, id: Int16) -> NSMutableArray {

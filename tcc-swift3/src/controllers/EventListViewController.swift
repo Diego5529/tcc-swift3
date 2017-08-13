@@ -1,102 +1,47 @@
 //
-//  InviteFormViewController.swift
+//  EventListViewController.swift
 //  tcc-swift3
 //
-//  Created by Diego Oliveira on 27/05/17.
+//  Created by Diego Oliveira on 12/08/17.
 //  Copyright © 2017 DO. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import Former
 import CoreData
+import ReachabilitySwift
+import Crashlytics
 
-class InviteFormViewController : FormViewController {
+class EventListViewController : FormViewController {
     
     var delegate: AppDelegate!
-    var companyEvent: CompanyBean!
-    var eventClass: EventBean!
-    var invitationClass: InvitationBean!
-    var userClass: UserBean!
+    var events: NSMutableDictionary = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         delegate = UIApplication.shared.delegate as! AppDelegate
         
-        if  invitationClass == nil && eventClass != nil {
-            invitationClass = InvitationBean.init()
-            invitationClass.event_id = eventClass.event_id
-            invitationClass.host_user_id = (delegate.genericUser?.user_id)!
+        do {
+            let results = EventDao.selectAllEvents(db: delegate.db.fmDatabase)
             
-            configureInviteRows()
-            
-            addSaveButton()
-        }else {
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func addSaveButton(){
-        let addButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(insertNewObject(_:)))
-        self.navigationItem.rightBarButtonItem = addButton
-    }
-    
-    func insertNewObject(_ sender: Any) {
-        if self.invitationClass?.created_at == nil {
-            invitationClass?.created_at = NSDate.init()
-        }
-        
-        DispatchQueue.global(qos: .default).async(execute: {() -> Void in
-            //
-            DispatchQueue.main.async(execute: {() -> Void in
-                //
-            })
-        })
-        
-        DispatchQueue.global(qos: .default).async(execute: {() -> Void in
-            //
-            var idMaxUser = 0
-            
-            let userBean = UserDao.getUserByEmail(db: self.delegate.db.fmDatabase, email: self.invitationClass.email)
-            
-            if (userBean.id == 0) {
-                let sync = Sync.init()
-                sync.getUserEmailOrID(user: userBean, email: self.invitationClass.email, id: self.invitationClass.id)
-            }
-            
-            DispatchQueue.main.async(execute: {() -> Void in
-                //
-                if userBean.id > 0 {
-                    self.invitationClass.guest_user_id = userBean.id
-                }else{
-                    idMaxUser = Int(UserDao.getUserMaxId(db: self.delegate.db.fmDatabase))
-                    
-                    //userObj.setValue(self.invitationClass.email, forKey: "email")
-                    //userObj.setValue(idMaxUser, forKey: "user_id")
-                    self.invitationClass.guest_user_id = Int16(idMaxUser)
-                }
+            if results.count > 0 {
+                print(results)
                 
-                let message = self.invitationClass?.validateCreateInvitation()
-                
-                if (message?.isEmpty)! {
-                    self.navigationItem.rightBarButtonItem?.isEnabled = false
-                    
-                    self.invitationClass.event_id = self.eventClass.event_id
-                    self.invitationClass.host_user_id = (self.delegate.genericUser?.id)!
-                    self.invitationClass.updated_at = NSDate.init()
-
-                    do {
-                        if(InvitationDao.insertOrReplaceInvitation(db: self.delegate.db.fmDatabase, invitation: self.invitationClass)){
-                            print("Invitation Saved!")
-                        }
-                    }catch{
-                    
+                for event in results {
+                    if let key = (event as AnyObject).value(forKey: "title") {
+                        let eventClass = event as! EventBean
+                        
+                        events .setValue(eventClass, forKey: key as! String)
+                        print(key)
                     }
-                }else{
-                    self.showMessage(message: message!, title: "Error", cancel: "")
                 }
-            })
-        })
+            }
+        }catch{
+            
+        }
+        
+        configureEventRows()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -107,53 +52,49 @@ class InviteFormViewController : FormViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func configureInviteRows (){
-        // Create RowFormers
-        // InviteRows
-        
-        let inputAccessoryView = FormerInputAccessoryView(former: former)
-        
+    func configureEventRows (){
         // Create Headers and Footers
         let createHeader: ((String) -> ViewFormer) = { text in
             return LabelViewFormer<FormLabelHeaderView>()
                 .configure {
                     $0.text = text
-                    $0.viewHeight = 44
+                    $0.viewHeight = 40
             }
         }
         
-        //Create Rows
-        
-        //User
-        let textFieldUserEvent = TextFieldRowFormer<FormTextFieldCell>() {
-            $0.titleLabel.text = "User"
-            $0.textField.keyboardType = .emailAddress
-            }.configure {
-                $0.placeholder = "Email"
-            }.onTextChanged {
-                print($0)
-                self.navigationItem.rightBarButtonItem?.isEnabled = true
-                self.invitationClass?.email = $0.lowercased()
-            }.onUpdate{
-                $0.text = self.invitationClass.email.lowercased()
+        // Create RowFormers
+        let createMenu: ((String, (() -> Void)?) -> RowFormer) = { text, onSelected in
+            return LabelRowFormer<FormLabelCell>() {
+                $0.titleLabel.textColor = .formerColor()
+                $0.titleLabel.font = .boldSystemFont(ofSize: 16)
+                $0.accessoryType = .disclosureIndicator
+                }.configure {
+                    $0.text = text
+                }.onSelected { _ in
+                    onSelected?()
+            }
         }
         
-        //Invitation Type
-        let selectorInvitationTypePickerRow = SelectorPickerRowFormer<FormSelectorPickerCell, Any>() {
-            $0.titleLabel.text = "Invitation Type"
-            }.configure {
-                $0.pickerItems = [SelectorPickerItem(
-                    title: "",
-                    displayTitle: NSAttributedString(string: "Normal"),
-                    value: nil)]
-                    + (1...20).map { SelectorPickerItem(title: "Type \($0)") }
-        }
+        let inputAccessoryView = FormerInputAccessoryView(former: former)
         
         // Create SectionFormers
-        let section0 = SectionFormer(rowFormer: textFieldUserEvent, selectorInvitationTypePickerRow)
-            .set(headerViewFormer: createHeader("Invite"))
+        let arrayEventsRow = NSMutableArray()
         
-        former.append(sectionFormer: section0
+        for event in events {
+            let eventRow = createMenu(event.key as! String) { [weak self] in
+                let eventVC = EventFormViewController()
+                eventVC.eventClass = event.value as! EventBean
+                
+                self?.navigationController?.pushViewController(eventVC, animated: true)
+            }
+            
+            arrayEventsRow.add(eventRow)
+        }
+        
+        let eventsSection = SectionFormer(rowFormers: arrayEventsRow as! [RowFormer])
+            .set(headerViewFormer: createHeader("Events"))
+        
+        former.append(sectionFormer: eventsSection
             ).onCellSelected { _ in
                 inputAccessoryView.update()
         }

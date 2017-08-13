@@ -32,35 +32,6 @@ class UserCompanyTypeBean : NSObject {
         self.updated_at = NSDate.init()
     }
     
-    //Dao
-    class func saveUserCompanyType(context: NSManagedObjectContext, userCompanyType: UserCompanyTypeBean){
-        let userCompanyTypeObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "UserCompanyType", into: context)
-        
-        userCompanyTypeObj.setValue(userCompanyType.id, forKey: "id")
-        userCompanyTypeObj.setValue(userCompanyType.user_company_type_id, forKey: "user_company_type_id")
-        userCompanyTypeObj.setValue(userCompanyType.user_id, forKey: "user_id")
-        userCompanyTypeObj.setValue(userCompanyType.company_id, forKey: "company_id")
-        userCompanyTypeObj.setValue(userCompanyType.user_type_id, forKey: "user_type_id")
-        userCompanyTypeObj.setValue(userCompanyType.admin, forKey: "admin")
-        userCompanyTypeObj.setValue(userCompanyType.active, forKey: "active")
-    }
-    
-    func getMaxUserCompanyType(context: NSManagedObjectContext) -> Int16 {
-        var idMax = 0
-        
-        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "UserCompanyType")
-        
-        do {
-            let results = try context.fetch(select)
-            
-            idMax = results.count + 1
-        }catch{
-            
-        }
-        
-        return Int16(idMax)
-    }
-    
     class func serializer(object: AnyObject) -> UserCompanyTypeBean {
         let uct = UserCompanyTypeBean()
         

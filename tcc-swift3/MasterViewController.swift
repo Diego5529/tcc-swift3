@@ -13,7 +13,6 @@ import Former
 class MasterViewController: FormViewController, NSFetchedResultsControllerDelegate {
 
     var detailViewController: DetailViewController? = nil
-    var managedObjectContext: NSManagedObjectContext? = nil
     var delegate: AppDelegate!
     var companies: NSMutableDictionary = [:]
     
@@ -22,17 +21,15 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
         
         delegate = UIApplication.shared.delegate as! AppDelegate
         
-        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "Company")
-        
         do {
-            let results = try CompanyDao.selectAllCompanies(db: delegate.db.fmDatabase)
+            let results = CompanyDao.selectAllCompanies(db: delegate.db.fmDatabase)
             
             if results.count > 0 {
                 print(results)
                 
                 for company in results {
                     if let key = (company as AnyObject).value(forKey: "title") {
-                        let companyClass = CompanyBean().serializer(companyObject: company as AnyObject)
+                        let companyClass = company as! CompanyBean
                         
                         companies .setValue(companyClass, forKey: key as! String)
                         print(key)
@@ -87,7 +84,7 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
         
         //Events
         let myEventsRow = createMenu("My Events") { [weak self] in
-            self?.navigationController?.pushViewController(CompanyFormViewController(), animated: true)
+            self?.navigationController?.pushViewController(EventListViewController(), animated: true)
         }
         
         //Profile

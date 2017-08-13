@@ -40,67 +40,6 @@ class UserBean : NSObject {
     public var updated_at: NSDate = NSDate.init()
     public var user_id: Int16 = 0
     
-    //Dao
-    class func saveUser(context: NSManagedObjectContext, user: UserBean){
-        let userObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "User", into: context)
-        
-        userObj.setValue(user.id, forKey: "id")
-        userObj.setValue(user.user_id, forKey: "user_id")
-        userObj.setValue(user.name, forKey: "name")
-        userObj.setValue(user.email, forKey: "email")
-        userObj.setValue(user.token, forKey: "token")
-    }
-    
-    class func getMaxUser(context: NSManagedObjectContext) -> Int16 {
-        var idMax = 0
-        
-        let select = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
-        
-        do {
-            let results = try context.fetch(select)
-            
-            idMax = results.count + 1
-        }catch{
-            
-        }
-        
-        return Int16(idMax)
-    }
-    
-    class func getUserByEmail(context: NSManagedObjectContext, email: String) -> UserBean {
-        var user = UserBean()
-        
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "User")
-        
-        fetchRequest.predicate = NSPredicate(format: "email == %@", email.lowercased())
-        
-        do {
-            let obj = try context.fetch(fetchRequest as! NSFetchRequest<NSFetchRequestResult>)
-            
-            if obj.count > 0 {
-                user = UserBean.serializer(object: obj.first as AnyObject)
-            }
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        
-        return user
-    }
-    
-    //
-    
-    class func serializer(object: AnyObject) -> UserBean {
-        let userBean = UserBean()
-        
-        userBean.id = object.value(forKey: "id") as! Int16
-        userBean.user_id = object.value(forKey: "user_id") as! Int16
-        userBean.name = object.value(forKey: "name") as? String
-        userBean.email = (object.value(forKey: "email") as? String)!
-        
-        return userBean
-    }
-    //
-    
     //Validations
     func validateCreateUser(userEmail: String, userName: String, userPassword: String, userConfirmationPassword: String) -> String{
         var message = ""

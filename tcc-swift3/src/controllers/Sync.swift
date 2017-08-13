@@ -33,8 +33,6 @@ class Sync : NSObject {
     //User
     func getUserEmailOrID(user: UserBean, email: String, id: Int16) {
         
-        var userBean = user
-        
         if (Connection.isReachable()){
             
             let stringURL = urlPath .appending("/user/user_by_email")
@@ -83,10 +81,9 @@ class Sync : NSObject {
                                         self.setValuesByJSON(result: jsonResult as! NSDictionary, obj: userObj, id_local: user.user_id)
                                         
                                         do {
-                                            //save user on db
-                                            //try self.context.save()
-                                            
-                                            userBean = UserBean.serializer(object: userObj)
+                                            if(UserDao.insertOrReplaceUser(db: self.delegate.db.fmDatabase, user: userObj)){
+                                                print("User updated")
+                                            }
                                         }catch{
                                             self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                         }
@@ -164,7 +161,7 @@ class Sync : NSObject {
                                                 let array = value as! NSArray
                                                 
                                                 for dic in array  {
-                                                    
+                                                    print(dic)
                                                     do {
                                                     }catch{
                                                         self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
@@ -177,7 +174,9 @@ class Sync : NSObject {
                                         self.setValuesByJSON(jsonResult: jsonResult as! NSDictionary, obj: company)
                                         
                                         do {
-                                            try CompanyDao.insertOrReplaceCompany(db: self.delegate.db.fmDatabase, company: company)
+                                            if(CompanyDao.insertOrReplaceCompany(db: self.delegate.db.fmDatabase, company: company)){
+                                                print("Updated Company")
+                                            }
                                         }catch{
                                             self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
                                         }

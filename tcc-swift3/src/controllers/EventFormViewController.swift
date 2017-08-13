@@ -47,8 +47,6 @@ class EventFormViewController : FormViewController {
         if (message?.isEmpty)! {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             
-            self.eventClass.event_id = EventDao.getEventMaxId(db: delegate.db.fmDatabase)
-            
             /*let eventObj: NSManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Event", into: self.context)
             
             eventObj.setValue(self.eventClass.event_id, forKey: "event_id")

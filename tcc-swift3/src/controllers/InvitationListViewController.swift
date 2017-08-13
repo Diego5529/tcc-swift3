@@ -17,7 +17,6 @@ class InvitationListViewController: FormViewController, NSFetchedResultsControll
     var eventClass: EventBean!
     var invitationClass: InvitationBean!
     var userClass: UserBean!
-    var managedObjectContext: NSManagedObjectContext? = nil
     var invitations: NSMutableDictionary = [:]
     
     override func viewDidLoad() {
@@ -33,7 +32,7 @@ class InvitationListViewController: FormViewController, NSFetchedResultsControll
                 
                 for invitation in results {
                     if let key = (invitation as AnyObject).value(forKey: "email") {
-                        let invitationClass = InvitationBean().serializer(object: invitation as AnyObject)
+                        let invitationClass = invitation as! InvitationBean
                         
                         invitations .setValue(invitationClass, forKey: key as! String)
                         print(key)

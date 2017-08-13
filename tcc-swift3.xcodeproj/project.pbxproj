@@ -85,6 +85,7 @@
 		52DB79F91E478DB400658171 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52DB79F71E478DB400658171 /* LaunchScreen.storyboard */; };
 		52DB7A041E4791F200658171 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DB7A021E4791F200658171 /* ViewController.swift */; };
 		52F2D7C61EE0DCD70002915A /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F2D7C51EE0DCD70002915A /* Sync.swift */; };
+		52F60BEA1F3FE60500ADCA2C /* EventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F60BE91F3FE60500ADCA2C /* EventListViewController.swift */; };
 		52F73AB01F2ECC490046E4AD /* tcc-swift3.db in Resources */ = {isa = PBXBuildFile; fileRef = 52F73AAF1F2ECC490046E4AD /* tcc-swift3.db */; };
 		52F73AB21F2ECF4C0046E4AD /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F73AB11F2ECF4C0046E4AD /* Database.swift */; };
 		52F759721EDBB08900F02B7E /* CompanyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F759711EDBB08900F02B7E /* CompanyListViewController.swift */; };
@@ -181,6 +182,7 @@
 		52DB7A021E4791F200658171 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		52DB7A091E4792BF00658171 /* tcc-swift3-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tcc-swift3-Bridging-Header.h"; sourceTree = "<group>"; };
 		52F2D7C51EE0DCD70002915A /* Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sync.swift; sourceTree = "<group>"; };
+		52F60BE91F3FE60500ADCA2C /* EventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListViewController.swift; sourceTree = "<group>"; };
 		52F73AAF1F2ECC490046E4AD /* tcc-swift3.db */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "tcc-swift3.db"; sourceTree = "<group>"; };
 		52F73AB11F2ECF4C0046E4AD /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		52F759711EDBB08900F02B7E /* CompanyListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyListViewController.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				52F759711EDBB08900F02B7E /* CompanyListViewController.swift */,
 				52F2D7C51EE0DCD70002915A /* Sync.swift */,
 				521477FB1EE4957400314D3E /* InvitationListViewController.swift */,
+				52F60BE91F3FE60500ADCA2C /* EventListViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -673,6 +676,7 @@
 				522889E91ED0DC84007BC49D /* DetailViewController.swift in Sources */,
 				52B4D2271EDE3EF2009EB548 /* UserBean.swift in Sources */,
 				52B4D22C1EDE3EF2009EB548 /* Company+CoreDataProperties.swift in Sources */,
+				52F60BEA1F3FE60500ADCA2C /* EventListViewController.swift in Sources */,
 				52B4D22B1EDE3EF2009EB548 /* Company+CoreDataClass.swift in Sources */,
 				52FB18311EEF64A90005A867 /* UserTypeBean.swift in Sources */,
 				52B4D2331EDE3EF2009EB548 /* EventType+CoreDataClass.swift in Sources */,

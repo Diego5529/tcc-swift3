@@ -119,11 +119,7 @@ class Connection : NSObject {
                         select.returnsObjectsAsFaults = false
                         
                         do {
-//                            let results = try self.context.fetch(select)
-//                            
-//                            if results.count > 0 {
-//                                print(results.count)
-//                            }
+//
                         }catch{
                         }
                     }

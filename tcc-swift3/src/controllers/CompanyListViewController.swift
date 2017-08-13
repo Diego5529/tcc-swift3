@@ -12,7 +12,6 @@ import Former
 
 class CompanyListViewController: FormViewController, NSFetchedResultsControllerDelegate {
     
-    var managedObjectContext: NSManagedObjectContext? = nil
     var delegate: AppDelegate!
     var companies: NSMutableDictionary = [:]
     
@@ -22,14 +21,14 @@ class CompanyListViewController: FormViewController, NSFetchedResultsControllerD
         delegate = UIApplication.shared.delegate as! AppDelegate
         
         do {
-            let results = try CompanyDao.selectAllCompanies(db: delegate.db.fmDatabase)
+            let results = CompanyDao.selectAllCompanies(db: delegate.db.fmDatabase)
             
             if results.count > 0 {
                 print(results)
                 
                 for company in results {
                     if let key = (company as AnyObject).value(forKey: "title") {
-                        let companyClass = CompanyBean().serializer(companyObject: company as AnyObject)
+                        let companyClass = company as! CompanyBean
                         
                         companies .setValue(companyClass, forKey: key as! String)
                         print(key)

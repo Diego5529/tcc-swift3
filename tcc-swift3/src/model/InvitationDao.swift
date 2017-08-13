@@ -23,7 +23,7 @@ class InvitationDao : NSObject {
         
         do {
             
-            var sqlUpdate = "INSERT OR REPLACE INTO companies ( created_at, email, event_id, host_user_id, id, invitation_id, invitation_type_id, updated_at, user_id ) VALUES ("
+            var sqlUpdate = "INSERT OR REPLACE INTO invitations ( created_at, email, event_id, guest_user_id, host_user_id, id, invitation_id, invitation_type_id, updated_at ) VALUES ("
             
             var dictionaryParams = [AnyHashable: Any]()
             var propertyValue: Any?
@@ -71,7 +71,7 @@ class InvitationDao : NSObject {
             print("failed: \(error.localizedDescription)")
         }
         
-        return max
+        return max + 1
     }
     
     
