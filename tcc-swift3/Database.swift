@@ -53,12 +53,16 @@ class Database : NSObject {
     
     class func serializer(rs: FMResultSet, obj: AnyObject) -> AnyObject {
 
-        for i in 0 ..< rs.columnCount() {
+        for i in 0 ..< rs.columnCount {
             let column: String = rs.columnName(for: i)!
             let value: Any? = rs.object(forColumnIndex: i)
-            
+        
             do {
                 if !(value is NSNull) {
+                    if (column .contains("date") || column.contains("hour")) {
+                        let date = rs.date(forColumn: column)
+                        obj.setValue(date, forKey: column)
+                    }else 
                     if (value is String) {
                         obj.setValue(value, forKey: column)
                     } else {
