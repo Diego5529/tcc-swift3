@@ -23,10 +23,12 @@ class InviteFormViewController : FormViewController {
         
         delegate = UIApplication.shared.delegate as! AppDelegate
         
-        if  invitationClass == nil && eventClass != nil {
-            invitationClass = InvitationBean.init()
-            invitationClass.event_id = eventClass.event_id
-            invitationClass.host_user_id = (delegate.genericUser?.user_id)!
+        if  eventClass != nil {
+            if invitationClass == nil {
+                invitationClass = InvitationBean.init()
+                invitationClass.event_id = eventClass.event_id
+                invitationClass.host_user_id = (delegate.genericUser?.user_id)!
+            }
             
             configureInviteRows()
             
@@ -139,14 +141,32 @@ class InviteFormViewController : FormViewController {
         }
         
         //Invitation Type
+        let types = InvitationTypeDao.selectAllInvitationTypes(db: delegate.db.fmDatabase)
+        let dictionaryTypes: NSMutableDictionary = [:]
+        
+        for type in types {
+            if let key = (type as AnyObject).value(forKey: "id") {
+                let typeClass = type as! InvitationTypeBean
+                
+                dictionaryTypes.setValue(typeClass, forKey: String(format: "%@", key as! CVarArg))
+            }
+        }
+        
         let selectorInvitationTypePickerRow = SelectorPickerRowFormer<FormSelectorPickerCell, Any>() {
+//            $0.backgroundColor = UIColor.red
             $0.titleLabel.text = "Invitation Type"
+//            $0.titleLabel.textColor = UIColor.blue
             }.configure {
                 $0.pickerItems = [SelectorPickerItem(
                     title: "",
-                    displayTitle: NSAttributedString(string: "Normal"),
-                    value: nil)]
-                    + (1...20).map { SelectorPickerItem(title: "Type \($0)") }
+                    displayTitle: NSAttributedString(string: "Not Set"),
+                    value: self.eventClass.city_id as Any )]
+                    + dictionaryTypes.allValues.map { SelectorPickerItem(title: ($0 as! InvitationTypeBean).title as String, value: ($0 as! InvitationTypeBean).id as Int16) }
+                $0.selectedRow = dictionaryTypes.allKeys.index(after: Int(self.invitationClass.invitation_type_id)) - 1
+            }.onValueChanged {
+                if ($0.value != nil){
+                    self.invitationClass.invitation_type_id = $0.value as! Int16
+                }
         }
         
         // Create SectionFormers

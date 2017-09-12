@@ -190,18 +190,32 @@ class EventFormViewController : FormViewController {
             .set(headerViewFormer: createHeader("Invitations"))
         
         //City
+        let cities = CityDao.selectAllCities(db: delegate.db.fmDatabase)
+        let dictionaryCities: NSMutableDictionary = [:]
+        
+        for city in cities {
+            if let key = (city as AnyObject).value(forKey: "id") {
+                let cityClass = city as! CityBean
+                
+                dictionaryCities .setValue(cityClass, forKey: String(format: "%@", key as! CVarArg))
+                print(key)
+            }
+        }
+        
         let selectorCityPickerRow = SelectorPickerRowFormer<FormSelectorPickerCell, Any>() {
             $0.titleLabel.text = "City"
             }.configure {
                 $0.pickerItems = [SelectorPickerItem(
                     title: "",
                     displayTitle: NSAttributedString(string: "Not Set"),
-                    value: nil)]
-                    + (1...20).map { SelectorPickerItem(title: "City \($0)") }
+                    value: self.eventClass.city_id as Any )]
+                    + dictionaryCities.allValues.map { SelectorPickerItem(title: ($0 as! CityBean).name, value: ($0 as! CityBean).id as Int16) }
+                $0.selectedRow = dictionaryCities.allKeys.index(after: Int(self.eventClass.city_id)) - 1
             }.onValueChanged {
-                print($0)
-//                print($0.displayTitle!,$0.value!  , $0.title)
-        }
+                if ($0.value != nil){
+                    self.eventClass.city_id = $0.value as! Int16
+                }
+            }
         
         //Initial Date
         let initialDateRow = InlineDatePickerRowFormer<FormInlineDatePickerCell>() {

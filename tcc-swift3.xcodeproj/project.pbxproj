@@ -355,15 +355,15 @@
 		529737421E47E7DE00C65464 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
-				522889F01ED0F3B5007BC49D /* view */,
-				529737431E47E84200C65464 /* Connection.swift */,
 				5225F1EF1ED39BBD001AB13A /* CompanyFormViewController.swift */,
-				52C448931ED675A3008C54BB /* EventFormViewController.swift */,
-				524E333A1ED930070035D443 /* InviteFormViewController.swift */,
 				52F759711EDBB08900F02B7E /* CompanyListViewController.swift */,
-				52F2D7C51EE0DCD70002915A /* Sync.swift */,
-				521477FB1EE4957400314D3E /* InvitationListViewController.swift */,
+				529737431E47E84200C65464 /* Connection.swift */,
+				52C448931ED675A3008C54BB /* EventFormViewController.swift */,
 				52F60BE91F3FE60500ADCA2C /* EventListViewController.swift */,
+				521477FB1EE4957400314D3E /* InvitationListViewController.swift */,
+				524E333A1ED930070035D443 /* InviteFormViewController.swift */,
+				52F2D7C51EE0DCD70002915A /* Sync.swift */,
+				522889F01ED0F3B5007BC49D /* view */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
