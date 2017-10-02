@@ -195,6 +195,97 @@ class Sync : NSObject {
     }
     //
     
+    //Event
+    func sendEvent(event: EventBean, method: String) {
+        if (Connection.isReachable()){
+            
+            let stringURL = urlPath .appendingFormat("/event/%@", method)
+            
+            let url = URL(string: stringURL as String)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            var companyID = ""
+            
+            if (event.id > 0) {
+                companyID = String(format: "&event[id]=%i", event.id)
+            }
+            
+            let bodyData = String(format: "event[title]=%@&event[short_description]=%@&event[long_description]=%@&event[min_users]=%i&company[max_users]=%i%@", event.title!, event.short_description!, event.long_description!, event.min_users, event.max_users, companyID)
+            
+            request.httpBody = bodyData.data(using: String.Encoding.utf8)
+            
+            Alamofire.request(request).responseJSON { response in
+                debugPrint(response)
+                if (response.error != nil){
+                    print(response.error as Any)
+                    self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                }else{
+                    if let jsonResult = response.result.value {
+                        print("JSON: \(jsonResult)")
+                        
+                        do{
+                            if (jsonResult is NSArray){
+                                print(jsonResult)
+                                
+                                self.showErrosFullmessages(array: jsonResult as! NSArray)
+                            }else if(jsonResult is NSDictionary){
+                                print(jsonResult)
+                                
+                                if ((jsonResult as AnyObject).count >= 1){
+                                    
+                                    if ((jsonResult as AnyObject).count == 1){
+                                        
+                                        for (key, value) in jsonResult as! NSDictionary {
+                                            if (value is String && key as! Bool){
+                                                self.showMessage(message: value as! String, title: "", cancel: "")
+                                            }else{
+                                                let array = value as! NSArray
+                                                
+                                                for dic in array  {
+                                                    print(dic)
+                                                    do {
+                                                    }catch{
+                                                        self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }else{
+                                        
+                                        self.setValuesByJSONEvent(jsonResult: jsonResult as! NSDictionary, obj: event)
+                                        
+                                        do {
+                                            if(EventDao.insertOrReplaceEvent(db: self.delegate.db.fmDatabase, event: event)){
+                                                print("Updated Event")
+                                            }
+                                        }catch{
+                                            self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                                        }
+                                    }
+                                }
+                            }else if(jsonResult is NSString){
+                                print(jsonResult)
+                            }
+                        } catch let error {
+                            print("%@", error.localizedDescription)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //
+    
+    func setValuesByJSONEvent(jsonResult: NSDictionary, obj: EventBean){
+        for (key, value) in jsonResult {
+            print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
+            
+            obj.setValue(value, forKey:key as! String);
+        }
+    }
+    
     func setValuesByJSON (jsonResult: NSDictionary, obj: CompanyBean){
         for (key, value) in jsonResult {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
@@ -214,6 +305,9 @@ class Sync : NSObject {
         StateBean.listAllStates(db: db)
         CityBean.listAllCities(db: db)
     }
+    //
+    
+    //Send
     //
     
     //Send User Fabric
