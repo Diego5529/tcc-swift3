@@ -16,16 +16,14 @@ class EventBean : NSObject {
     var archive: Bool = false
     var city_id: Int16 = 0
     var company_id: Int16 = 0
-    var confirm_password: String?
     var created_at: NSDate
     var district: String?
     var end_date: NSDate
     var end_hour: NSDate
     var event_category_id: Int16 = 0
-    var id: Int16 = 0
     var event_id: Int16 = 0
+    var id: Int16 = 0
     var event_type_id: Int16 = 0
-    var facebook_page: String?
     var initial_date: NSDate
     var initial_hour: NSDate
     var latitude: Double = 0
@@ -33,19 +31,14 @@ class EventBean : NSObject {
     var longitude: Double = 0
     var max_users: Int16 = 0
     var min_users: Int16 = 0
-    var note: String?
-    var number: String?
-    var password: String?
     var short_description: String?
     var status: String?
     var title: String?
     var updated_at: NSDate
-    var url_site: String?
-    var use_password: Bool = false
-    var zip_code: String?
     
     override init () {
         self.company_id = 0
+        self.id = 0
         self.created_at = NSDate.init()
         self.updated_at = NSDate.init()
         

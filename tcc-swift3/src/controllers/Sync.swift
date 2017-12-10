@@ -126,10 +126,10 @@ class Sync : NSObject {
             var companyID = ""
             
             if (company.id > 0) {
-                companyID = String(format: "&company[id]=%i", company.id)
+                companyID = String(format: "company[id]=%i&", company.id)
             }
             
-            let bodyData = String(format: "company[title]=%@&company[short_description]=%@&company[long_description]=%@&company[min_users]=%i&company[max_users]=%i%@", company.title!, company.short_description!, company.long_description!, company.min_users, company.max_users, companyID)
+            let bodyData = String(format: "%@company[title]=%@&company[short_description]=%@&company[long_description]=%@&company[min_users]=%i&company[max_users]=%i", companyID, company.title!, company.short_description!, company.long_description!, company.min_users, company.max_users)
             
             request.httpBody = bodyData.data(using: String.Encoding.utf8)
             
@@ -198,7 +198,6 @@ class Sync : NSObject {
     //Event
     func sendEvent(event: EventBean, method: String) {
         if (Connection.isReachable()){
-            
             let stringURL = urlPath .appendingFormat("/event/%@", method)
             
             let url = URL(string: stringURL as String)!
@@ -206,13 +205,23 @@ class Sync : NSObject {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             
-            var companyID = ""
+            var eventID = ""
             
             if (event.id > 0) {
-                companyID = String(format: "&event[id]=%i", event.id)
+                eventID = String(format: "event[id]=%i&", event.id)
             }
             
-            let bodyData = String(format: "event[title]=%@&event[short_description]=%@&event[long_description]=%@&event[min_users]=%i&company[max_users]=%i%@", event.title!, event.short_description!, event.long_description!, event.min_users, event.max_users, companyID)
+            let dateFormatter = DateFormatter()
+            
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            let dateFormatterHour = DateFormatter()
+            
+            dateFormatterHour.dateFormat = "HH:mm:ss"
+            
+            dateFormatter.string(from: event.initial_date as Date)
+            
+            let bodyData = String(format: "%@event[title]=%@&event[short_description]=%@&event[long_description]=%@&event[min_users]=%i&event[max_users]=%i&event[initial_date]&event[initial_date]='%@'&event[end_date]='%@'&event[initial_hour]='%@'&event[end_hour]='%@'", eventID, event.title!, event.short_description!, event.long_description!, event.min_users, event.max_users, dateFormatter.string(from: event.initial_date as Date), dateFormatter.string(from: event.end_date as Date), dateFormatterHour.string(from: event.initial_hour as Date), dateFormatterHour.string(from: event.end_hour as Date))
             
             request.httpBody = bodyData.data(using: String.Encoding.utf8)
             
@@ -278,11 +287,108 @@ class Sync : NSObject {
     }
     //
     
-    func setValuesByJSONEvent(jsonResult: NSDictionary, obj: EventBean){
+    //Invitation
+    func sendInvitation(invitation: InvitationBean, method: String) {
+        if (Connection.isReachable()){
+            
+            let stringURL = urlPath .appendingFormat("/invitation/%@", method)
+            
+            let url = URL(string: stringURL as String)!
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            var companyID = ""
+            
+            if (invitation.id > 0) {
+                companyID = String(format: "&invitation[id]=%i", invitation.id)
+            }
+            
+            let bodyData = String(format: "invitation[event_id]=%i&invitation[email]=%@&invitation[guest_user_id]=%i&invitation[host_user_id]=%i&invitation[invitation_type_id]=%i%@", invitation.event_id, invitation.email, invitation.guest_user_id, invitation.host_user_id, invitation.invitation_type_id, companyID)
+            
+            request.httpBody = bodyData.data(using: String.Encoding.utf8)
+            
+            Alamofire.request(request).responseJSON { response in
+                debugPrint(response)
+                if (response.error != nil){
+                    print(response.error as Any)
+                    self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                }else{
+                    if let jsonResult = response.result.value {
+                        print("JSON: \(jsonResult)")
+                        
+                        do{
+                            if (jsonResult is NSArray){
+                                print(jsonResult)
+                                
+                                self.showErrosFullmessages(array: jsonResult as! NSArray)
+                            }else if(jsonResult is NSDictionary){
+                                print(jsonResult)
+                                
+                                if ((jsonResult as AnyObject).count >= 1){
+                                    
+                                    if ((jsonResult as AnyObject).count == 1){
+                                        
+                                        for (key, value) in jsonResult as! NSDictionary {
+                                            if (value is String && key as! Bool){
+                                                self.showMessage(message: value as! String, title: "", cancel: "")
+                                            }else{
+                                                let array = value as! NSArray
+                                                
+                                                for dic in array  {
+                                                    print(dic)
+                                                    do {
+                                                    }catch{
+                                                        self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }else{
+                                        
+                                        self.setValuesByJSONInvitation(jsonResult: jsonResult as! NSDictionary, obj: invitation)
+                                        
+                                        do {
+                                            if(InvitationDao.insertOrReplaceInvitation(db: self.delegate.db.fmDatabase, invitation: invitation)){
+                                                print("Updated Event")
+                                            }
+                                        }catch{
+                                            self.showMessage(message: "Can not connect, check your connection.", title: "Error", cancel: "")
+                                        }
+                                    }
+                                }
+                            }else if(jsonResult is NSString){
+                                print(jsonResult)
+                            }
+                        } catch let error {
+                            print("%@", error.localizedDescription)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //
+    
+    func setValuesByJSONInvitation(jsonResult: NSDictionary, obj: InvitationBean){
         for (key, value) in jsonResult {
             print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
             
             obj.setValue(value, forKey:key as! String);
+        }
+    }
+    
+    func setValuesByJSONEvent (jsonResult: NSDictionary, obj: EventBean){
+        for (key, value) in jsonResult {
+            print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
+            
+            if !(value is NSNull) {
+                if (value is String) {
+                    obj.setValue(value, forKey: key as! String)
+                } else {
+                    obj.setValue(value, forKey: key as! String)
+                }
+            }
         }
     }
     

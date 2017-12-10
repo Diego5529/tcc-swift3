@@ -121,7 +121,7 @@ class MasterViewController: FormViewController, NSFetchedResultsControllerDelega
         let eventsSection = SectionFormer(rowFormer: myEventsRow)
             .set(headerViewFormer: createHeader("Events"))
         
-        let profileSection = SectionFormer(rowFormer: editProfileRow, logOutRow)
+        let profileSection = SectionFormer(rowFormer: logOutRow)
             .set(headerViewFormer: createHeader("Profile"))
             .set(footerViewFormer: createFooter("IFSP"))
         

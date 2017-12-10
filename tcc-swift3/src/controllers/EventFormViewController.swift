@@ -29,6 +29,11 @@ class EventFormViewController : FormViewController {
         configureCompanyRows()
         
         addSaveButton()
+        
+        if eventClass.event_id > 0 {
+            Sync().viewController = self
+            Sync().sendEvent(event: eventClass, method: eventClass.id > 0 ? "update" : "create")
+        }
     }
     
     func addSaveButton(){
@@ -217,6 +222,23 @@ class EventFormViewController : FormViewController {
                     self.eventClass.city_id = $0.value as! Int16
                 }
         }
+        
+//        let selectorCityRow = SelectorPickerRowFormer<FormSelectorPickerCell, Any>() {
+//            //            $0.backgroundColor = UIColor.red
+//            $0.titleLabel.text = "City"
+//            //            $0.titleLabel.textColor = UIColor.blue
+//            }.configure {
+//                $0.pickerItems = [SelectorPickerItem(
+//                    title: "",
+//                    displayTitle: NSAttributedString(string: "Not Set"),
+//                    value: self.eventClass.city_id as Any )]
+//                    + dictionaryCities.allValues.map { SelectorPickerItem(title: ($0 as! CityBean).name as String, value: ($0 as! CityBean).id as Int16) }
+//                $0.selectedRow = dictionaryCities.allKeys.index(after: Int(self.eventClass.city_id)) - 1
+//            }.onValueChanged {
+//                if ($0.value != nil){
+//                    self.eventClass.city_id = $0.value as! Int16
+//                }
+//        }
         
 //        //City
 //        let cities = CityDao.selectAllCities(db: delegate.db.fmDatabase)
