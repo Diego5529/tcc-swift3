@@ -25,7 +25,7 @@ class InvitationListViewController: FormViewController, NSFetchedResultsControll
         delegate = UIApplication.shared.delegate as! AppDelegate
         
         do {
-            let results = InvitationDao.selectAllInvitations(db: delegate.db.fmDatabase)
+            let results = InvitationDao.selectAllInvitationsByEventId(db: delegate.db.fmDatabase, eventId: eventClass.event_id)
             
             if results.count > 0 {
                 print(results)

@@ -76,11 +76,11 @@ class InviteFormViewController : FormViewController {
                 if userBean.id > 0 {
                     self.invitationClass.user_id = userBean.id
                 }else{
-                    idMaxUser = Int(UserDao.getUserMaxId(db: self.delegate.db.fmDatabase))
-                    
-                    //userObj.setValue(self.invitationClass.email, forKey: "email")
-                    //userObj.setValue(idMaxUser, forKey: "user_id")
-                    self.invitationClass.user_id = Int16(idMaxUser)
+//                    idMaxUser = Int(UserDao.getUserMaxId(db: self.delegate.db.fmDatabase))
+//
+//                    //userObj.setValue(self.invitationClass.email, forKey: "email")
+//                    //userObj.setValue(idMaxUser, forKey: "user_id")
+//                    self.invitationClass.user_id = Int16(idMaxUser)
                 }
                 
                 let message = self.invitationClass?.validateCreateInvitation()

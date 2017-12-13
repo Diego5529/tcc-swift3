@@ -110,4 +110,22 @@ class InvitationDao : NSObject {
         
         return array
     }
+    
+    class func selectAllInvitationsByEventId(db: FMDatabase, eventId: Int16) -> NSMutableArray {
+        
+        let array = NSMutableArray()
+        
+        do {
+            let rs = try db.executeQuery("select * from invitations where event_id = ? ", values: [eventId])
+            
+            while rs.next() {
+                array .add(Database.serializer(rs: rs, obj: InvitationBean()))
+            }
+            
+        } catch {
+            print("failed: \(error.localizedDescription)")
+        }
+        
+        return array
+    }
 }

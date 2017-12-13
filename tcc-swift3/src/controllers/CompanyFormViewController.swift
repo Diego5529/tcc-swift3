@@ -23,8 +23,12 @@ class CompanyFormViewController : FormViewController {
         
         delegate = UIApplication.shared.delegate as! AppDelegate
         
+        if  companyClass == nil {
+            companyClass = CompanyBean.init()
+        }
+        
         do {
-            let results = EventDao.selectAllEvents(db: delegate.db.fmDatabase)
+            let results = EventDao.selectAllEventsByCompany(db: delegate.db.fmDatabase, companyId: companyClass.company_id)
             
             if results.count > 0 {
                 print(results)
@@ -40,10 +44,6 @@ class CompanyFormViewController : FormViewController {
             }
         }catch{
             
-        }
-        
-        if  companyClass == nil {
-            companyClass = CompanyBean.init()
         }
         
         configureCompanyRows()

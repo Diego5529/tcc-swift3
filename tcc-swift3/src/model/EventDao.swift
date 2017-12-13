@@ -78,7 +78,7 @@ class EventDao : NSObject {
         let array = NSMutableArray()
         
         do {
-            let rs = try db.executeQuery("select * from events where id = ?", values: [1])
+            let rs = try db.executeQuery("select * from events where id = ?", values: [id])
             
             if rs.next() {
                 array .add(Database.serializer(rs: rs, obj: EventBean()))
@@ -97,6 +97,24 @@ class EventDao : NSObject {
         
         do {
             let rs = try db.executeQuery("select * from events", values: nil)
+            
+            while rs.next() {
+                array .add(Database.serializer(rs: rs, obj: EventBean()))
+            }
+            
+        } catch {
+            print("failed: \(error.localizedDescription)")
+        }
+        
+        return array
+    }
+    
+    class func selectAllEventsByCompany(db: FMDatabase, companyId: Int16) -> NSMutableArray {
+        
+        let array = NSMutableArray()
+        
+        do {
+            let rs = try db.executeQuery("select * from events where company_id = ?", values: [companyId])
             
             while rs.next() {
                 array .add(Database.serializer(rs: rs, obj: EventBean()))
