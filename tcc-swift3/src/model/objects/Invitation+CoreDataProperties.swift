@@ -18,7 +18,7 @@ extension Invitation {
 
     @NSManaged public var created_at: NSDate?
     @NSManaged public var event_id: NSNumber?
-    @NSManaged public var guest_user_id: NSNumber?
+    @NSManaged public var user_id: NSNumber?
     @NSManaged public var host_user_id: NSNumber?
     @NSManaged public var id: NSNumber?
     @NSManaged public var email: String?

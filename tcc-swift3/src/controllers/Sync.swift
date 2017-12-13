@@ -301,10 +301,10 @@ class Sync : NSObject {
             var companyID = ""
             
             if (invitation.id > 0) {
-                companyID = String(format: "&invitation[id]=%i", invitation.id)
+                companyID = String(format: "invitation[id]=%i&", invitation.id)
             }
             
-            let bodyData = String(format: "invitation[event_id]=%i&invitation[email]=%@&invitation[guest_user_id]=%i&invitation[host_user_id]=%i&invitation[invitation_type_id]=%i%@", invitation.event_id, invitation.email, invitation.guest_user_id, invitation.host_user_id, invitation.invitation_type_id, companyID)
+            let bodyData = String(format: "%@invitation[event_id]=%i&invitation[email]=%@&invitation[user_id]=%i&invitation[host_user_id]=%i&invitation[invitation_type_id]=%i%@", companyID, invitation.event_id, invitation.email, invitation.user_id, invitation.host_user_id, invitation.invitation_type_id)
             
             request.httpBody = bodyData.data(using: String.Encoding.utf8)
             
@@ -371,22 +371,56 @@ class Sync : NSObject {
     //
     
     func setValuesByJSONInvitation(jsonResult: NSDictionary, obj: InvitationBean){
-        for (key, value) in jsonResult {
-            print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
-            
-            obj.setValue(value, forKey:key as! String);
+        for (k , value) in jsonResult {
+            print("Property: \"\(k as! String)\" Value: \"\(value )\" ")
+            let key = k as! String
+            if !(value is NSNull) {
+                if (key .contains("date") || key.contains("hour")) {
+                    let dateFormatter = DateFormatter()
+                    
+                    if (key .contains("date")) {
+                        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        let data = dateFormatter.date(from: value as! String)
+                        obj.setValue(data, forKey: key)
+                    }else{
+                        dateFormatter.dateFormat = "HH:mm:ss"
+                        let data = dateFormatter.date(from: value as! String)
+                        obj.setValue(data, forKey: key)
+                    }
+                }else {
+                    if (value is String) {
+                        obj.setValue(value, forKey: key)
+                    } else {
+                        obj.setValue(value, forKey: key)
+                    }
+                }
+            }
         }
     }
     
     func setValuesByJSONEvent (jsonResult: NSDictionary, obj: EventBean){
-        for (key, value) in jsonResult {
-            print("Property: \"\(key as! String)\" Value: \"\(value )\" ")
-            
+        for (k , value) in jsonResult {
+            print("Property: \"\(k as! String)\" Value: \"\(value )\" ")
+            let key = k as! String
             if !(value is NSNull) {
-                if (value is String) {
-                    obj.setValue(value, forKey: key as! String)
-                } else {
-                    obj.setValue(value, forKey: key as! String)
+                if (key .contains("date") || key.contains("hour")) {
+                    let dateFormatter = DateFormatter()
+                    
+                    if (key .contains("date")) {
+                        dateFormatter.dateFormat = "yyyy-MM-dd"
+                        let data = dateFormatter.date(from: value as! String)
+                        obj.setValue(data, forKey: key)
+                    }else{
+                        dateFormatter.dateFormat = "HH:mm:ss"
+                        let data = dateFormatter.date(from: value as! String)
+                        obj.setValue(data, forKey: key)
+                    }
+                }else {
+                    if (value is String) {
+                        obj.setValue(value, forKey: key)
+                    } else {
+                        obj.setValue(value, forKey: key)
+                    }
                 }
             }
         }

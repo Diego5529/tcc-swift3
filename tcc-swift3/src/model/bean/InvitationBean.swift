@@ -14,7 +14,7 @@ class InvitationBean : NSObject {
     public var created_at: NSDate
     public var email: String
     public var event_id: Int16 = 0
-    public var guest_user_id: Int16 = 0
+    public var user_id: Int16 = 0
     public var host_user_id: Int16 = 0
     public var id: Int16 = 0
     public var invitation_id: Int16 = 0
@@ -23,7 +23,7 @@ class InvitationBean : NSObject {
     
     override init () {
         self.id = 0
-        self.guest_user_id = 0
+        self.user_id = 0
         self.created_at = NSDate.init()
         self.updated_at = NSDate.init()
         self.email = ""

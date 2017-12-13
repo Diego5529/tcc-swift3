@@ -33,6 +33,11 @@ class InviteFormViewController : FormViewController {
             configureInviteRows()
             
             addSaveButton()
+            
+            if invitationClass.invitation_id > 0 {
+                Sync().viewController = self
+                Sync().sendInvitation(invitation: invitationClass, method: invitationClass.id > 0 ? "update" : "create")
+            }
         }else {
             self.dismiss(animated: true, completion: nil)
         }
@@ -69,13 +74,13 @@ class InviteFormViewController : FormViewController {
             DispatchQueue.main.async(execute: {() -> Void in
                 //
                 if userBean.id > 0 {
-                    self.invitationClass.guest_user_id = userBean.id
+                    self.invitationClass.user_id = userBean.id
                 }else{
                     idMaxUser = Int(UserDao.getUserMaxId(db: self.delegate.db.fmDatabase))
                     
                     //userObj.setValue(self.invitationClass.email, forKey: "email")
                     //userObj.setValue(idMaxUser, forKey: "user_id")
-                    self.invitationClass.guest_user_id = Int16(idMaxUser)
+                    self.invitationClass.user_id = Int16(idMaxUser)
                 }
                 
                 let message = self.invitationClass?.validateCreateInvitation()
