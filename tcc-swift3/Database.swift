@@ -35,20 +35,6 @@ class Database : NSObject {
             print("Unable to open database")
             return
         }
-        
-        do {
-            //try database.executeUpdate("create table test(x text, y text, z text)", values: nil)
-//            try database.executeUpdate("insert into test (x, y, z) values (?, ?, ?)", values: ["a", "b", "c"])
-            try fmDatabase.executeUpdate("insert or replace into cities (id, state_id, name, created_at, updated_at) values (?, ?, ?, ?, ?)", values: [1, 1, "Birigui", "2017-05-12", "2017-05-13"])
-            
-            let array = CityDao.selectCityById(db: fmDatabase, id: 1)
-            
-            print(array)
-        } catch {
-            print("failed: \(error.localizedDescription)")
-        }
-        
-//        fmDatabase.close()
     }
     
     class func serializer(rs: FMResultSet, obj: AnyObject) -> AnyObject {

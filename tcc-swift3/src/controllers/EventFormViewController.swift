@@ -206,22 +206,22 @@ class EventFormViewController : FormViewController {
             }
         }
         
-        let selectorCityRow = SelectorPickerRowFormer<FormSelectorPickerCell, Any>() {
-            //            $0.backgroundColor = UIColor.red
-            $0.titleLabel.text = "City"
-            //            $0.titleLabel.textColor = UIColor.blue
-            }.configure {
-                $0.pickerItems = [SelectorPickerItem(
-                    title: "",
-                    displayTitle: NSAttributedString(string: "Not Set"),
-                    value: self.eventClass.city_id as Any )]
-                    + dictionaryCities.allValues.map { SelectorPickerItem(title: ($0 as! CityBean).name as String, value: ($0 as! CityBean).id as Int16) }
-                $0.selectedRow = dictionaryCities.allKeys.index(after: Int(self.eventClass.city_id)) - 1
-            }.onValueChanged {
-                if ($0.value != nil){
-                    self.eventClass.city_id = $0.value as! Int16
-                }
-        }
+//        let selectorCityRow = SelectorPickerRowFormer<FormSelectorPickerCell, Any>() {
+//            //            $0.backgroundColor = UIColor.red
+//            $0.titleLabel.text = "City"
+//            //            $0.titleLabel.textColor = UIColor.blue
+//            }.configure {
+//                $0.pickerItems = [SelectorPickerItem(
+//                    title: "",
+//                    displayTitle: NSAttributedString(string: "Not Set"),
+//                    value: self.eventClass.city_id as Any )]
+//                    + dictionaryCities.allValues.map { SelectorPickerItem(title: ($0 as! CityBean).name as String, value: ($0 as! CityBean).id as Int16) }
+//                $0.selectedRow = dictionaryCities.allKeys.index(after: Int(self.eventClass.city_id)) - 1
+//            }.onValueChanged {
+//                if ($0.value != nil){
+//                    self.eventClass.city_id = $0.value as! Int16
+//                }
+//        }
         
 //        let selectorCityRow = SelectorPickerRowFormer<FormSelectorPickerCell, Any>() {
 //            //            $0.backgroundColor = UIColor.red
@@ -384,13 +384,13 @@ class EventFormViewController : FormViewController {
         let section1 = SectionFormer(rowFormer: initialDateRow, endDateRow, initialHourRow, endHourRow)
             .set(headerViewFormer: createHeader("Date"))
         
-        let section2 = SectionFormer(rowFormer: selectorCityRow)
-            .set(headerViewFormer: createHeader("Address"))
+//        let section2 = SectionFormer(rowFormer: selectorCityRow)
+//            .set(headerViewFormer: createHeader("Address"))
         
         let section3 = SectionFormer(rowFormer: archiveEventCheckRow)
             .set(headerViewFormer: createHeader("Others"))
         
-        former.append(sectionFormer: section0, section1, invitationsSection, section2, section3
+        former.append(sectionFormer: section0, section1, invitationsSection, section3
             ).onCellSelected { _ in
                 inputAccessoryView.update()
         }

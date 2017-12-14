@@ -63,8 +63,8 @@ class ViewController: UIViewController  {
         
         urlPath = "http://localhost:3000/api"
         
-        signInEmailTextField.text = "diego.6.souza@gmail.com"
-        signInPasswordTextField.text = "87654321"
+        signInEmailTextField.text = ""
+        signInPasswordTextField.text = ""
     }
     
     @IBAction func crashButtonTapped(_ sender: AnyObject) {
